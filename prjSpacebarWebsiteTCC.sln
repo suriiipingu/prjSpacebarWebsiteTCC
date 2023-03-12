@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "prjSpacebarWebsiteTCC", ".", "{5193250D-6D8A-4771-B0A5-B3D103A424DC}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_60270"
+		Debug.AspNetCompiler.PhysicalPath = "..\prjSpacebarWebsiteTCC\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60270\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_60270"
+		Release.AspNetCompiler.PhysicalPath = "..\prjSpacebarWebsiteTCC\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60270\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "60270"
+		SlnRelativePath = "..\prjSpacebarWebsiteTCC\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5193250D-6D8A-4771-B0A5-B3D103A424DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5193250D-6D8A-4771-B0A5-B3D103A424DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94621CD8-8912-4D01-89E9-25A584235754}
+	EndGlobalSection
+EndGlobal
