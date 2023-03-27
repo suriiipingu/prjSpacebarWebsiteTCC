@@ -13,7 +13,7 @@ public class Conexao
     public SqlConnection conexao;
     public SqlCommand command;
     //string strConexao = "Server=localhost;DataBase=exe_servicos;user id=sa;password=etesp";
-    string strConexao = "Server=localhost;DataBase=SpaceBar;trusted_connection=true";
+    string strConexao = "Server=TEO_PC;DataBase=SpaceBar;trusted_connection=true";
 
 	public Conexao()
 	{
