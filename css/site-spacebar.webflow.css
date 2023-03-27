@@ -1093,7 +1093,6 @@ img {
   border: 1px solid #cbcbcb;
   border-radius: 10px;
   box-shadow: 1px 1px 3px 0 #d8d8d8;
-  resize:none;
 }
 
 .textarea-2:focus {

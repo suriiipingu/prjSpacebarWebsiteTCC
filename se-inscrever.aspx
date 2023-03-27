@@ -51,6 +51,7 @@
                             </div>
                             <div class="text-block-28">Leia a nossa <a href="sobre-spacebar/politica-de-privacidade.aspx" class="link-4">Política de privacidade</a> antes de se inscrever.</div>
                             <asp:Button ID="btnInscrever" runat="server" Text="Inscrever-se" CssClass="btn-login w-button insc " OnClick="btnInscrever_Click" />
+                            <asp:Label ID="lblAviso" runat="server" Text=""></asp:Label>
                             <div class="separador">
                                 <div class="text-block-25">————— Ou —————</div>
                             </div>
