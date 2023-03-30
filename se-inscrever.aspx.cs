@@ -47,6 +47,8 @@ public partial class se_inscrever : System.Web.UI.Page
         }
     }
 
+
+
     public string CriptografarSenha(string senha)
     {
         // Define um fator de custo para o bcrypt
@@ -74,17 +76,20 @@ public partial class se_inscrever : System.Web.UI.Page
         String nome = txtNome.Text.Trim();
         String login = txtLogin.Text.Trim();
         String email = txtEmail.Text.Trim();
-        String telefone = txtTelefone.Text.Trim();
+        String telefone = txtCelular.Text.Trim();
         String pais = dropdPais.Text.Trim();
         String senha = txtSenha.Text.Trim();
+        String confirmaSenha = txtConfSenha.Text.Trim();
         String data = data_criacao.ToString(); //data de criação da conta
+
+        String hashSenha = CriptografarSenha(senha);
 
         if (VerificarLoginEmail() == true)
         {
             txtNome.Text = "";
             txtLogin.Text = "";
             txtEmail.Text = "";
-            txtTelefone.Text = "";
+            txtCelular.Text = "";
             //dropdPais.Text = "";
             txtSenha.Text = "";
             lblAviso.Text = "Usuário já existe";
@@ -97,11 +102,11 @@ public partial class se_inscrever : System.Web.UI.Page
         // 3 = verificado
         // 4 = adm
         c.command.Parameters.Add("@nome", SqlDbType.VarChar).Value = nome;
-        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = "@" + login;
         c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
         c.command.Parameters.Add("@pais", SqlDbType.Char).Value = pais;
         c.command.Parameters.Add("@cel", SqlDbType.VarChar).Value = telefone;
-        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = senha;
+        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = hashSenha;
         c.command.Parameters.Add("@data", SqlDbType.Date).Value = data;
         try
         {

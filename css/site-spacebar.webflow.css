@@ -3499,9 +3499,7 @@ img {
   margin-left: 15px;
   padding-right: 10px;
   padding-left: 10px;
-  -webkit-align-self: auto;
   -ms-flex-item-align: auto;
-  -ms-grid-row-align: auto;
   align-self: auto;
   background-color: #fff;
   color: #828282;
