@@ -9,6 +9,8 @@ public partial class perfil_config : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        btnCamImg.Attributes.Add("onclick", "document.getElementById('" + FUimg.ClientID + "').click();");
+        btnAtualizar.Attributes.Add("onclick", "document.getElementById('" + FUimgmini.ClientID + "').click();");
+        /*btnAtualizar2.Attributes.Add("onclick", "document.getElementById('" + FUimg.ClientID + "').click();");*/
     }
 }

@@ -10,33 +10,24 @@ using System.Data.SqlClient;
 /// </summary>
 public class Conexao
 {
-    public SqlConnection conexao;
-    public SqlCommand command;
+    public SqlConnection conexao = new SqlConnection();
+    public SqlCommand command = new SqlCommand();
     //string strConexao = "Server=localhost;DataBase=exe_servicos;user id=sa;password=etesp";
-    string strConexao = "Server=localhost;DataBase=SpaceBar;trusted_connection=true";
+    string strConexao = "Server=DESKTOP-EUAA3BD;DataBase=SpaceBar;trusted_connection=true";
 
 	public Conexao()
 	{
-		//
-		// TODO: Add constructor logic here
-		//
-	}
+        command.Connection = conexao;
+        conexao.ConnectionString = strConexao;
+    }
 
     public void conectar()
     {
-
-        conexao = new SqlConnection(strConexao);
         conexao.Open();
-        command = new SqlCommand();
-        command.Connection = conexao;
-
     }
 
     public void fechaConexao()
     {
         conexao.Close();
-        conexao = null;
-        command = null;
-
     }
 }
