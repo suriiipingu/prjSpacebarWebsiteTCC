@@ -55,9 +55,13 @@
               <div class="dropdown-toggle-3 w-dropdown-toggle"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="43" alt="" class="image-5"></div>
               <nav class="dropdown-list-2 w-dropdown-list">
                 <div class="div-block-17 w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="44" alt="" class="image-5 imgdp">
+
+                    <!-- Aonde vamos exibir o nome e login do usuário atualmente conectado-->
                   <div class="div-block-18">
-                    <div class="text-block-5">Nome do Usuário</div>
-                    <div class="txtblock">@usuario</div>
+                    <div class="text-block-5">
+                        <asp:Label ID="lblUserNameNavbar" runat="server" Text="user_name"></asp:Label></div>
+                    <div class="txtblock">
+                        <asp:Label ID="lblUserLoginNavbar" runat="server" Text="user_login"></asp:Label></div>
                   </div>
                 </div>
                 <div class="div-block-17 diva">

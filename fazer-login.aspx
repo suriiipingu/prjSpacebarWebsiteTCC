@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="fazer-login.aspx.cs" Inherits="fazer_login" %>
+﻿<%@ Page Title="Faça Login na SpaceBar" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="fazer-login.aspx.cs" Inherits="fazer_login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -22,6 +22,8 @@
                             <asp:TextBox ID="txtSenha" CssClass="text-field login-txt w-input" placeholder="Insira sua senha" runat="server"></asp:TextBox>
                             <div class="div-block-40 w-clearfix">
                                 <label class="field-label-3">Esqueceu sua senha?</label>
+                                <!-- label para exibir se o as credencias inseridas estão incorretas-->
+                                <asp:Label ID="lblErro" runat="server"></asp:Label>
                             </div>
 
                             <asp:Button ID="btnLogar" runat="server" CssClass="btn-login w-button insc" Text="Entrar" OnClick="btnLogar_Click"/>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="SpaceBar - the place to explore the universe" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
+﻿<%@ Page Title="SpaceBar - O lugar para explorar o universo!" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -10,23 +10,35 @@
   <div class="conteudo wf-section">
     <div class="container-10 w-container">
 
-        <!-- postagens -->
+        
 
         <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound">
             <ItemTemplate>
-                
+
+        <!-- começo do corpo da postagem -->        
         <div class="postagem">
-        <div class="titulo-post">
-          <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>'/></h1>
-            <div class="div-icon-verificado"><img src="images/checked-svgrepo-com.svg" loading="lazy" width="19" alt=""></div>
+
+            <!--Badge Verificado-->
+            <div runat="server" id="divVerifiedBadge" class="div-icon-verificado"><img src="images/checked-svgrepo-com.svg" loading="lazy" width="19" alt=""></div>
+
+            <!--Título-->
+            <div class="titulo-post">
+                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>'/></h1>
+
+            <!--ver mais detalhes da publicação-->
+            <div class="div-block-36">
+            <a href="#" class="div-btnvermais w-button">Ver mais +</a>
+          </div>
+            
+        <!--Data Criação da publicação-->
         </div>
         <div class="data-post w-clearfix">
-          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div>
-        </div>
-        <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
+          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div></div>
 
-        <!-- loading="lazy" width="126" alt="" class="image-21 -->
+        <!--Imagem capa da postagem-->
+        <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
         
+        <!--Tags da postagem-->
         <div runat="server" id="tags_post" class="tags-post">
 
           <div runat="server" id="divDiscoveryBadge" class="div-block-31">
@@ -37,13 +49,15 @@
             <div class="text-block-14">Ciência</div>
           </div>
             
-          <div runat="server" id="divVerifiedBadge" class="div-block-31 div-3" style="background-color:darkorange">
+          <div class="div-block-31 div-3" style="background-color:darkorange">
             <div class="text-block-15">Postagem Verificada</div>
           </div>
 
         </div>
         
         <div class="div-nome-curtidas">
+
+            <!--Área da foto, nome e login do usuário que criou a postagem-->
           <a href="perfil-usuarioaleatorio.aspx" class="w-inline-block">
             <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
               <div class="div-block-32">
@@ -56,12 +70,15 @@
               </div>
             </div>
           </a>
+
+            <!--Botão para curtir a postagem-->
           <div class="div-curtidas">
             <div class="div-curt">
               <div class="icon">
                   <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div>
               <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%# Eval("curtidas_post") %>' /></div>
             </div>
+              <!--Botão para ir para os comentários de uma determinada postagem-->
             <div class="div-coment">
               <a href="comentarios.aspx" class="link-block-4 w-inline-block">
                 <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
@@ -85,7 +102,7 @@
             "SELECT * from tblPost INNER JOIN tblUsuario tU on tU.cod_usuario = tblPost.cod_usuario">
         </asp:SqlDataSource>
 
-        <!-- postagens -->
+        <!-- fim do corpo das postagens -->
     </div>
   </div>
 
