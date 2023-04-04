@@ -103,6 +103,7 @@
                                 <asp:Image ID="btnCamImg" runat="server" ImageUrl="../images/camera-01-svgrepo-com.svg" CssClass="image-10" Width="59" />
                             </div>
                         </div>
+
                         <div class="div-block-7">
                             <div class="columns-5 w-row">
                                 <div class="column-8 w-col w-col-6">
@@ -114,7 +115,7 @@
                                         <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btnclassico btncancel w-button" />
                                     </div>
                                     <div class="divblock">
-                                        <asp:Button ID="btnSalvar" runat="server" Text="Salvar" CssClass="btnclassico btnsalvar submit-button w-button" />
+                                        <asp:Button ID="btnSalvar" runat="server" Text="Salvar" CssClass="btnclassico btnsalvar submit-button w-button" OnClick="btnSalvar_Click" />
                                     </div>
                                 </div>
                             </div>

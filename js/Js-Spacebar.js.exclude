@@ -1,0 +1,64 @@
+﻿function validarEmail() {
+    var email = document.getElementById('<%= txtEmail.ClientID %>');
+    var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    var txtEmail = document.getElementById('<%= txtEmail.ClientID %>');
+    var spnEmail = document.getElementById('spnEmail');
+    var divErro = document.getElementById('divErro');
+    if (!pattern.test(email)) {
+        txtEmail.style.borderColor = "red";
+        txtEmail.style.marginBottom = "0";
+        spnEmail.style.color = "red";
+        spnEmail.style.marginLeft = "10px";
+        divErro.style.marginBottom = "0";
+        document.getElementById('spnEmail').innerHTML = "Insira um e-mail válido.";
+        return;
+    }
+    txtEmail.style.borderColor = "";
+    spnEmail.innerHTML = "";
+}
+
+function validarCelular() {
+    var celular = document.getElementById('<%= txtCelular.ClientID %>');
+    var regex = /^(\+55|55)?(\d{2})?(\d{5})(\d{4})$/;
+    var txtCelular = document.getElementById('<%= txtCelular.ClientID %>');
+    var spnCelular = document.getElementById('spnCelular');
+    var divErro2 = document.getElementById('divErro2');
+    if (!regex.test(celular)) {
+        txtCelular.style.borderColor = "red";
+        txtCelular.style.marginBottom = "0";
+        spnCelular.style.color = "red";
+        spnCelular.style.marginLeft = "10px";
+        divErro2.style.marginBottom = "0";
+        document.getElementById('spnCelular').innerHTML = "Insira um celular válido.";
+        return;
+    }
+    txtCelular.style.borderColor = "";
+    spnCelular.innerHTML = "";
+}
+
+function confirmaSenha() {
+    var senha = document.getElementById('<%= txtSenha.ClientID %>');
+    var confirmasenha = document.getElementById('<%= txtConfSenha.ClientID %>').value;
+    var AvisoSenha = document.getElementById('<%= AvisoSenha.ClientID %>');
+    var divErro3 = document.getElementById('divErro3');
+
+    if (senha != confirmasenha) {
+        txtConfSenha.style.borderColor = "red";
+        txtConfSenha.style.marginBottom = "0";
+        AvisoSenha.style.color = "red";
+        AvisoSenha.style.marginLeft = "10px";
+        divErro3.style.marginBottom = "0";
+        AvisoSenha.innerText = "As senhas não coincidem. Tente novamente.";
+        return;
+    }
+
+    txtConfSenha.style.borderColor = "";
+    AvisoSenha.innerHTML = "";
+
+}
+
+function validarFormulario() {
+    validarEmail();
+    validarCelular();
+    confirmaSenha();
+}

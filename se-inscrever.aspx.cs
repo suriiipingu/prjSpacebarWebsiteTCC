@@ -79,7 +79,7 @@ public partial class se_inscrever : System.Web.UI.Page
         String telefone = txtCelular.Text.Trim();
         String pais = dropdPais.Text.Trim();
         String senha = txtSenha.Text.Trim();
-        String confirmaSenha = txtConfSenha.Text.Trim();
+        //String confirmaSenha = txtConfSenha.Text.Trim();
         String data = data_criacao.ToString(); //data de criação da conta
 
         String hashSenha = CriptografarSenha(senha);
