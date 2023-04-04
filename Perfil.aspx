@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Perfil.aspx.cs" Inherits="Perfil" %>
+﻿<%@ Page Title="SpaceBar - Seu perfil" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Perfil.aspx.cs" Inherits="Perfil" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -9,14 +9,28 @@
         <div class="div-ft-fundo"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="164" alt="" class="image-15"></div>
         <div class="div-foto-perfil"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="image-8 imgperfil-fixo"></div>
         <div class="div-block-7 div-bio">
-          <h3 class="heading-4">Nome </h3>
-          <div class="text-block-23">@usuario</div>
-          <div class="text-block-20">Amo ver como as coisas são desde que nasci :P<br>Espero conhecer bastante gente que ama o espaço que nem eu</div>
+
+            <!-- nome e login do próprio usuário logado: -->
+
+          <h3 class="heading-4">
+              <asp:Label runat="server" ID="lblNomeUsuarioPerfil" Text="Label"></asp:Label>
+          </h3>
+
+          <div class="text-block-23">
+              <asp:Label runat="server" ID="lblLoginUsuarioPerfil" Text="Label"></asp:Label>
+          </div>
+
+            <!--Descrição (ou bio) do perfil do usuário logado:-->
+          <div class="text-block-20">
+              <asp:Label ID="lblDescPerfilUsuario" runat="server" Text="Label"></asp:Label></div>
           <div class="div-block-37">
-            <div>15</div>
+            <div>
+                <!--Label com a quantidade de seguidores e seguindo do usuário conectado:-->
+                <asp:Label ID="lblSeguindo" runat="server" Text="0"></asp:Label></div>
             <div class="text-block-22">Seguindo</div>
-            <div class="text-block-21">28 </div>
+            <div class="text-block-21"><asp:Label ID="lblSeguidores" runat="server" Text="0"></asp:Label></div>
             <div class="text-block-22">Seguidores</div>
+
             <div class="div-btnconfig">
               <a href="config/perfil-config.aspx" class="link-block w-inline-block w-clearfix"><img src="images/settings-01-svgrepo-com.svg" loading="lazy" width="24" alt="" class="image-13"></a>
             </div>

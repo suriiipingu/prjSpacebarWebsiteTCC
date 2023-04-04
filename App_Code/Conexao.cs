@@ -13,7 +13,9 @@ public class Conexao
     public SqlConnection conexao = new SqlConnection();
     public SqlCommand command = new SqlCommand();
     //string strConexao = "Server=localhost;DataBase=exe_servicos;user id=sa;password=etesp";
+
     string strConexao = "Server=DESKTOP-EUAA3BD;DataBase=SpaceBar;trusted_connection=true";
+
 
 	public Conexao()
 	{
