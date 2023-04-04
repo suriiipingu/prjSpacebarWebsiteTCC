@@ -1093,7 +1093,6 @@ img {
   border: 1px solid #cbcbcb;
   border-radius: 10px;
   box-shadow: 1px 1px 3px 0 #d8d8d8;
-  resize:none;
 }
 
 .textarea-2:focus {
@@ -3505,9 +3504,7 @@ img {
   margin-left: 15px;
   padding-right: 10px;
   padding-left: 10px;
-  -webkit-align-self: auto;
   -ms-flex-item-align: auto;
-  -ms-grid-row-align: auto;
   align-self: auto;
   background-color: #fff;
   color: #828282;
