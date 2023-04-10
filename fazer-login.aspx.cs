@@ -6,14 +6,16 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class fazer_login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
     }
 
+    public String cod_usuario = "a";
 
     protected void btnLogar_Click(object sender, EventArgs e)
     {
@@ -81,5 +83,5 @@ public partial class fazer_login : System.Web.UI.Page
         {
             lblErro.Text = "Credenciais incorretas, verifique-as e tente novamente!";
         }
-    }
+    } 
 }
