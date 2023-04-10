@@ -106,7 +106,7 @@ public partial class se_inscrever : System.Web.UI.Page
         c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
         c.command.Parameters.Add("@pais", SqlDbType.Char).Value = pais;
         c.command.Parameters.Add("@cel", SqlDbType.VarChar).Value = telefone;
-        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = senha;
+        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = hashSenha;
         c.command.Parameters.Add("@data", SqlDbType.Date).Value = data;
         try
         {
