@@ -22,27 +22,28 @@ public partial class perfil_config : System.Web.UI.Page
         Conexao c = new Conexao();
         c.conectar();
 
-        if (FUimg.HasFile)
+        string usuario = "usuario1";
+
+        string pastaImagens = Server.MapPath("~/imagens-usuarios/icon/");
+
+        if (FUimg.HasFile) //salvar imagem na pasta do usuario
         {
-            MemoryStream ms = new MemoryStream(FUimg.FileBytes);
 
-            byte[] imgBytes = ms.ToArray();
+            string pastaUsuario = Path.Combine(pastaImagens, usuario);
+
+            if (!Directory.Exists(pastaUsuario))
+            {
+                Directory.CreateDirectory(pastaUsuario);
+            }
+
+            string caminhoCompletoArquivo = Path.Combine(pastaUsuario,"arquivo1.jpg");
+
+            FUimg.SaveAs(caminhoCompletoArquivo);
 
 
-            c.command.CommandText = "insert into tblUsuario(icon_usuario) values(@icon)";
-
-            c.command.Parameters.Add("@icon", SqlDbType.VarBinary).Value = imgBytes;
-
-            c.command.ExecuteNonQuery();
-
-            c.fechaConexao();
-
-            //byte[] imgBytes = new byte[FUimg.PostedFile.InputStream.Length + 1]; //passa os dados coletados no componente FileUpload para o array
-
-            //FUimg.PostedFile.InputStream.Read(imgBytes, 0, imgBytes.Length); //o array imgBytes pode ser gravado como se fosse um parâmetro adicionado: c.command.Parameters.Add
         }
 
-        
+
 
     }
 }

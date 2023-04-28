@@ -52,32 +52,26 @@ public partial class fazer_login : System.Web.UI.Page
             Session["nomeUsuario"] = dt.Tables[0].DefaultView[0].Row["nome_usuario"].ToString();
             Session["desc_perfil_usuario"] = dt.Tables[0].DefaultView[0].Row["desc_perfil_usuario"].ToString();
 
-
             // criar um novo DataSet para armazenar a nova query sql
             DataSet dt2 = new DataSet();
             DataSet dt3 = new DataSet();
 
-
-            // variável para guardar o código do usuário logado no momento
+            // variável "cod_usuario" vai receber o valor guardado no DataSet que tem o cod_usuario logado no momento
             String cod_usuario = (dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
 
             // nova query sql mandado só que com o cod_usuario do usuário logado atualmente
-            c.command.CommandText = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguido = " + cod_usuario + ";";
+            c.command.CommandText = "SELECT COUNT(id_usuario_alvo) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
 
             dAdapter.SelectCommand = c.command;
             dAdapter.Fill(dt2);
 
-            c.command.CommandText =
-                "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";
+            c.command.CommandText = "SELECT COUNT(id_usuario_seguidor) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";
             dAdapter.SelectCommand = c.command;
             dAdapter.Fill(dt3);
 
             Session["seguidoresUsuario"] = (dt2.Tables[0].DefaultView[0].Row["Column1"].ToString());
             Session["UsuarioSegue"] = (dt3.Tables[0].DefaultView[0].Row["Column1"].ToString());
             Response.Redirect("index.aspx");
-
-
-
         }
         else
         {

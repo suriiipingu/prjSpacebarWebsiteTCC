@@ -543,31 +543,51 @@ img {
   opacity: 1;
 }
 
+.icon-like {
+    position: static;
+    opacity: 1;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.div-lbl-likes {
+    margin-left: 10%;
+}
+.lbl-likes {
+    margin-bottom: -0.25rem;
+}
+
+.btn-icon-like {
+    max-width: 100%;
+    display: inline-block;
+    margin-bottom: -0.25rem;
+}
+
 .div-block {
-  position: relative;
-  right: auto;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin-left: auto;
-  float: right;
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
-  align-self: auto;
-  -webkit-box-ordinal-group: 1;
-  -webkit-order: 0;
-  -ms-flex-order: 0;
-  order: 0;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 auto;
-  -ms-flex: 0 auto;
-  flex: 0 auto;
-  font-size: 10px;
-  line-height: 10px;
-  font-weight: 400;
-  -o-object-fit: fill;
-  object-fit: fill;
+    position: relative;
+    right: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: auto;
+    float: right;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    -webkit-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: 400;
+    -o-object-fit: fill;
+    object-fit: fill;
 }
 
 .div-block.divbloc2 {
@@ -2668,6 +2688,30 @@ img {
   white-space: normal;
 }
 
+.heading-3-text-aligned {
+    position: relative;
+    display: block;
+    overflow: visible;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    float: none;
+    font-size: 25px;
+    line-height: 40px;
+    font-weight: 400;
+    text-align: justify;
+    letter-spacing: normal;
+    text-decoration: none;
+    text-indent: 0px;
+    text-transform: none;
+    -webkit-column-count: auto;
+    column-count: auto;
+    white-space: normal;
+    margin: auto;
+    margin-right: auto;
+}
+
 .text-block-12 {
   float: left;
 }
@@ -2714,7 +2758,8 @@ img {
 }
 
 .div-nome {
-  display: block;
+    display: block;
+    margin-right: auto;
 }
 
 .image-22 {
@@ -2792,9 +2837,10 @@ img {
 }
 
 .div-block-32 {
-  margin-top: 5px;
-  margin-left: 5px;
-  float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left;
+    
 }
 
 .text-block-16 {
@@ -2858,22 +2904,23 @@ img {
 }
 
 .btn-vermais {
-  position: static;
-  left: auto;
-  top: auto;
-  right: 52%;
-  bottom: 0%;
-  display: block;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 10px;
-  padding: 5px 10px;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  -ms-grid-row-align: center;
-  align-self: center;
-  border-radius: 20px;
-  background-color: #ec6838;
+    position: static;
+    left: auto;
+    top: auto;
+    right: 52%;
+    bottom: 0%;
+    display: block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    padding: 5px 10px;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
+    border-radius: 20px;
+    background-color: #ec6838;
+    white-space: nowrap;
 }
 
 .btn-vermais:hover {
@@ -2912,18 +2959,19 @@ img {
 }
 
 .div-block-36 {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  -ms-grid-row-align: center;
-  align-self: center;
-  -webkit-box-ordinal-group: 1;
-  -webkit-order: 0;
-  -ms-flex-order: 0;
-  order: 0;
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 auto;
-  -ms-flex: 0 auto;
-  flex: 0 auto;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
+    -webkit-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+    white-space: nowrap;
 }
 
 .div-btnvermais {
@@ -4291,6 +4339,15 @@ img {
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
+}
+
+.HyperLinkLoginUsuario {
+    margin-left: 0;
+    color: #3f3f3f !important;
+}
+.HyperLinkNomeUsuario {
+    margin-left: 0;
+    color: #3f3f3f !important;
 }
 
 .div-block-46 {
@@ -6615,11 +6672,11 @@ img {
 }
 
 @font-face {
-  font-family: 'Liniksans';
-  src: url('../fonts/LinikSans-SemiBold.ttf.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
+    font-family: 'Liniksans';
+    src: url('../fonts/LinikSans-SemiBold.ttf.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
 }
 @font-face {
   font-family: 'Liniksans';

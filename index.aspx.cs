@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.HtmlControls;
+using UserProfile;
 using VerifyUpdateSession;
 
 public partial class index : System.Web.UI.Page
@@ -17,23 +18,54 @@ public partial class index : System.Web.UI.Page
 
     }
 
+    public string quantidadeCurtidas = null;
+
+    // construindo as postagens, este ItemDataBound está linkado com o DataList, e a cada item do DataList, todo este escopo será executado
     protected void myDataList_ItemDataBound(object sender, DataListItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
-            // Find the "verified" badge div control
+            //Encontre a badge de "verificado" usando o FIndControl na div
             var divVerifiedBadge = e.Item.FindControl("divVerifiedBadge") as HtmlGenericControl;
 
-            // Get the "verified" data from the data source
+            // Obtem is dados de  "verificado" da fonte de dados
             DataRowView row = e.Item.DataItem as DataRowView;
+            var valorVerificado = Convert.ToBoolean(DataBinder.Eval(e.Item.DataItem, "verificado"));
+
+            // obtendo alguns dados para realizar a verificação de likes, contagem de posts
             HiddenField hfPostId = (HiddenField)e.Item.FindControl("hfPostId");
             string postId = hfPostId.Value;
             int userId = Convert.ToInt32(Session["codigoUsuario"]);
-            var valorVerificado = Convert.ToBoolean(DataBinder.Eval(e.Item.DataItem, "verificado"));
             ImageButton btnLike = e.Item.FindControl("btnLike") as ImageButton;
 
+            //obtendo os dados de likes de todas as postagens e exibindo a contagem de cada uma delas
+            //fazer um using da Conexao, porque sempre que ele executa esse trecho de código denovo, ele tenta abrir novamente a conexao
+            using (Conexao c = new Conexao())
+            {
+                //acionando a função de conectar ao banco de dados pré-definido
+                c.conectar();
 
-            // Check if the "verified" data is true and show the badge if it is
+                // Instânciando um objeto que irá adaptar para os comandos sql
+                SqlDataAdapter dAdapter = new SqlDataAdapter();
+
+                // vai pegar todos os dados obtidos e colocar dentro do DataSet
+                // é um lugar aonde vai as informações que você buscou do banco de dados
+                DataSet DataSetQuantidadeLikes = new DataSet();
+
+                // usando a minha conexão e enviando um comando de texto para puxar os dados do banco de dados
+                c.command.CommandText = "SELECT COUNT(tblPostagemCurtidas_cod_usuario) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postID";
+
+                // colocando todos esses parâmetros passados em uma variável
+                c.command.Parameters.Add("@postID", postId);
+
+                // o adaptador vai salvar o que ele vai executar
+                dAdapter.SelectCommand = c.command;
+                dAdapter.Fill(DataSetQuantidadeLikes);
+
+                Label lblQuantidadeCurtidas = (Label)e.Item.FindControl("curtidas_postLabel");
+                lblQuantidadeCurtidas.Text = (DataSetQuantidadeLikes.Tables[0].DefaultView[0].Row["Column1"].ToString());
+            }
+            // Vefifique se os dados de "verificado" são verdadeiros, se sim, mostre a badge
             if (valorVerificado)
             {
                 divVerifiedBadge.Visible = true;
@@ -52,14 +84,13 @@ public partial class index : System.Web.UI.Page
             //Verificar se o usuário ja curtiu uma postagem e mudar a imagem do botão
             if (Session["codigoUsuario"] != null)
             {
-                using (Conexao conexao = new Conexao())
+                using (Conexao c = new Conexao())
                 {
-                    conexao.conectar();
+                    c.conectar();
 
                     // Check if user already liked this post
-                    string queryCheckLiked =
-                        "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
-                    SqlCommand cmdCheckLiked = new SqlCommand(queryCheckLiked, conexao.conexao);
+                    string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
+                    SqlCommand cmdCheckLiked = new SqlCommand(queryCheckLiked, c.conexao);
                     cmdCheckLiked.Parameters.AddWithValue("@postId", postId);
                     cmdCheckLiked.Parameters.AddWithValue("@userId", userId);
                     int likedCount = (int)cmdCheckLiked.ExecuteScalar();
@@ -69,7 +100,7 @@ public partial class index : System.Web.UI.Page
                         btnLike.ImageUrl = "images/heart-fill.svg";
                     }
 
-                    conexao.fechaConexao();
+                    c.fechaConexao();
                 }
             }
         }
@@ -95,7 +126,7 @@ public partial class index : System.Web.UI.Page
                 conexao.command.Parameters.AddWithValue("@postId", postId);
                 conexao.command.Parameters.AddWithValue("@userId", userId);
                 int alreadyLiked = Convert.ToInt32(conexao.command.ExecuteScalar());
-                // Check if the user has already liked the post in the tblPost table
+                // Verifique se o usuário curtiu a postagem específica
                 if (alreadyLiked > 0)
                 {
                     // Retire a curtida da tabela de curtidas do usuário
@@ -106,21 +137,11 @@ public partial class index : System.Web.UI.Page
                     conexao.command.Parameters.AddWithValue("@userId", userId);
                     int rowsRemoved = conexao.command.ExecuteNonQuery();
 
+                    // se as linhas realmente foram removidas, então mude a imagem para um coração vazio
                     if (rowsRemoved > 0)
-                    { 
-                        // Update the "curtidas" value for the post in the "tblPostagem" table
-                        string queryUpdateLikes = "UPDATE tblPost SET curtidas_post = curtidas_post - 1 WHERE cod_post = @id_postagem";
-                        conexao.command.CommandText = queryUpdateLikes;
-                        conexao.command.Parameters.Clear();
-                        conexao.command.Parameters.AddWithValue("@id_postagem", postId);
-                        int updatedRows = conexao.command.ExecuteNonQuery();
-
-                        if (updatedRows > 0)
-                        { 
-                            // Update the DataList to display the current number of likes
-                            btnLike.ImageUrl = "Images/heart.svg";
-                            myDataList.DataBind();
-                        }
+                    {
+                        btnLike.ImageUrl = "images/heart.svg";
+                        myDataList.DataBind();
                     }
                 }
                 else
@@ -138,23 +159,22 @@ public partial class index : System.Web.UI.Page
                     //podemos então adicionar um like na postagem e que aparecerá para todos
                     if (rowsAffected > 0)
                     {
-                        // atualizar numero total de curtidas na tabela do post
-                        string queryUpdateLikes = "UPDATE tblPost SET curtidas_post = curtidas_post + 1 WHERE cod_post = @id_postagem";
-                        conexao.command.CommandText = queryUpdateLikes;
-                        conexao.command.Parameters.Clear();
-                        conexao.command.Parameters.AddWithValue("@id_postagem", postId);
-                        int updatedRows = conexao.command.ExecuteNonQuery();
-
-                        //se realmente teve uma mudança na tabela individual da postagem
-                        if (updatedRows > 0)
-                        {
-                            // atualizar o DataList para exibir o número total de likes atualmente
-                            myDataList.DataBind();
-                            btnLike.ImageUrl = "Images/heart_filled.svg";
-                        }
+                        btnLike.ImageUrl = "images/heart-fill.svg";
+                        myDataList.DataBind();
                     }
                 }
             }
+        }
+    }
+    protected void MyDataList_ItemCommand(object source, DataListCommandEventArgs e)
+    {
+        if (e.CommandName == "SelecionarUsuario")
+        {
+            // Obtenha o código do usuário do CommandArgument
+            int cod_usuario = Convert.ToInt32(e.CommandArgument);
+
+            // Chame o método C# passando o código do usuário como parâmetro
+            ProfileManager.UserProfileBuilder(cod_usuario,this);
         }
     }
 }

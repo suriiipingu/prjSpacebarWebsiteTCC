@@ -82,7 +82,7 @@
                 <div class="div-curtidas">
                   <div class="div-curt">
                     <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div>
-                    <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%# Eval("curtidas_post") %>' /></div>
+                    <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' /></div>
                   </div>
                   <div class="div-coment">
                     <a href="comentarios.html" class="link-block-4 w-inline-block">
