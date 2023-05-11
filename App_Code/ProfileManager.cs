@@ -8,8 +8,6 @@ using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using OpenQA.Selenium.DevTools.V110.Network;
-
 /// <summary>
 /// Descrição resumida de ProfileManager
 /// </summary>
@@ -123,6 +121,18 @@ namespace UserProfile
                     return true;
                 }
             }
+        }
+        public string returnUserLogin(object value)
+        {
+             var userLogin = value.ToString();
+
+            if (!string.IsNullOrEmpty(userLogin))
+            {
+                System.Web.HttpContext.Current.Session["userLogin"] = userLogin;
+                return (string)System.Web.HttpContext.Current.Session["userLogin"];
+            }
+
+            return ""; // default in case you can't process the value
         }
     }
 }

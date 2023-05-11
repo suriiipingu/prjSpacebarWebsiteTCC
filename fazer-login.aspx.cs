@@ -63,6 +63,7 @@ public partial class fazer_login : System.Web.UI.Page
             c.command.CommandText = "SELECT COUNT(id_usuario_alvo) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
 
             dAdapter.SelectCommand = c.command;
+
             dAdapter.Fill(dt2);
 
             c.command.CommandText = "SELECT COUNT(id_usuario_seguidor) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";

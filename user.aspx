@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="perfil-usuarioaleatorio.aspx.cs" Inherits="perfil_usuarioaleatorio" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="user.aspx.cs" Inherits="perfil_usuarioaleatorio" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -76,7 +76,7 @@
                     <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div>
                     <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' /></div>
                   </div>
-                  <div class="div-coment">
+                  <div class="div-coment">s
                     <a href="comentarios.html" class="link-block-4 w-inline-block">
                       <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
                       <div class="text-block-30"><asp:Label ID="comentarios_postLabel" runat="server" Text='<%# Eval("comentarios_post") %>' /></div>
@@ -88,7 +88,9 @@
               </ItemTemplate>
           </asp:DataList>
 
-          <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SELECT * FROM tblPost INNER JOIN tblUsuario tU ON tU.cod_usuario = tblPost.cod_usuario WHERE tblPost.[cod_usuario] = @parametroCodigoUsuarioVisualizado">
+          <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                             ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" 
+                             SelectCommand="SELECT * FROM tblPost INNER JOIN tblUsuario tU ON tU.cod_usuario = tblPost.cod_usuario WHERE tblPost.[cod_usuario] = @parametroCodigoUsuarioVisualizado">
               <SelectParameters>
                   <asp:Parameter Name="parametroCodigoUsuarioVisualizado" />
               </SelectParameters>

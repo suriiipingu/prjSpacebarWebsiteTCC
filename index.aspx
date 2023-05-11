@@ -29,7 +29,7 @@
 
             <!--Título-->
             <div class="titulo-post">
-                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>'/></h1>
+                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text=""/></h1>
 
             <!--ver mais detalhes da publicação-->
             <div class="div-block-36">
@@ -39,7 +39,7 @@
         <!--Data Criação da publicação-->
         </div>
         <div class="data-post w-clearfix">
-          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div></div>
+          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text="" /></div></div>
 
         <!--Imagem capa da postagem-->
         <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
@@ -58,16 +58,15 @@
         </div>
         
         <div class="div-nome-curtidas">
-
             <!--Área da foto, nome e login do usuário que criou a postagem-->
           <a href="perfil-usuarioaleatorio.aspx" class="w-inline">
             <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
               <div class="div-block-32">
                 <div class="text-block-16">
-                    <asp:HyperLink CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server" NavigateUrl='<%# "~/perfil-usuarioaleatorio.aspx?user=" + Eval("login_usuario") %>' Text='<%# Eval("nome_usuario") %>'></asp:HyperLink>
+                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_OnClick" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%# Eval("nome_usuario")%>'></asp:LinkButton>
                 </div>
                 <div class="text-block-17">
-                    <asp:HyperLink CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" NavigateUrl='<%# "~/perfil-usuarioaleatorio.aspx?user=" + Eval("login_usuario") %>' Text='<%# Eval("login_usuario") %>'></asp:HyperLink>
+                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_OnClick" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%# Eval("login_usuario") %>'></asp:LinkButton>
                 </div>
               </div>
             </div>
@@ -89,13 +88,12 @@
             </div>
           </div>
         </div>
-      </div><asp:HiddenField ID="hfPostId" Value='<%# Eval("cod_post") %>' runat="server" />
+      </div>
             </ItemTemplate>
         </asp:DataList>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
             ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" 
-            SelectCommand=
-            "SELECT * from tblPost INNER JOIN tblUsuario tU on tU.cod_usuario = tblPost.cod_usuario">
+            SelectCommand= "EXECUTE GetPostAndAuthor">
         </asp:SqlDataSource>
 
         <!-- fim do corpo das postagens -->

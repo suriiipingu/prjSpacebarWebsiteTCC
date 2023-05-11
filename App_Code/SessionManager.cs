@@ -52,7 +52,7 @@ namespace VerifyUpdateSession
         {
             if (session["logado"] != null && (bool)session["logado"])
             {
-                // O usuário está logado, atualiza as informações na Master Page
+                // O usuário está logado, atualiza as informações na Master Pageq
                 var nomeUsuario = session["nomeUsuario"].ToString();
                 var login_usuario = session["loginUsuario"].ToString();
                 var desc_perfil_usuario = session["desc_perfil_usuario"].ToString();

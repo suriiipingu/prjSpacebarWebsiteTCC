@@ -19,88 +19,99 @@ public partial class index : System.Web.UI.Page
     }
 
     public string quantidadeCurtidas = null;
+    public string userLogin;
 
     // construindo as postagens, este ItemDataBound está linkado com o DataList, e a cada item do DataList, todo este escopo será executado
     protected void myDataList_ItemDataBound(object sender, DataListItemEventArgs e)
     {
         if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
         {
-            //Encontre a badge de "verificado" usando o FIndControl na div
-            var divVerifiedBadge = e.Item.FindControl("divVerifiedBadge") as HtmlGenericControl;
-
-            // Obtem is dados de  "verificado" da fonte de dados
-            DataRowView row = e.Item.DataItem as DataRowView;
-            var valorVerificado = Convert.ToBoolean(DataBinder.Eval(e.Item.DataItem, "verificado"));
-
-            // obtendo alguns dados para realizar a verificação de likes, contagem de posts
-            HiddenField hfPostId = (HiddenField)e.Item.FindControl("hfPostId");
-            string postId = hfPostId.Value;
-            int userId = Convert.ToInt32(Session["codigoUsuario"]);
-            ImageButton btnLike = e.Item.FindControl("btnLike") as ImageButton;
-
-            //obtendo os dados de likes de todas as postagens e exibindo a contagem de cada uma delas
-            //fazer um using da Conexao, porque sempre que ele executa esse trecho de código denovo, ele tenta abrir novamente a conexao
             using (Conexao c = new Conexao())
             {
-                //acionando a função de conectar ao banco de dados pré-definido
+                //construindo cada postagem
                 c.conectar();
+                var CodPostagens = c.sqlProcedure("GetCodPostagensCrescente");
+                var QuantidadePosts = c.sqlProcedure("GetPostQuantity");
+                var dadosPosts = c.sqlProcedure("GetPostAndAuthor");
+                c.fechaConexao();
 
-                // Instânciando um objeto que irá adaptar para os comandos sql
-                SqlDataAdapter dAdapter = new SqlDataAdapter();
-
-                // vai pegar todos os dados obtidos e colocar dentro do DataSet
-                // é um lugar aonde vai as informações que você buscou do banco de dados
-                DataSet DataSetQuantidadeLikes = new DataSet();
-
-                // usando a minha conexão e enviando um comando de texto para puxar os dados do banco de dados
-                c.command.CommandText = "SELECT COUNT(tblPostagemCurtidas_cod_usuario) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postID";
-
-                // colocando todos esses parâmetros passados em uma variável
-                c.command.Parameters.Add("@postID", postId);
-
-                // o adaptador vai salvar o que ele vai executar
-                dAdapter.SelectCommand = c.command;
-                dAdapter.Fill(DataSetQuantidadeLikes);
-
-                Label lblQuantidadeCurtidas = (Label)e.Item.FindControl("curtidas_postLabel");
-                lblQuantidadeCurtidas.Text = (DataSetQuantidadeLikes.Tables[0].DefaultView[0].Row["Column1"].ToString());
-            }
-            // Vefifique se os dados de "verificado" são verdadeiros, se sim, mostre a badge
-            if (valorVerificado)
-            {
-                divVerifiedBadge.Visible = true;
-            }
-            else
-            {
-                divVerifiedBadge.Visible = false;
-            }
-
-            if (row != null && btnLike != null)
-            {
-                string cod_post = row["cod_post"].ToString();
-                btnLike.CommandArgument = cod_post;
-            }
-
-            //Verificar se o usuário ja curtiu uma postagem e mudar a imagem do botão
-            if (Session["codigoUsuario"] != null)
-            {
-                using (Conexao c = new Conexao())
+                //execuratá esse for a cada post carregado
+                for(int i = 0; i< CodPostagens.Rows.Count; i++)
                 {
-                    c.conectar();
+                    //o post é verificado?
+                    //Encontre a badge de "verificado" usando o FIndControl na div
+                    var divVerifiedBadge = e.Item.FindControl("divVerifiedBadge") as HtmlGenericControl;
+                    // Obtem is dados de  "verificado" da fonte de dados
+                    HiddenField hfPostId = (HiddenField)e.Item.FindControl("hfPostId");
+                    //cod_post na volta atual
+                    string postId = c.sqlProcedure("GetCodPostagensCrescente").Rows[i]["cod_post"].ToString();
+                    DataRowView row = e.Item.DataItem as DataRowView;
+                    var valorVerificadoProcedure = c.sqlProcedure("GetPostVerified + @hfPostId");
+                    var valorVerificado = valorVerificadoProcedure.Rows[0]["titulo_post"].ToString();
 
-                    // Check if user already liked this post
-                    string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
-                    SqlCommand cmdCheckLiked = new SqlCommand(queryCheckLiked, c.conexao);
-                    cmdCheckLiked.Parameters.AddWithValue("@postId", postId);
-                    cmdCheckLiked.Parameters.AddWithValue("@userId", userId);
-                    int likedCount = (int)cmdCheckLiked.ExecuteScalar();
 
-                    if (likedCount > 0)
+                    Label lblTituloPostagem = (Label)e.Item.FindControl("titulo_postLabel");
+                    lblTituloPostagem.Text = (dadosPosts.Rows[i]["titulo_post"].ToString());
+                    Label lblDataPostagem = (Label)e.Item.FindControl("data_postLabel");
+                    lblDataPostagem.Text = (dadosPosts.Rows[i]["data_post"].ToString());
+                    Label lblNomeUsuario = (Label)e.Item.FindControl("HyperLinkNomeUsuario");
+                    lblNomeUsuario.Text = (dadosPosts.Rows[i]["nome_usuario"].ToString());
+                    Label lblLoginUsuario = (Label)e.Item.FindControl("HyperLinkLoginUsuario");
+                    lblLoginUsuario.Text = (dadosPosts.Rows[i]["login_usuario"].ToString());
+
+
+                    // obtendo alguns dados para realizar a verificação de likes, contagem de posts
+                    int userId = Convert.ToInt32(Session["codigoUsuario"]);
+                    ImageButton btnLike = e.Item.FindControl("btnLike") as ImageButton;
+
+                    //obtendo os dados de likes de todas as postagens e exibindo a contagem de cada uma delas
+                    //fazer um using da Conexao, porque sempre que ele executa esse trecho de código denovo, ele tenta abrir novamente a conexao
+
+                    SqlDataAdapter dAdapter = new SqlDataAdapter();
+                    DataSet DataSetQuantidadeLikes = new DataSet();
+                    c.command.CommandText = "SELECT COUNT(tblPostagemCurtidas_cod_usuario) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postID";
+                    c.command.Parameters.Add("@postID", postId);
+
+                    dAdapter.SelectCommand = c.command;
+                    dAdapter.Fill(DataSetQuantidadeLikes);
+
+                    Label lblQuantidadeCurtidas = (Label)e.Item.FindControl("curtidas_postLabel");
+                    lblQuantidadeCurtidas.Text = (DataSetQuantidadeLikes.Tables[0].DefaultView[0].Row["Column1"].ToString());
+
+                    // Vefifique se os dados de "verificado" são verdadeiros, se sim, mostre a badge
+                    if (Int32.Parse(valorVerificado) > 0)
                     {
-                        btnLike.ImageUrl = "images/heart-fill.svg";
+                        divVerifiedBadge.Visible = true;
+                    }
+                    else
+                    {
+                        divVerifiedBadge.Visible = false;
                     }
 
-                    c.fechaConexao();
+                    if (row != null && btnLike != null)
+                    {
+                        string cod_post = row["cod_post"].ToString();
+                        btnLike.CommandArgument = cod_post;
+                    }
+
+                    //Verificar se o usuário ja curtiu uma postagem e mudar a imagem do botão
+                    if (Session["codigoUsuario"] != null)
+                    {
+
+                        c.conectar();
+
+                        // Check if user already liked this post
+                        string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
+                        SqlCommand cmdCheckLiked = new SqlCommand(queryCheckLiked, c.conexao);
+                        cmdCheckLiked.Parameters.AddWithValue("@postId", postId);
+                        cmdCheckLiked.Parameters.AddWithValue("@userId", userId);
+                        int likedCount = (int)cmdCheckLiked.ExecuteScalar();
+
+                        if (likedCount > 0)
+                        {
+                            btnLike.ImageUrl = "images/heart-fill.svg";
+                        }
+                    }
                 }
             }
         }
@@ -108,11 +119,11 @@ public partial class index : System.Web.UI.Page
 
     protected void btnLike_OnClick(object sender, ImageClickEventArgs e)
     {
-        // Get the ID of the post that the user wants to like
+        //obter o ID do post que o usuário quer curtir
         ImageButton btnLike = (ImageButton)sender;
         string postId = btnLike.CommandArgument;
 
-        // get user ID from session
+        // obter o cod_usuario da session
         int userId = Convert.ToInt32(Session["codigoUsuario"]);
 
         if (Session["codigoUsuario"] != null && int.TryParse(Session["codigoUsuario"].ToString(), out userId))
@@ -121,6 +132,7 @@ public partial class index : System.Web.UI.Page
             using (Conexao conexao = new Conexao())
             {
                 conexao.conectar();
+
                 string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
                 conexao.command.CommandText = queryCheckLiked;
                 conexao.command.Parameters.AddWithValue("@postId", postId);
@@ -166,15 +178,40 @@ public partial class index : System.Web.UI.Page
             }
         }
     }
-    protected void MyDataList_ItemCommand(object source, DataListCommandEventArgs e)
-    {
-        if (e.CommandName == "SelecionarUsuario")
-        {
-            // Obtenha o código do usuário do CommandArgument
-            int cod_usuario = Convert.ToInt32(e.CommandArgument);
+    //protected void MyDataList_ItemCommand(object source, DataListCommandEventArgs e)
+    //{
+    //    if (e.CommandName == "SelecionarUsuario")
+    //    {
+    //        // Obtenha o código do usuário do CommandArgument
+    //        int cod_usuario = Convert.ToInt32(e.CommandArgument);
 
-            // Chame o método C# passando o código do usuário como parâmetro
-            ProfileManager.UserProfileBuilder(cod_usuario,this);
+    //        // Chame o método C# passando o código do usuário como parâmetro
+    //        ProfileManager.UserProfileBuilder(cod_usuario,this);
+    //    }
+    //}
+
+    // tbm posso criar um MyDataList_ItemCommand para o LinkButton, e como estaria neste escopo, poderia pegar o valor do Eval
+
+
+    //public string returnUserLogin(object value)
+    //{
+    //    userLogin = value.ToString();
+
+    //    if (!string.IsNullOrEmpty(userLogin))
+    //    { 
+    //        Session["userLogin"] = userLogin;
+    //        return (string)Session["userLogin"];
+    //    }
+
+    //    return ""; // default in case you can't process the value
+    //}
+
+    protected void HyperLinkNomeUsuario_OnClick(object sender, EventArgs e)
+    {
+        //if (loginUsuarioEval != null)
+        {
+            //Session["userLogin"] = loginUsuarioEval;
+            //Response.Redirect("user.aspx");
         }
     }
 }

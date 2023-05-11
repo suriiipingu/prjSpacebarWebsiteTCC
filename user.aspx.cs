@@ -3,6 +3,7 @@ using System.Activities;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.SessionState;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -17,17 +18,17 @@ public partial class perfil_usuarioaleatorio : System.Web.UI.Page
     {
         // preenchendo a página do usuário aleatório
         //e pra ajudar, esse trecho de código ja passa para uma variável o cod_usuario de quem está sendo exibido
-        if (Request.QueryString["user"] != null)
+        if (Session["userLogin"] != null)
         {
-            string login_usuario_exibido = Request.QueryString["user"];
+            string login_usuario_exibido = (string)Session["userLogin"];
 
             // pra chamar a função de construir o perfil do usuário aleatório,
-            // preciso pegar o cod_usuario de acordo com o login_usuario que foi passado,
+            // preciso pegar o cod_usuario de acordo com o userLogin que foi passado,
             // então preciso fazer um select logo quando a página carrega,
             // // pegando o cod_usuario de acordo com esse login_usuario
 
             int cod_usuario_exibido;
-            using (Conexao c = new Conexao()) 
+            using (Conexao c = new Conexao())
             { 
                 c.conectar(); 
                 SqlDataAdapter dAdapter = new SqlDataAdapter(); 
