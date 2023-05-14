@@ -46,7 +46,7 @@
         <div class="container-11">
             <div class="footer-wrapper-three">
                 <div class="footer-block-three">
-                    <a href="sobre-nos.aspx" class="footer-link-three">Sobre nós</a>
+                    <a href="sobre-spacebar/sobre-nos.aspx" class="footer-link-three">Sobre nós</a>
                 </div>
                 <div class="footer-social-block-three">
                     <a href="#" class="footer-social-link-three w-inline-block">

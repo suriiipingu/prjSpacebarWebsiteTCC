@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using OpenQA.Selenium.DevTools.V110.Network;
 
 /// <summary>
 /// Descrição resumida de ProfileManager
@@ -39,7 +41,7 @@ namespace UserProfile
                     // Armazena as informações do usuário em variáveis locais
                     var nomeUsuario = dt.Rows[0]["nome_usuario"].ToString();
                     var login_usuario = dt.Rows[0]["login_usuario"].ToString();
-                    var desc_perfil_usuario = dt.Rows[0]["desc_perfil_usuario"].ToString();
+                    var desc_perfil_usuario = dt.Rows[0]["bio_usuario"].ToString();
                     
                     string seguindo_usuario = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
                     DataSet dt2 = new DataSet();
@@ -124,5 +126,195 @@ namespace UserProfile
                 }
             }
         }
+
+        public static void mostrarImagemPerfil(Image imgPerfil, HttpSessionState session)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if(session != null)
+                {
+                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session.ToString();
+                }
+                else
+                {
+                    //slayyy
+                }
+
+                //mostrar imagem de perfil
+                string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                int id = 1; // id da imagem a ser recuperada
+                byte[] imageBytes = null;
+
+                    c.command.CommandText = query;
+
+                    c.command.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = c.command.ExecuteReader())
+                    {
+                    if (reader.Read())
+                    {
+                        if (!reader.IsDBNull(reader.GetOrdinal("icon_usuario")))
+                        {
+                            imageBytes = (byte[])reader["icon_usuario"];
+                        }
+                        else
+                        {
+                            // Tratar valor nulo da coluna "icon_usuario"
+                        }
+                    }
+                }
+                
+                // obtém o tipo de imagem
+                string imageType = "";
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        try
+                        {
+                            var img = System.Drawing.Image.FromStream(ms);
+                            if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                imageType = "image/jpeg";
+                            else if (img.RawFormat.Equals(ImageFormat.Png))
+                                imageType = "image/png";
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            // a exceção será lançada se o formato da imagem for inválido
+                            // fazer tratamento adequado aqui
+                        }
+                    }
+                    
+                    }
+                if (!string.IsNullOrEmpty(imageType))
+                {
+                    string base64String = Convert.ToBase64String(imageBytes);
+                    string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                    imgPerfil.ImageUrl = imageUrl;
+                }
+            }
+
+            }
+
+        public static void exibirImagemFundo(Image imgFundo, HttpSessionState session)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if (session != null)
+                {
+                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session.ToString();
+                }
+                else
+                {
+                    //slayyy
+                }
+
+                //mostrar imagem de fundo
+                string query = "SELECT imgfundo_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                int id = 1; // id da imagem a ser recuperada
+                byte[] imageBytes = null;
+
+                c.command.CommandText = query;
+
+                c.command.Parameters.AddWithValue("@id", id);
+
+                using (SqlDataReader reader = c.command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        if (!reader.IsDBNull(reader.GetOrdinal("imgfundo_usuario")))
+                        {
+                            imageBytes = (byte[])reader["imgfundo_usuario"];
+                        }
+                        else
+                        {
+                            // Tratar valor nulo da coluna "imgfundo_usuario"
+                        }
+                    }
+                }
+                // obtém o tipo de imagem
+                string imageType = "";
+                if (imageBytes != null && imageBytes.Length > 0)
+                {
+                    using (var ms = new MemoryStream(imageBytes))
+                    {
+                        try
+                        {
+                            var img = System.Drawing.Image.FromStream(ms);
+                            if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                imageType = "image/jpeg";
+                            else if (img.RawFormat.Equals(ImageFormat.Png))
+                                imageType = "image/png";
+                        }
+                        catch (ArgumentException ex)
+                        {
+                            // a exceção será lançada se o formato da imagem for inválido
+                            // fazer tratamento adequado aqui
+                        }
+                    }
+
+                }
+                if (!string.IsNullOrEmpty(imageType))
+                {
+                    string base64String = Convert.ToBase64String(imageBytes);
+                    string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                    imgFundo.ImageUrl = imageUrl;
+                }
+
+            }
+        }
+
+        public static void mostrarSelos(Image selo1, Image selo2, HttpSessionState session)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if (session["codigoUsuario"] != null)
+                {
+
+                    c.command.CommandText = "SELECT cod_tipo from tblUsuario where cod_usuario = @codUsuarioConectado";
+                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session["codigoUsuario"].ToString();
+                }
+                else
+                {
+                    //slayyy
+                }
+
+                //mostrar selos
+
+                int cod_tipo = (int)c.command.ExecuteScalar();
+
+
+                //definir selos
+                if (cod_tipo == 2)
+                {
+                    //criador de conteúdo
+                    selo2.ImageUrl = "../images/BackSpace.svg";
+                }
+                else if (cod_tipo == 3)
+                {
+                    //verificado
+                    selo2.ImageUrl = "../images/Verificado2.svg";
+                }
+                else if (cod_tipo == 4)
+                {
+                    //criador de conteúdo e verificado
+                    selo2.ImageUrl = "../images/BackSpace.svg";
+                    selo1.ImageUrl = "../images/Verificado2.svg";
+
+                }
+                else if(cod_tipo == 5)
+                {
+                    //ADM
+                }
+            }
+        }
     }
-}
+       
+
+    }

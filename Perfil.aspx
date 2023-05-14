@@ -44,21 +44,22 @@
       <div class="parte-2">
         <div class="bloco-navbar-perifl">
           <a href="criar-postagem.aspx" class="btn-novopost-perfil w-button">+ Nova postagem</a>
-          <!-- <input type="search" class="search-input-2 w-input" maxlength="256" name="query" placeholder="Pesquisar" id="search" required=""><img src="images/search-svgrepo-com.svg" loading="lazy" width="14" alt="" class="image-25"><input type="submit" value="&gt;" class="search-button-2 w-button"> -->
+          <form action="/search" class="search-2 w-form"><input type="search" class="search-input-2 w-input" maxlength="256" name="query" placeholder="Pesquisar" id="search" required=""><img src="images/search-svgrepo-com.svg" loading="lazy" width="14" alt="" class="image-25"><input type="submit" value="&gt;" class="search-button-2 w-button"></form>
         </div>
-          
-          <asp:DataList ID="DataList1" runat="server" DataKeyField="cod_post" DataSourceID="SqlDataSource1">
-              <ItemTemplate>
-
-                  <div class="postagem postagem-perfil">
+        <div class="postagens">
+          <div class="div-block-38">
+            <div class="div-block-39">
+              <a href="config-post.aspx" class="link-block-7 w-inline-block"><img src="images/settings_FILL0_wght400_GRAD0_opsz48.svg" loading="lazy" width="22" alt=""></a>
+            </div>
+            <div class="postagem postagem-perfil">
               <div class="titulo-post">
-                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>' /></h1>
+                <h1 class="heading-3">Vazou!!!</h1>
                 <div class="div-block-36">
                   <a href="#" class="div-btnvermais w-button">Ver mais +</a>
                 </div>
               </div>
               <div class="data-post w-clearfix">
-                <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div>
+                <div class="text-block-12">02 de fev de 2023 · 22:04 PM</div>
               </div>
               <div class="img-post"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="126" alt="" class="image-21"></div>
               <div class="tags-post">
@@ -75,33 +76,74 @@
               <div class="div-nome-curtidas">
                 <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
                   <div class="div-block-32">
-                    <div class="text-block-16"><asp:Label ID="nome_usuarioLabel" runat="server" Text='<%# Eval("nome_usuario") %>' /></div>
-                    <div class="text-block-17"><asp:Label ID="login_usuarioLabel" runat="server" Text='<%# Eval("login_usuario") %>' /></div>
+                    <div class="text-block-16">Eliza Santos</div>
+                    <div class="text-block-17">@Eliza.Santos</div>
                   </div>
                 </div>
                 <div class="div-curtidas">
                   <div class="div-curt">
-                    <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div>
-                    <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' /></div>
+                    <div class="icon"><img src="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt=""></div>
+                    <div>11</div>
                   </div>
                   <div class="div-coment">
-                    <a href="comentarios.html" class="link-block-4 w-inline-block">
+                    <a href="comentarios.aspx" class="link-block-4 w-inline-block">
                       <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
-                      <div class="text-block-30"><asp:Label ID="comentarios_postLabel" runat="server" Text='<%# Eval("comentarios_post") %>' /></div>
+                      <div class="text-block-30">11</div>
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-              </ItemTemplate>
-          </asp:DataList>
-
-          <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SELECT * FROM tblPost INNER JOIN tblUsuario tU ON tU.cod_usuario = tblPost.cod_usuario WHERE tblPost.[cod_usuario] = @cod_usuario">
-              <SelectParameters>
-                  <asp:SessionParameter Name="cod_usuario" SessionField="codigoUsuario" Type="Int32" />
-              </SelectParameters>
-          </asp:SqlDataSource>
-
+          </div>
+          <div class="div-block-38">
+            <div class="postagem postagem-perfil">
+              <div class="titulo-post">
+                <h1 class="heading-3">Vazou!!!</h1>
+                <div class="div-block-36">
+                  <a href="#" class="div-btnvermais w-button">Ver mais +</a>
+                </div>
+              </div>
+              <div class="data-post w-clearfix">
+                <div class="text-block-12">02 de fev de 2023 · 22:04 PM</div>
+              </div>
+              <div class="img-post"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="126" alt="" class="image-21"></div>
+              <div class="tags-post">
+                <div class="div-block-31">
+                  <div class="text-block-13">Descoberta</div>
+                </div>
+                <div class="div-block-31 div-2">
+                  <div class="text-block-13">Jogo</div>
+                </div>
+                <div class="div-block-31 div-2 div-3">
+                  <div class="text-block-13">Diversão</div>
+                </div>
+              </div>
+              <div class="div-nome-curtidas">
+                <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
+                  <div class="div-block-32">
+                    <div class="text-block-16">Eliza Santos</div>
+                    <div class="text-block-17">@Eliza.Santos</div>
+                  </div>
+                </div>
+                <div class="div-curtidas">
+                  <div class="div-curt">
+                    <div class="icon"><img src="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt=""></div>
+                    <div>11</div>
+                  </div>
+                  <div class="div-coment">
+                    <a href="comentarios.aspx" class="link-block-4 w-inline-block">
+                      <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
+                      <div class="text-block-30">11</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="div-block-39">
+              <a href="config-post.aspx" class="link-block-7 w-inline-block"><img src="images/settings_FILL0_wght400_GRAD0_opsz48.svg" loading="lazy" width="22" alt=""></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
