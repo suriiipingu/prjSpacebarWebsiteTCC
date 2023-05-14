@@ -15,40 +15,10 @@ public partial class se_inscrever : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
     }
 
-    public bool VerificarLoginEmail()
-    {
-        Conexao c = new Conexao();
-        SqlDataAdapter dAdapter = new SqlDataAdapter();
-        DataSet dt = new DataSet();
-        String login = txtLogin.Text.Trim();
-        String email = txtEmail.Text.Trim();
-        c.command.CommandType = CommandType.StoredProcedure;
-        c.command.CommandText = "SelectVerificarLoginEmail";
 
-        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
-        c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
-
-        try
-        {
-            c.conectar();
-            dAdapter.SelectCommand = c.command;
-            dAdapter.Fill(dt);
-            //lblAviso.Text = "teste";
-            return (dt.Tables[0].Rows.Count > 0);
-        }
-        catch (SqlException ex)
-        {
-            //lblAviso.Text = $"Falha ao encontrar usuário: {ex}";
-            return false;
-        } 
-        finally
-        {
-            c.fechaConexao();
-        }
-    }
 
 
 
@@ -87,7 +57,7 @@ public partial class se_inscrever : System.Web.UI.Page
 
         String hashSenha = CriptografarSenha(senha);
 
-        if (VerificarLoginEmail() == true)
+        if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
         {
             txtNome.Text = "";
             txtLogin.Text = "";

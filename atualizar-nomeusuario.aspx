@@ -89,6 +89,7 @@
                       </div>
                       
                       <asp:TextBox ID="txtNomeUsuario" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
+                      <asp:Label ID="lblErro" runat="server" Text=""></asp:Label>
                        <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button"  OnClick="btnAtualizar_Click"/>
                     
                   </div>

@@ -133,18 +133,12 @@ namespace UserProfile
             {
                 c.conectar();
 
-                if(session != null)
+                if (session["logado"] != null && (bool)session["logado"])
                 {
-                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session.ToString();
-                }
-                else
-                {
-                    //slayyy
-                }
 
-                //mostrar imagem de perfil
+                    //mostrar imagem de perfil
                 string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
-                int id = 1; // id da imagem a ser recuperada
+                object id = session["codigoUsuario"]; // id da imagem a ser recuperada
                 byte[] imageBytes = null;
 
                     c.command.CommandText = query;
@@ -194,6 +188,10 @@ namespace UserProfile
                     string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                     imgPerfil.ImageUrl = imageUrl;
                 }
+
+                }
+
+                
             }
 
             }
@@ -204,66 +202,64 @@ namespace UserProfile
             {
                 c.conectar();
 
-                if (session != null)
+                if (session["logado"] != null && (bool)session["logado"])
                 {
-                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session.ToString();
-                }
-                else
-                {
-                    //slayyy
-                }
+                    //mostrar imagem de fundo
+                    string query = "SELECT imgfundo_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                    object id = session["codigoUsuario"];
+                    byte[] imageBytes = null;
 
-                //mostrar imagem de fundo
-                string query = "SELECT imgfundo_usuario FROM tblUsuario WHERE cod_usuario = @id";
-                int id = 1; // id da imagem a ser recuperada
-                byte[] imageBytes = null;
+                    c.command.CommandText = query;
 
-                c.command.CommandText = query;
+                    c.command.Parameters.AddWithValue("@id", id);
 
-                c.command.Parameters.AddWithValue("@id", id);
-
-                using (SqlDataReader reader = c.command.ExecuteReader())
-                {
-                    if (reader.Read())
+                    using (SqlDataReader reader = c.command.ExecuteReader())
                     {
-                        if (!reader.IsDBNull(reader.GetOrdinal("imgfundo_usuario")))
+                        if (reader.Read())
                         {
-                            imageBytes = (byte[])reader["imgfundo_usuario"];
-                        }
-                        else
-                        {
-                            // Tratar valor nulo da coluna "imgfundo_usuario"
+                            if (!reader.IsDBNull(reader.GetOrdinal("imgfundo_usuario")))
+                            {
+                                imageBytes = (byte[])reader["imgfundo_usuario"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "imgfundo_usuario"
+                            }
                         }
                     }
-                }
-                // obtém o tipo de imagem
-                string imageType = "";
-                if (imageBytes != null && imageBytes.Length > 0)
-                {
-                    using (var ms = new MemoryStream(imageBytes))
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
                     {
-                        try
+                        using (var ms = new MemoryStream(imageBytes))
                         {
-                            var img = System.Drawing.Image.FromStream(ms);
-                            if (img.RawFormat.Equals(ImageFormat.Jpeg))
-                                imageType = "image/jpeg";
-                            else if (img.RawFormat.Equals(ImageFormat.Png))
-                                imageType = "image/png";
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+                            }
                         }
-                        catch (ArgumentException ex)
-                        {
-                            // a exceção será lançada se o formato da imagem for inválido
-                            // fazer tratamento adequado aqui
-                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(imageType))
+                    {
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgFundo.ImageUrl = imageUrl;
                     }
 
                 }
-                if (!string.IsNullOrEmpty(imageType))
-                {
-                    string base64String = Convert.ToBase64String(imageBytes);
-                    string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
-                    imgFundo.ImageUrl = imageUrl;
-                }
+
+                  
+                
 
             }
         }
@@ -311,6 +307,41 @@ namespace UserProfile
                 else if(cod_tipo == 5)
                 {
                     //ADM
+                }
+            }
+        }
+
+        public static bool VerificarLoginEmail(string login, string email)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                SqlDataAdapter dAdapter = new SqlDataAdapter();
+                DataSet dt = new DataSet();
+                c.command.CommandType = CommandType.StoredProcedure;
+                c.command.CommandText = "SelectVerificarLoginEmail";
+
+
+                c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+                c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+
+
+
+                try
+                {
+                    dAdapter.SelectCommand = c.command;
+                    dAdapter.Fill(dt);
+                    return (dt.Tables[0].Rows.Count > 0);
+                }
+                catch (SqlException ex)
+                {
+                    
+                    return false;
+                }
+                finally
+                {
+                    c.fechaConexao();
                 }
             }
         }

@@ -36,15 +36,25 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
                 Response.Redirect("fazer-login.aspx");
             }
 
-            
+            String login = txtNomeUsuario.Text;
+            String email = null;
 
             if (txtNomeUsuario.Text.Length > 0)
             {
-                c.command.CommandText = "Update tblUsuario set login_usuario=@login where cod_usuario = @codUsuarioConectado";
+                if(UserProfile.ProfileManager.VerificarLoginEmail(login, email) == false)
+                {
+                    lblErro.Text = "Esse nome de usuário já existe, tente outro";
+                    return;
+                }
+                else
+                {
+                    c.command.CommandText = "Update tblUsuario set login_usuario=@login where cod_usuario = @codUsuarioConectado";
 
-                c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = txtNomeUsuario.Text.Trim();
+                    c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
 
-                c.command.ExecuteNonQuery();
+                    c.command.ExecuteNonQuery();
+                }
+                
             }
         }
     }
