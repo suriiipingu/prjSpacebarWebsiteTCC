@@ -88,8 +88,8 @@
                           <asp:Label ID="lblNomeUsuario" runat="server" Text="Label" CssClass="field-label-5"></asp:Label>
                       </div>
                       
-                      <asp:TextBox ID="NomeUsuario" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
-                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" />
+                      <asp:TextBox ID="txtNomeUsuario" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
+                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button"  OnClick="btnAtualizar_Click"/>
                     
                   </div>
                 </div>

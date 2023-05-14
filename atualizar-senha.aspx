@@ -27,6 +27,10 @@
             margin-bottom:10px;
         }
 
+        .espaco2{
+            margin-top:10px;
+        }
+
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
@@ -79,8 +83,9 @@
             <div class="div-block-8">
               <div class="div-input-texto">
                 <div class="div-texto">
-                  <div class="text-block txtatualizar">Nova senha</div>
-                  <div class="text-block txtatualizar">Confirme sua nova senha</div>
+                    <div class="espaco2"><div class="text-block txtatualizar">Nova senha</div></div>
+                  <div class="espaco2"> <div class="text-block txtatualizar">Confirme sua nova senha</div></div>
+                 
                 </div>
                 <div class="div-input">
                   <div class="w-form">

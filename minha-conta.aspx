@@ -78,7 +78,7 @@
                   <div class="w-form">
                       <asp:Label ID="lblCelular" runat="server" CssClass="field-label" Text="(55+) 11 99014-1476"></asp:Label>
                         
-                      <a href="../config/conta-atualizar/atualizar-telefone.html" class="button-3 w-button">Atualizar</a>
+                      <a href="atualizar-celular.aspx" class="button-3 w-button">Atualizar</a>
                     
                     
                   </div>
@@ -91,7 +91,7 @@
                 <div class="column-5 w-col w-col-8">
                   <div class="w-form">
                       <asp:Label ID="lblEmail" runat="server" CssClass="field-label" Text="clara.venturoli@gmail.com"></asp:Label>
-                      <a href="../config/conta-atualizar/atualizar-email.html" class="button-3 w-button">Atualizar</a>
+                      <a href="atualizar-email.aspx" class="button-3 w-button">Atualizar</a>
 
                   </div>
                 </div>
@@ -103,7 +103,7 @@
                 <div class="column-5 w-col w-col-8">
                   <div class="w-form">
                       <asp:Label ID="lblPais" runat="server" CssClass="field-label" Text="Brasil"></asp:Label>
-                      <a href="../config/conta-atualizar/atualizar-pais.html" class="button-3 w-button">Atualizar</a>
+                      <a href="atualizar-pais.aspx" class="button-3 w-button">Atualizar</a>
                     
                     
                 </div>
@@ -112,7 +112,7 @@
             </div>
                 <div class="ctn-senha">
                 <div class="text-block">
-                  <a href="" class="link-5">Atualizar Senha</a>
+                  <a href="atualizar-senha.aspx" class="link-5">Atualizar Senha</a>
                 </div>
               </div>
           </div>

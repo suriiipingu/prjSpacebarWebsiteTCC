@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
@@ -48,6 +49,9 @@ public partial class fazer_login : System.Web.UI.Page
             Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
             Session["loginUsuario"] = dt.Tables[0].DefaultView[0].Row["login_usuario"].ToString();
             Session["nomeUsuario"] = dt.Tables[0].DefaultView[0].Row["nome_usuario"].ToString();
+            Session["emailUsuario"] = dt.Tables[0].DefaultView[0].Row["email_usuario"].ToString();
+            Session["celUsuario"] = dt.Tables[0].DefaultView[0].Row["cel_usuario"].ToString();
+            Session["paisUsuario"] = dt.Tables[0].DefaultView[0].Row["pais_usuario"].ToString();
             Session["bio_usuario"] = dt.Tables[0].DefaultView[0].Row["bio_usuario"].ToString();
 
 
