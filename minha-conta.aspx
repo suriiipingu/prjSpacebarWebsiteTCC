@@ -29,25 +29,25 @@
                 <div class="text-block-4">Minha conta</div>
               </div>
               <nav class="dropdown-list w-dropdown-list">
-                <a href="../config/perfil-config.html" class="w-dropdown-link">Perfil</a>
-                <a href="../config/minha-conta.html" aria-current="page" class="dropdown-link-4 w-dropdown-link w--current">Minha conta</a>
-                <a href="../config/criador-de-conteudo.html" class="w-dropdown-link">Criador de conteúdo</a>
-                <a href="../config/verificado.html" class="w-dropdown-link">Verificado</a>
+                <a href="perfil-config.aspx" class="w-dropdown-link">Meu perfil</a>
+                <a href="minha-conta.aspx" aria-current="page" class="dropdown-link-4 w-dropdown-link w--current">Minha conta</a>
+                <a href="criador de conteudo.aspx"" class="w-dropdown-link">Criador de conteúdo</a>
+                <a href="verificado.aspx" class="w-dropdown-link">Verificado</a>
               </nav>
             </div>
           </div>
           <ol role="list" class="sidebar-config">
             <li class="margin-bottom-24px fund1">
-              <a href="../config/perfil-config.html" class="nav-link-2">Meu perfil</a>
+              <a href="perfil-config.aspx" class="nav-link-2">Meu perfil</a>
             </li>
             <li class="margin-bottom-24px">
-              <a href="../config/minha-conta.html" aria-current="page" class="nav-link-2 w--current">Minha conta</a>
+              <a href="minha-conta.aspx" aria-current="page" class="nav-link-2 w--current">Minha conta</a>
             </li>
             <li class="margin-bottom-24px">
-              <a href="../config/criador-de-conteudo.html" class="nav-link-2">Criador de conteúdo</a>
+              <a href="criador de conteudo.aspx" class="nav-link-2">Criador de conteúdo</a>
             </li>
             <li class="margin-bottom-24px">
-              <a href="../config/verificado.html" class="nav-link-2">Verificado</a>
+              <a href="verificado.aspx" class="nav-link-2">Verificado</a>
             </li>
           </ol>
         </div>
@@ -66,7 +66,7 @@
                   <div class="w-form">
 
                         <asp:Label ID="lblNomeUsuario" runat="server" CssClass="field-label" Text="@suriipingu"></asp:Label>
-                      <a href="../config/conta-atualizar/atualizar-nome-de-usuario.html" class="button-3 w-button">Atualizar</a>
+                      <a href="atualizar-nomeusuario.aspx" class="button-3 w-button">Atualizar</a>
                   </div>
                 </div>
               </div>
@@ -108,12 +108,13 @@
                     
                 </div>
               </div>
-              <div class="ctn-senha">
+              
+            </div>
+                <div class="ctn-senha">
                 <div class="text-block">
-                  <a href="../config/conta-atualizar/atualizar-senha.html" class="link-5">Atualizar Senha</a>
+                  <a href="" class="link-5">Atualizar Senha</a>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
