@@ -32,11 +32,10 @@ public partial class fazer_login : System.Web.UI.Page
         DataSet dt = new DataSet();
 
         // usando a minha conexão e enviando um comando de texto para puxar os dados do banco de dados
-        c.command.CommandText = "SELECT * from tblUsuario WHERE " + " email_usuario=@email_inserido and senha_usuario=@senha_inserido";
+        c.command.CommandText = "SELECT * from tblUsuario WHERE " + " email_usuario=@email_inserido";
 
         // colocando todos esses parâmetros passados em uma variável
         c.command.Parameters.Add("@email_inserido", SqlDbType.VarChar).Value = txtEmail.Text.Trim();
-        c.command.Parameters.Add("@senha_inserido", SqlDbType.VarChar).Value = txtSenha.Text.Trim();
 
         // o adaptador vai salvar o que ele vai executar
         dAdapter.SelectCommand = c.command;
@@ -44,46 +43,68 @@ public partial class fazer_login : System.Web.UI.Page
 
         if ((int)dt.Tables[0].DefaultView.Count == 1)
         {
-            // Login bem sucedido, salva as informações do usuário na sessão
-            Session["logado"] = true;
-            Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
-            Session["loginUsuario"] = dt.Tables[0].DefaultView[0].Row["login_usuario"].ToString();
-            Session["nomeUsuario"] = dt.Tables[0].DefaultView[0].Row["nome_usuario"].ToString();
-            Session["emailUsuario"] = dt.Tables[0].DefaultView[0].Row["email_usuario"].ToString();
-            Session["celUsuario"] = dt.Tables[0].DefaultView[0].Row["cel_usuario"].ToString();
-            Session["paisUsuario"] = dt.Tables[0].DefaultView[0].Row["pais_usuario"].ToString();
-            Session["bio_usuario"] = dt.Tables[0].DefaultView[0].Row["bio_usuario"].ToString();
+            string senhaCriptografadaBanco = dt.Tables[0].Rows[0]["senha_usuario"].ToString();
+
+            string senha = txtSenha.Text;
+
+            // Verifica se a senha fornecida corresponde à senha criptografada do banco de dados
+            bool senhaCorreta = false;
+            if (!string.IsNullOrEmpty(senhaCriptografadaBanco) && senhaCriptografadaBanco.Length >= 60)
+            {
+                senhaCorreta = BCrypt.Net.BCrypt.Verify(senha, senhaCriptografadaBanco);
+            }
 
 
-            // criar um novo DataSet para armazenar a nova query sql
-            DataSet dt2 = new DataSet();
-            DataSet dt3 = new DataSet();
+            if (senhaCorreta)
+            {
+                // Login bem sucedido, salva as informações do usuário na sessão
+                Session["logado"] = true;
+                Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
+                Session["loginUsuario"] = dt.Tables[0].DefaultView[0].Row["login_usuario"].ToString();
+                Session["nomeUsuario"] = dt.Tables[0].DefaultView[0].Row["nome_usuario"].ToString();
+                Session["emailUsuario"] = dt.Tables[0].DefaultView[0].Row["email_usuario"].ToString();
+                Session["celUsuario"] = dt.Tables[0].DefaultView[0].Row["cel_usuario"].ToString();
+                Session["paisUsuario"] = dt.Tables[0].DefaultView[0].Row["pais_usuario"].ToString();
+                Session["bio_usuario"] = dt.Tables[0].DefaultView[0].Row["bio_usuario"].ToString();
 
 
-            // variável para guardar o código do usuário logado no momento
-            String cod_usuario = (dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
-
-            // nova query sql mandado só que com o cod_usuario do usuário logado atualmente
-            c.command.CommandText = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
-
-            dAdapter.SelectCommand = c.command;
-            dAdapter.Fill(dt2);
-
-            c.command.CommandText =
-                "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";
-            dAdapter.SelectCommand = c.command;
-            dAdapter.Fill(dt3);
-
-            Session["seguidoresUsuario"] = (dt2.Tables[0].DefaultView[0].Row["Column1"].ToString());
-            Session["UsuarioSegue"] = (dt3.Tables[0].DefaultView[0].Row["Column1"].ToString());
-            Response.Redirect("index.aspx");
+                // criar um novo DataSet para armazenar a nova query sql
+                DataSet dt2 = new DataSet();
+                DataSet dt3 = new DataSet();
 
 
+                // variável para guardar o código do usuário logado no momento
+                String cod_usuario = (dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
+
+                // nova query sql mandado só que com o cod_usuario do usuário logado atualmente
+                c.command.CommandText = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
+
+                dAdapter.SelectCommand = c.command;
+                dAdapter.Fill(dt2);
+
+                c.command.CommandText =
+                    "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";
+                dAdapter.SelectCommand = c.command;
+                dAdapter.Fill(dt3);
+
+                Session["seguidoresUsuario"] = (dt2.Tables[0].DefaultView[0].Row["Column1"].ToString());
+                Session["UsuarioSegue"] = (dt3.Tables[0].DefaultView[0].Row["Column1"].ToString());
+                Response.Redirect("index.aspx");
+
+
+
+            }
+            else
+            {
+                lblErro.Text = "Credenciais incorretas, verifique-as e tente novamente!";
+            }
 
         }
         else
         {
-            lblErro.Text = "Credenciais incorretas, verifique-as e tente novamente!";
+            lblErro.Text = "A senha está incorreta, tente novamente!";
         }
+
+                
     }
 }
