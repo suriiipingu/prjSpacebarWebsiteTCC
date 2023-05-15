@@ -27,7 +27,35 @@
             margin-bottom:10px;
         }
 
+        .lblAviso{
+            color: red;
+        }
+
     </style>
+
+    <script>
+
+        function validarCelular() {
+            var celular = document.getElementById('<%= txtCelular.ClientID %>').value;
+            var regex = /^(\+55|55)?(\d{2})?(\d{5})(\d{4})$/;
+            var txtCelular = document.getElementById('<%= txtCelular.ClientID %>');
+        var spnCelular = document.getElementById('<%= lblAviso.ClientID %>');
+            var celularValidoField = document.getElementById('<%= hfCelularValido.ClientID %>');
+
+            if (!regex.test(celular)) {
+                txtCelular.style.borderColor = "red";
+                txtCelular.style.marginBottom = "0";
+                spnCelular.innerText = "Insira um número de celular válido.";
+                celularValidoField.value = "false";
+            } else {
+                txtCelular.style.borderColor = "";
+                spnCelular.innerText = "";
+                celularValidoField.value = "true";
+            }
+
+        }
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
      <div class="section-2 wf-section">
@@ -88,8 +116,13 @@
                           <asp:Label ID="lblCelular" runat="server" Text="Label" CssClass="field-label-5"></asp:Label>
                       </div>
                       
-                      <asp:TextBox ID="Celular" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
-                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" />
+                                            <asp:HiddenField runat="server" ID="hfCelularValido" Value="false" />
+                      <asp:TextBox ID="txtCelular" runat="server" CssClass="text-field txt-atualizar w-input" onblur="validarCelular()"></asp:TextBox>
+                      <asp:Label ID="lblAviso" runat="server" Text="" CssClass="lblAviso"></asp:Label>
+
+
+                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button"  OnClick="btnAtualizar_Click"/>
+
                     
                   </div>
                 </div>

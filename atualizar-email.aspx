@@ -27,8 +27,35 @@
             margin-bottom:10px;
         }
 
+        .lblErro{
+            color:red;
+        }
         
     </style>
+
+    <script>
+        function validarEmail() {
+            var email = document.getElementById('<%= txtEmail.ClientID %>').value;
+            var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var txtEmail = document.getElementById('<%= txtEmail.ClientID %>');
+            var spnEmail = document.getElementById('<%= lblErro.ClientID %>');
+            var emailValidoField = document.getElementById('<%= hfEmailValido.ClientID %>');
+
+            if (!pattern.test(email)) {
+                txtEmail.style.borderColor = "red";
+                txtEmail.style.marginBottom = "0";
+                spnEmail.innerText = "Insira um e-mail válido.";
+                emailValidoField.value = "false";
+            } else {
+                txtEmail.style.borderColor = "";
+                spnEmail.innerText = "";
+                emailValidoField.value = "true";
+            }
+            
+
+        }
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
      <div class="section-2 wf-section">
@@ -89,8 +116,11 @@
                           <asp:Label ID="lblEmail" runat="server" Text="Label" CssClass="field-label-5"></asp:Label>
                       </div>
                       
-                      <asp:TextBox ID="Email" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
-                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" />
+                      <asp:HiddenField runat="server" ID="hfEmailValido" Value="false" />
+                      <asp:TextBox ID="txtEmail" runat="server" CssClass="text-field txt-atualizar w-input" onblur="validarEmail()"></asp:TextBox>
+                      <asp:Label ID="lblErro" runat="server" Text="" CssClass="lblErro"></asp:Label>
+
+                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" OnClick="btnAtualizar_Click"/>
                     
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -43,7 +44,7 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
             {
                 if(UserProfile.ProfileManager.VerificarLoginEmail(login, email) == false)
                 {
-                    lblErro.Text = "Esse nome de usuário já existe, tente outro";
+                    lblErro.Text = "Esse nome de usuário já existe, tente outro.";
                     return;
                 }
                 else
@@ -52,7 +53,19 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
 
                     c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
 
-                    c.command.ExecuteNonQuery();
+                    try
+                    {
+                        c.command.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        lblErro.Text = "Falha ao atualizar.";
+                        return;
+                    }
+                    finally
+                    {
+                        c.fechaConexao();
+                    }
                 }
                 
             }

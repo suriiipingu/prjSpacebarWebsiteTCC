@@ -27,6 +27,10 @@
             margin-bottom:10px;
         }
 
+        .lblErro{
+            color:red;
+        }
+
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
@@ -89,7 +93,7 @@
                       </div>
                       
                       <asp:TextBox ID="txtNomeUsuario" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
-                      <asp:Label ID="lblErro" runat="server" Text=""></asp:Label>
+                      <asp:Label ID="lblErro" runat="server" Text="" CssClass="lblErro"></asp:Label>
                        <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button"  OnClick="btnAtualizar_Click"/>
                     
                   </div>
