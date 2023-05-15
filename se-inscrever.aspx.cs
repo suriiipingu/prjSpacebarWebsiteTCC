@@ -74,7 +74,9 @@ public partial class se_inscrever : System.Web.UI.Page
                 // 1 = usuário comum
                 // 2 = criador de conteúdo
                 // 3 = verificado
-                // 4 = adm
+                // 4 = verificado e criador de conteúdo
+                // 5 = adm
+
 
                 c.command.CommandType = CommandType.StoredProcedure;
                 c.command.CommandText = "InsertInscrever";

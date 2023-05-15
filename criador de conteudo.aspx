@@ -9,7 +9,57 @@
     <style>
         .body-2{
             background-color:white;
+
         }
+
+        .fundo-fofo {
+            position:absolute;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(180deg, #3100F5 0%, #D57CFF 48.44%, rgba(98, 227, 255, 0.06) 100%);
+        }
+
+
+        .btnCriar{
+            width:100%;
+            height:40px;
+            border:none;
+            margin-bottom:10px;
+            color: white;
+            background: linear-gradient(90deg, #FD8EFF 14.36%, #50C1E5 86.32%);
+border-radius: 10px;
+cursor:pointer;
+        }
+
+        .ctn-bloco{
+            position:relative;
+            width:100%;
+            padding:40px;
+            background: #FFFFFF;
+box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+border-radius: 30px;
+        }
+
+        .ctn-ajust{
+            position:absolute;
+padding:40px;
+            width:100%;
+            margin-top:40px;
+        }
+
+        .estrela{
+            width:100%;
+            height:80%;
+            
+        }
+
+        .link-info{
+            color: #AD33C1;
+            text-decoration:none;
+        }
+
+
+
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
@@ -52,32 +102,33 @@
           </ol>
         </div>
         <div class="ctn-perfil w-col w-col-9">
-          <div class="cnt-perfil cnt-spacer w-container">
-            <div class="div-block-7 divblockconta">
+          <div class="fundo-fofo">
+              <div class="estrela">
+                  <img alt="" src="images/Vector.svg" />
+<img alt="" src="images/Vector.svg"  class="estrela"/>
+              </div>
+          </div>
+          <div class="ctn-ajust">
+            <div class="ctn-bloco">
+                <div class="div-block-7 divblockconta">
               <h4 class="heading-2">Criador de conteúdo</h4>
-              <p class="paragraph">Se deseja publicar suas próprias postagens está no lugar certo.</p>
+              <p class="paragraph">Caso esteja cansado de só visualizar as postagens, o que acha de criar as suas próprias?</p>
             </div>
             <div class="div-block-8">
-              <p class="paragraph-3">Aceitando se tornar um criador, terá acesso a inúmeras ferramentas para criar a sua própria comunidade espacial.<br>Dentre elas estão:</p>
-              <ul role="list">
-                <li class="list-item">Publicar o que deseja</li>
-                <li class="list-item">Interagir com a comunidade nas suas postagens</li>
-                <li class="list-item">Editar postagens</li>
-              </ul>
+              <p class="paragraph-3">Se tornando um criador de conteúdo, você pode:</p>
+                <p>Publicar o que deseja;
+                    <br />
+                Interagir com a comunidade nas suas postagens;
+                    <br>
+                Editar postagens;</p>
+
               <p class="paragraph-3">Para conseguir acesso aos apetrechos do fórum, você concorda ter lido os nossos Termos de Uso.</p>
             </div>
+            </div>
             <div class="w-form">
-                  <label class="w-checkbox">
-                      <asp:CheckBox ID="CheckBox1" CssClass="custom-checkbox"  runat="server" />
-                      <span class="checkbox-label w-form-label" for="Checkbox">Eu li e concordo com os Termos de Uso.</span>
-                </label>
-                <asp:Button ID="Button1" runat="server" Text="Se tornar um Backspace" CssClass="submit-button-2 w-button" />
-              <div class="w-form-done">
-                <div>Thank you! Your submission has been received!</div>
-              </div>
-              <div class="w-form-fail">
-                <div>Oops! Something went wrong while submitting the form.</div>
-              </div>
+                <br />
+                <asp:Button ID="btnEnviar" runat="server" Text="Comece a criar" CssClass="btnCriar" OnClick="btnEnviar_Click" />
+                <p>Enviando seus dados, você confirma ter lido os nossos <a href="" class="link-info">Termos de Serviço</a> e <a href="" class="link-info">Política de Privacidade</a>. Caso não tenha lido, você pode encontrá-lo na nossa aba de <a href="" class="link-info">informações adicionais</a>.</p>
             </div>
           </div>
         </div>
