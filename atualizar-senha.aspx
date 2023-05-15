@@ -31,6 +31,10 @@
             margin-top:10px;
         }
 
+        .lblErro{
+            color:red;
+        }
+
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
@@ -90,11 +94,12 @@
                 <div class="div-input">
                   <div class="w-form">
                       <div class="espaco">
-                          <asp:TextBox ID="NovaSenha" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
+                          <asp:TextBox ID="txtNovaSenha" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
                       </div>
                       
-                      <asp:TextBox ID="ConfirmSenha" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
-                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" />
+                      <asp:TextBox ID="txtConfirmSenha" runat="server" CssClass="text-field txt-atualizar w-input"></asp:TextBox>
+                      <asp:Label ID="lblErro" runat="server" CssClass="lblErro"></asp:Label>
+                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" OnClick="btnAtualizar_Click" />
                     
                   </div>
                 </div>
