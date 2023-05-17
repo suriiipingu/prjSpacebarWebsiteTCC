@@ -56,7 +56,7 @@ public partial class se_inscrever : System.Web.UI.Page
         String data = data_criacao.ToString(); //data de criação da conta
 
 
-        if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
+         if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
         {
             txtNome.Text = "";
             txtLogin.Text = "";
@@ -70,28 +70,26 @@ public partial class se_inscrever : System.Web.UI.Page
         {
             if (txtSenha.Text == txtConfSenha.Text)
             {
-                c.command.Parameters.Add("@tipo_usu", SqlDbType.Int).Value = 1;
                 // 1 = usuário comum
                 // 2 = criador de conteúdo
                 // 3 = verificado
                 // 4 = verificado e criador de conteúdo
                 // 5 = adm
 
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@nome", nome));
+                parameters.Add(new SqlParameter("@login", login));
+                parameters.Add(new SqlParameter("@email", email));
+                parameters.Add(new SqlParameter("@cel", telefone));
+                parameters.Add(new SqlParameter("@pais", pais));
+                parameters.Add(new SqlParameter("@senha", hashSenha));
+                parameters.Add(new SqlParameter("@data", data));
+                parameters.Add(new SqlParameter("@tipo_usu", 1));
 
-                c.command.CommandType = CommandType.StoredProcedure;
-                c.command.CommandText = "InsertInscrever";
-
-                c.command.Parameters.Add("@nome", SqlDbType.VarChar).Value = nome;
-                c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
-                c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
-                c.command.Parameters.Add("@cel", SqlDbType.VarChar).Value = telefone;
-                c.command.Parameters.Add("@pais", SqlDbType.Char).Value = pais;
-                c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = hashSenha;
-                c.command.Parameters.Add("@data", SqlDbType.Date).Value = data;
 
                 try
                 {
-                    c.command.ExecuteNonQuery();
+                    var result = c.sqlProcedure("InsertInscrever", parameters);
                 }
                 catch (SqlException ex)
                 {

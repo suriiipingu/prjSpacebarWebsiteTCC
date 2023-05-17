@@ -118,6 +118,8 @@
                       
                       <asp:HiddenField runat="server" ID="hfEmailValido" Value="false" />
                       <asp:TextBox ID="txtEmail" runat="server" CssClass="text-field txt-atualizar w-input" onblur="validarEmail()"></asp:TextBox>
+
+                      <asp:Label ID="lblAviso" runat="server" Text="" CssClass="lblErro"></asp:Label>
                       <asp:Label ID="lblErro" runat="server" Text="" CssClass="lblErro"></asp:Label>
 
                        <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" OnClick="btnAtualizar_Click"/>

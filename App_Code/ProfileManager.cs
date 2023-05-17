@@ -315,37 +315,27 @@ namespace UserProfile
         {
             using (Conexao c = new Conexao())
             {
+
                 c.conectar();
 
-                SqlDataAdapter dAdapter = new SqlDataAdapter();
-                DataSet dt = new DataSet();
-                c.command.CommandType = CommandType.StoredProcedure;
-                c.command.CommandText = "SelectVerificarLoginEmail";
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@login", login));
+                parameters.Add(new SqlParameter("@email", email));
 
+                DataSet dt = c.sqlProcedure("SelectVerificarLoginEmail", parameters);
 
-                c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
-                c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
-
-
-
-                try
+                if (dt.Tables[0].Rows.Count > 0)
                 {
-                    dAdapter.SelectCommand = c.command;
-                    dAdapter.Fill(dt);
-                    return (dt.Tables[0].Rows.Count > 0);
+                    return true;
                 }
-                catch (SqlException ex)
+                else
                 {
-                    
                     return false;
                 }
-                finally
-                {
-                    c.fechaConexao();
-                }
             }
+                // se o sql nao retornar nada (que quer dizer que nao tem um email ou login igual ao que o usuarui colocou), retornamos false, para dizer que nao tem nada
+                // caso o sql retorne algo, (significa que o login ou email que o usuario colocou ja existe), logo, retorna true
+                
         }
     }
-       
-
-    }
+}

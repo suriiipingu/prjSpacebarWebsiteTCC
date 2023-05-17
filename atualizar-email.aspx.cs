@@ -47,18 +47,17 @@ public partial class atualizar_email : System.Web.UI.Page
 
                 if (hfEmailValido.Value != "true")
                 {
-                    lblErro.Text = "Insira um email válido para atualizar.";
+                    lblAviso.Text = "Insira um email válido para atualizar.";
                     return;
                 }
                 else
                 {
                     String email = txtEmail.Text;
-                    String login = null;
+                    String login = "";
 
-
-                    if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == false)
+                    if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
                     {
-                        lblErro.Text = "Esse email já existe, tente outro.";
+                        lblAviso.Text = "Esse email já existe, tente outro.";
                         return;
                     }
                     else
@@ -72,7 +71,7 @@ public partial class atualizar_email : System.Web.UI.Page
                         }
                         catch (SqlException ex)
                         {
-                            lblErro.Text = "Falha ao atualizar.";
+                            lblAviso.Text = "Falha ao atualizar.";
                             return;
                         }
                         finally
