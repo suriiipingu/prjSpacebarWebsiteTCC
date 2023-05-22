@@ -18,7 +18,7 @@
 
   <div class="conteudo wf-section">
     <div class="container-10 w-container">
-        <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound">
+        <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound" OnItemCommand="DataList_ItemCommand">
             <ItemTemplate>
 
         <!-- começo do corpo da postagem -->        
@@ -63,10 +63,10 @@
             <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
               <div class="div-block-32">
                 <div class="text-block-16">
-                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_Click" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%#LinkNomeUsuario%>'></asp:LinkButton>
+                    <asp:LinkButton CommandName="YourCommandName" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%#LinkNomeUsuario%>'></asp:LinkButton>
                 </div>
                 <div class="text-block-17">
-                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_Click" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%#LinkLoginUsuario%>'></asp:LinkButton>
+                    <asp:LinkButton CommandName="YourCommandName" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%#LinkLoginUsuario%>'></asp:LinkButton>
                 </div>
               </div>
             </div>

@@ -127,8 +127,6 @@ public partial class index : System.Web.UI.Page
                 };
                 DataSet dtGetAuthorPost = c.sqlProcedure("GetAuthorPost", parametersPostagemCriada);
 
-                //ao invés de converter a linha 128 para uma String e depois para um int, executa um ExecuteScalar
-
                 int codAutorPost = Convert.ToInt32(dtGetAuthorPost.Tables[0].Rows[0]["cod_usuario"].ToString());
                 var parametersGetUserInformation = new List<SqlParameter>
                 {
@@ -136,16 +134,15 @@ public partial class index : System.Web.UI.Page
                 };
                 DataSet dtGetUserInformation = c.sqlProcedure("GetUserInformation", parametersGetUserInformation);
 
-                LinkButton HyperLinkNomeUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
-                LinkButton HyperLinkLoginUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
+                //LinkButton HyperLinkNomeUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
+                //LinkButton HyperLinkLoginUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
 
                 LinkNomeUsuario = dtGetUserInformation.Tables[0].Columns["nome_usuario"].ToString();
                 LinkLoginUsuario = dtGetUserInformation.Tables[0].Columns["login_usuario"].ToString();
-                HyperLinkNomeUsuario.Text = dtGetUserInformation.Tables[0].Columns["nome_usuario"].ToString();
-                HyperLinkLoginUsuario.Text = dtGetUserInformation.Tables[0].Columns["login_usuario"].ToString();
-                //guarda em variável própria
-                string loginUsuarioDaPostagem = LinkLoginUsuario;
-                lblLoginUsuario.CommandArgument = loginUsuarioDaPostagem;
+                //retornand o data item atual
+                LinkButton item = (LinkButton)e.Item.FindControl("HyperLinkLoginUsuario");
+                //colocando a variável para o Item do DataList atual
+                e.Item.Attributes["CodAutorPost"] = codAutorPost.ToString();
             }
         }
     }
@@ -229,12 +226,16 @@ public partial class index : System.Web.UI.Page
     //    return ""; // default in case you can't process the value
     //}
 
-
-    protected void HyperLinkNomeUsuario_Click(object sender, EventArgs e)
+    protected void DataList_ItemCommand(object source, DataListCommandEventArgs e)
     {
-        LinkButton HyperLinkLoginUsuario = (LinkButton)sender;
-        string loginUsuarioCriador = HyperLinkLoginUsuario.CommandArgument;
-        Session["userLogin"] = loginUsuarioCriador;
-        // Use the value of loginUsuarioDaPostagem as needed
+        if (e.CommandName == "YourCommandName")
+        {
+            // Recupera a variável do item do DataList
+            int codAutorPost = int.Parse(((DataListItem)e.Item).Attributes["CodAutorPost"]);
+
+            // Salva a variável em uma sessão
+            Session["postAuthorID"] = codAutorPost;
+            Response.Redirect("user.aspx");
+        }
     }
 }

@@ -13,11 +13,10 @@ public partial class perfil_config : System.Web.UI.Page
     {
         btnCamImg.Attributes.Add("onclick", "document.getElementById('" + FUimg.ClientID + "').click();");
         btnAtualizar.Attributes.Add("onclick", "document.getElementById('" + FUimgmini.ClientID + "').click();");
-        /*btnAtualizar2.Attributes.Add("onclick", "document.getElementById('" + FUimg.ClientID + "').click();");*/
+        btnAtualizar2.Attributes.Add("onclick", "document.getElementById('" + FUimg.ClientID + "').click();");
     }
 
     protected void btnSalvar_Click(object sender, EventArgs e)
-
     {
         Conexao c = new Conexao();
         c.conectar();
@@ -36,14 +35,8 @@ public partial class perfil_config : System.Web.UI.Page
                 Directory.CreateDirectory(pastaUsuario);
             }
 
-            string caminhoCompletoArquivo = Path.Combine(pastaUsuario,"arquivo1.jpg");
-
+            string caminhoCompletoArquivo = Path.Combine(pastaUsuario, "arquivo1.jpg");
             FUimg.SaveAs(caminhoCompletoArquivo);
-
-
         }
-
-
-
     }
 }
