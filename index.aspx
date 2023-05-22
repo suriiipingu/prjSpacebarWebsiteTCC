@@ -29,7 +29,7 @@
 
             <!--Título-->
             <div class="titulo-post">
-                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text=""/></h1>
+                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" /></h1>
 
             <!--ver mais detalhes da publicação-->
             <div class="div-block-36">
@@ -39,7 +39,7 @@
         <!--Data Criação da publicação-->
         </div>
         <div class="data-post w-clearfix">
-          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text="" /></div></div>
+          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" /></div></div>
 
         <!--Imagem capa da postagem-->
         <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
@@ -58,19 +58,18 @@
         </div>
         
         <div class="div-nome-curtidas">
+
             <!--Área da foto, nome e login do usuário que criou a postagem-->
-          <a href="perfil-usuarioaleatorio.aspx" class="w-inline">
             <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
               <div class="div-block-32">
                 <div class="text-block-16">
-                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_OnClick" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%# Eval("nome_usuario")%>'></asp:LinkButton>
+                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_Click" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%#LinkNomeUsuario%>'></asp:LinkButton>
                 </div>
                 <div class="text-block-17">
-                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_OnClick" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%# Eval("login_usuario") %>'></asp:LinkButton>
+                    <asp:LinkButton OnClick="HyperLinkNomeUsuario_Click" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%#LinkLoginUsuario%>'></asp:LinkButton>
                 </div>
               </div>
             </div>
-          </a>
 
             <!--Botão para curtir a postagem-->
           <div class="div-curtidas">
