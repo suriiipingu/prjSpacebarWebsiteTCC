@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="user.aspx.cs" Inherits="perfil_usuarioaleatorio" %>
+﻿<%@ Page Title="SpaceBar: @usuarioMostrado" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="user.aspx.cs" Inherits="user" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -23,7 +23,7 @@
             <div class="text-block-22">Seguidores</div>
             <div class="div-btnseguir">
 
-                <asp:Button OnClick="btnSeguir_OnClick" CssClass="button-10 w-button" ID="btnSeguir" runat="server" Text="Seguir" />
+                <asp:Button OnClick="btnSeguir_Click" CssClass="button-10 w-button" ID="btnSeguir" runat="server" Text="Seguir" />
                 
             </div>
           </div>
@@ -90,9 +90,9 @@
 
           <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                              ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" 
-                             SelectCommand="SELECT * FROM tblPost INNER JOIN tblUsuario tU ON tU.cod_usuario = tblPost.cod_usuario WHERE tblPost.[cod_usuario] = @parametroCodigoUsuarioVisualizado">
+                             SelectCommand="EXECUTE GetAllInfoAndPostsByAuthor @postAuthorID">
               <SelectParameters>
-                  <asp:Parameter Name="parametroCodigoUsuarioVisualizado" />
+                  <asp:Parameter Name="postAuthorID"/>
               </SelectParameters>
           </asp:SqlDataSource>
           </div>

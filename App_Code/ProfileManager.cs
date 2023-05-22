@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -23,14 +24,13 @@ namespace UserProfile
             using (Conexao conexao = new Conexao())
             {
                 conexao.conectar();
-                string selectUserData = "SELECT * FROM tblUsuario WHERE cod_usuario = @cod_usuario";
-                conexao.command.CommandText = selectUserData;
-                conexao.command.Parameters.AddWithValue("@cod_usuario", cod_usuario);
-
+                //inserir parametros para a procedure
+                var parametersselectUserData = new List<SqlParameter>
+                    {
+                        new SqlParameter("@userId", cod_usuario)
+                    };
                 // Executa a query e armazena os resultados em um DataTable
-                SqlDataAdapter adapter = new SqlDataAdapter(conexao.command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                DataTable dt = conexao.sqlProcedureDataTable("GetuserInformation", parametersselectUserData);
 
                 if (dt.Rows.Count > 0)
                 {
@@ -38,19 +38,34 @@ namespace UserProfile
                     var nomeUsuario = dt.Rows[0]["nome_usuario"].ToString();
                     var login_usuario = dt.Rows[0]["login_usuario"].ToString();
                     var desc_perfil_usuario = dt.Rows[0]["desc_perfil_usuario"].ToString();
-                    
-                    string seguindo_usuario = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
-                    DataSet dt2 = new DataSet();
-                    conexao.command.CommandText = seguindo_usuario;
-                    adapter.Fill(dt2);
 
-                    string seguidores_usuario = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguidor = " + cod_usuario + ";";
-                    conexao.command.CommandText = seguidores_usuario;
-                    DataSet dt3 = new DataSet();
-                    adapter.Fill(dt3);
+                    //quanto seguidores esse alguém tem
+                    var parametersUsuarioSeguidores = new List<SqlParameter>
+                    {
+                        new SqlParameter("@userId", cod_usuario)
+                    };
+                    DataTable dt2 = conexao.sqlProcedureDataTable("GetQuantityFollowers", parametersUsuarioSeguidores);
 
-                    var usuario_seguidores= (dt2.Tables[0].DefaultView[0].Row["Column1"].ToString());
-                    var usuario_segue= (dt3.Tables[0].DefaultView[0].Row["Column1"].ToString());
+                    // quantas pessoas esse alguém segue
+                    var parametersUsuarioSegue = new List<SqlParameter>
+                    {
+                        new SqlParameter("@userId", cod_usuario)
+                    };
+                    DataTable dt3 = conexao.sqlProcedureDataTable("GetQuantityFollowing", parametersUsuarioSegue);
+
+                    // Extrair o numero de "seguindo" e "seguidores" do DataTable
+                    int usuario_seguidores = 0;
+                    int usuario_segue = 0;
+
+                    if (dt2.Rows.Count > 0)
+                    {
+                        usuario_seguidores = Convert.ToInt32(dt2.Rows[0]["FollowersCount"]);
+                    }
+
+                    if (dt3.Rows.Count > 0)
+                    {
+                        usuario_segue = Convert.ToInt32(dt3.Rows[0]["FollowingCount"]);
+                    }
 
                     // Encontra os controles na Página em que a função foi chamada
                     ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
@@ -64,61 +79,61 @@ namespace UserProfile
                     lblNomeUsuarioPerfil.Text = nomeUsuario;
                     lblLoginUsuarioPerfil.Text = "@" + login_usuario;
                     lblDescPerfilUsuario.Text = desc_perfil_usuario;
-                    lblSeguidores.Text = usuario_seguidores;
-                    lblSeguindo.Text = usuario_segue;
+                    lblSeguidores.Text = usuario_seguidores.ToString();
+                    lblSeguindo.Text = usuario_segue.ToString();
                 }
             }
             return true;
         }
 
-        public static bool UserRelations(int cod_usuario_logado, int cod_usuario_alvo, Page page)
-        {
-            using (Conexao C = new Conexao())
-            {
-                C.conectar();
-                string ChecarRelacaoUsuario = "SELECT COUNT(id_usuario_seguidor) FROM tblSeguidores WHERE id_usuario_alvo = @usuarioSeguido AND id_usuario_seguidor = @usuarioSeguidor";
-                SqlCommand cmdChecarRelacaoUsuario = new SqlCommand(ChecarRelacaoUsuario, C.conexao);
-                cmdChecarRelacaoUsuario.Parameters.AddWithValue("@usuarioSeguido", cod_usuario_alvo);
-                cmdChecarRelacaoUsuario.Parameters.AddWithValue("@usuarioSeguidor", cod_usuario_logado);
-                int resultado = (int)cmdChecarRelacaoUsuario.ExecuteScalar();
+        //public static bool UserRelations(int cod_usuario_logado, int cod_usuario_alvo, Page page)
+        //{
+        //    using (Conexao C = new Conexao())
+        //    {
+        //        C.conectar();
+        //        var parametrosUserRelations = new List<SqlParameter>
+        //            {
+        //                new SqlParameter("@usuario_alvo", cod_usuario_alvo),
+        //                new SqlParameter("@usuario_seguidor", cod_usuario_logado)
+        //            };
 
+        //        int boolSegueOuNao = C.ExecuteDeleteProcedure("VerifyIfUserIsAlreadyBeingFollowed", parametrosUserRelations);
+
+        //        ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
+        //        Button btnSeguir = (Button)contentPlaceHolder.FindControl("btnSeguir");
+
+        //        if (boolSegueOuNao > 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+        public static bool CheckFollowUser(int cod_usuario_logado, int cod_usuario_alvo)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+                var parametrosVerify = new List<SqlParameter>
+                    {
+                        new SqlParameter("@usuario_seguidor", cod_usuario_logado),
+                        new SqlParameter("@usuario_alvo", cod_usuario_alvo)
+                    };
+                DataSet query = c.sqlProcedure("VerifyIfUserIsAlreadyBeingFollowed", parametrosVerify);
+                int resultado = Convert.ToInt32(query.Tables[0].Rows[0][0]);
+                //verifica se o usuário logado ja segue o desejado
                 if (resultado > 0)
-                {
-                    ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
-                    Button btnSeguir = (Button)contentPlaceHolder.FindControl("btnSeguir");
-                    btnSeguir.Text = "Seguindo";
-                    btnSeguir.CssClass = "seguindo-usuario";
-                    return false;
-                }
-                else
-                {
-                    ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
-                    Button btnSeguir = (Button)contentPlaceHolder.FindControl("btnSeguir");
-                    btnSeguir.Text = "Seguir";
+                {// o usuário nao segue este, continua com o escopo para seguir o usuário
                     return true;
                 }
-            }
-        }
-        public static bool FollowUser(int cod_usuario_logado, int cod_usuario_alvo)
-        {
-            using (Conexao C = new Conexao())
-            {
-                C.conectar();
-                string criarRelacao = "INSERT INTO tblSeguidores (id_usuario_seguidor,id_usuario_alvo) VALUES (@usuario_seguidor, @usuario_alvo)";
-                SqlCommand cmdCriarRelacao = new SqlCommand(criarRelacao, C.conexao);
-                cmdCriarRelacao.Parameters.AddWithValue("@usuario_alvo", cod_usuario_alvo);
-                cmdCriarRelacao.Parameters.AddWithValue("@usuario_seguidor", cod_usuario_logado);
-                int resultado = (int)cmdCriarRelacao.ExecuteScalar();
-
-                if (resultado > 0)
-                {
-                    
-                    return false;
-                }
+                // o usuário ja segue este, segue o escopo para parar de seguir o usuário
                 else
                 {
-                    
-                    return true;
+                    return false;
                 }
             }
         }

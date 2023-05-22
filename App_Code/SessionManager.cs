@@ -91,20 +91,5 @@ namespace VerifyUpdateSession
             }
             else { return "error"; }
         }
-        private bool CheckIfFollowing(int followerId, int followingId)
-        {
-            using (Conexao conexao = new Conexao())
-            {
-                conexao.conectar();
-
-                SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguidor = @followerId AND id_usuario_alvo = @followingId");
-                command.Parameters.AddWithValue("@followerId", followerId);
-                command.Parameters.AddWithValue("@followingId", followingId);
-                command.Connection = conexao.conexao;
-                int count = Convert.ToInt32(command.ExecuteScalar());
-
-                return (count > 0);
-            }
-        }
     }
 }

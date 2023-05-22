@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Web.UI.HtmlControls;
 using UserProfile;
 using VerifyUpdateSession;
+using System.Activities.Expressions;
 
 public partial class index : System.Web.UI.Page
 {
@@ -163,38 +164,43 @@ public partial class index : System.Web.UI.Page
             {
                 conexao.conectar();
 
-                string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
-                conexao.command.CommandText = queryCheckLiked;
-                conexao.command.Parameters.AddWithValue("@postId", postId);
-                conexao.command.Parameters.AddWithValue("@userId", userId);
-                int alreadyLiked = Convert.ToInt32(conexao.command.ExecuteScalar());
+                var parametrosCheckUserHasLiked = new List<SqlParameter>
+                {
+                    new SqlParameter("@postId", postId),
+                    new SqlParameter("@userId", userId)
+                };
+                DataSet queryCheckLiked = conexao.sqlProcedure("CheckUserHasLiked", parametrosCheckUserHasLiked);
+                int alreadyLiked = Convert.ToInt32(queryCheckLiked.Tables[0].Rows[0][0].ToString());
                 // Verifique se o usuário curtiu a postagem específica
                 if (alreadyLiked > 0)
                 {
                     // Retire a curtida da tabela de curtidas do usuário
-                    string queryRemoveLike = "DELETE FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
-                    conexao.command.CommandText = queryRemoveLike;
-                    conexao.command.Parameters.Clear();
-                    conexao.command.Parameters.AddWithValue("@postId", postId);
-                    conexao.command.Parameters.AddWithValue("@userId", userId);
-                    int rowsRemoved = conexao.command.ExecuteNonQuery();
+                    var parametrosDeleteLike = new List<SqlParameter>
+                    {
+                        new SqlParameter("@postId", postId),
+                        new SqlParameter("@userId", userId)
+                    };
 
-                    // se as linhas realmente foram removidas, então mude a imagem para um coração vazio
+                    int rowsRemoved = conexao.ExecuteDeleteProcedure("DeleteLike", parametrosDeleteLike);
+
+                    // Verifique se foi realmente removido, se foi, preencha o coraçãozinho <3
                     if (rowsRemoved > 0)
                     {
                         btnLike.ImageUrl = "images/heart.svg";
                         myDataList.DataBind();
                     }
+
                 }
                 else
                 {
                     // adicionando um novo like na tblPostagemCurtidas (tabela específica para verificar se um usuário ja deu like em uma postagem.)
-                    string queryAddLike = "INSERT INTO tblPostagemCurtidas (tblPostagemCurtidas_cod_post, tblPostagemCurtidas_cod_usuario) VALUES (@id_postagem, @id_usuario)";
-                    conexao.command.CommandText = queryAddLike;
-                    conexao.command.Parameters.Clear();
-                    conexao.command.Parameters.AddWithValue("@id_postagem", postId);
-                    conexao.command.Parameters.AddWithValue("@id_usuario", userId);
-                    int rowsAffected = conexao.command.ExecuteNonQuery();
+                    var parametrosDeleteLike = new List<SqlParameter>
+                    {
+                        new SqlParameter("@postId", postId),
+                        new SqlParameter("@userId", userId)
+                    };
+
+                    int rowsAffected = conexao.ExecuteDeleteProcedure("AddLike", parametrosDeleteLike);
 
                     //se realmente teve uma mudança na tabela de likes individual do usuario no banco de dados e as linhas foram alteradas, inserindo o like na tabela de likes do usuario:
                     //então, se o usuário não tiver dado like naquela postagem antes, e conseguirmos succesívelmente inserir o like na tabela de likes do usuário,
@@ -209,22 +215,6 @@ public partial class index : System.Web.UI.Page
             }
         }
     }
-
-    // tbm posso criar um MyDataList_ItemCommand para o LinkButton, e como estaria neste escopo, poderia pegar o valor do Eval
-
-
-    //public string returnUserLogin(object value)
-    //{
-    //    userLogin = value.ToString();
-
-    //    if (!string.IsNullOrEmpty(userLogin))
-    //    { 
-    //        Session["userLogin"] = userLogin;
-    //        return (string)Session["userLogin"];
-    //    }
-
-    //    return ""; // default in case you can't process the value
-    //}
 
     protected void DataList_ItemCommand(object source, DataListCommandEventArgs e)
     {
