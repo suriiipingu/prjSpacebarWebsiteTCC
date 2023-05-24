@@ -10,6 +10,10 @@
         .body-2 {
             background-color: white;
         }
+
+        .file-upload-esconder {
+            display: none;
+        }
         .btnCriar {
             width: 100%;
             height: 40px;
@@ -19,6 +23,16 @@
             background: linear-gradient(90deg, #FD8EFF 14.36%, #50C1E5 86.32%);
             border-radius: 10px;
             cursor: pointer;
+        }
+
+        .text-field.login-txt{
+            margin:0;
+        }
+
+        .field-wrap{
+            margin:0;
+            margin-top:30px;
+            margin-bottom:20px;
         }
 
         .ctn-bloco {
@@ -80,6 +94,15 @@
             border-radius:16px;
             margin-bottom:0;
             padding:10px;
+        }
+
+        .imgBotao{
+            cursor:pointer;
+            transition: transform 0.3s ease-out;
+        }
+
+        .imgBotao:hover{
+             transform: scale(0.8);
         }
 
         .texto-coluna{
@@ -161,6 +184,48 @@
         }
 
     </style>
+
+    <script  type="text/javascript">
+
+        /* ocultar div que mostra solicitação para virar criador de conteúdo */
+        function EsconderSolicitacao() {
+            var divOcultarExplicacao = document.getElementById("divOcultarExplicacao");
+            var divOcultarBtnExplicacao = document.getElementById("divOcultarBtnExplicacao");
+            divOcultarBtnExplicacao.style.display = "none";
+            divOcultarExplicacao.style.display = "none";
+        }
+        /*div para mostrar - verificado pendente */
+        function MostrarVerificadoPendente() {
+            divVerificadoPendente.style.display = "block";
+        }
+
+        /*div para mostrar se usuário já é verificado */
+        function MostrarDivOcultar() {
+            var divOcultarBaixar = document.getElementById("divOcultar");
+            divOcultar.style.display = "block";
+        }
+
+        function setupFileUpload() {
+            // Obtém referência para o elemento File Upload
+            var fileUpload = document.getElementById('<%= FileUploadVerificado.ClientID %>');
+
+            var lblImageCount = document.getElementById('<%= lblNum.ClientID %>');
+
+            // Adiciona um ouvinte de evento para o evento de alteração
+            fileUpload.addEventListener('change', function () {
+                // Obtém a quantidade de imagens selecionadas
+                var selectedImageCount = fileUpload.files.length;
+
+                // Atualiza o texto da label com a contagem de imagens selecionadas
+                lblImageCount.textContent = selectedImageCount + '/1';
+            });
+        }
+
+        // Chama a função de configuração quando a página é carregada
+        window.addEventListener('DOMContentLoaded', setupFileUpload);
+
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" runat="Server">
    <div class="section-2 wf-section">
@@ -226,42 +291,44 @@
 
                             </div>
 
-                            <div id="divOcultarBaixar" class="divOcultarBaixar">
+                            <div id="divOcultar" class="divOcultarBaixar">
                                 <!-- Div para aparecer se usuário já é verificado -->
                                 <div class="div-block-7 divblockconta">
-                                    <h4 class="heading-2">Criador de conteúdo</h4>
-                                    <p class="paragraph">Você já é criador de conteúdo, que tal começar a sua jornada?</p>
+                                    <h4 class="heading-2">Verificado</h4>
+                                    <p class="paragraph">Você já é verificado, agora poderá confirmar a vericidade das postagens! </p>
                                 </div>
-                                    <p class="paragraph-3">Se você não sabe como criar suas postagens, temos dois mecanismos:</p>
 
-                                
+                            </div>
+                            <!-- Div para aparecer se usuário está pendente em verificado -->
+                            <div id="divVerificadoPendente" class="divOcultarBaixar">
+                                <h4 class="heading-2">Verificado</h4>
+                                    <p class="paragraph">Estamos analisando a sua solicitação, volte daqui à 4 dias!!</p>
                             </div>
 
                         </div>
 
-                        <!-- botão para se transformar em um criador de conteúdo -->
+                        <!-- botão para enviar solicitação de verificado -->
                         <div id="divOcultarBtnExplicacao" class="div-ocultar-explicacao">
                             <div class="w-form">
 
                                 <div class="field-wrap">
-                                <asp:Label ID="lblNome" runat="server" Text="Nome *" CssClass="field-label-4"></asp:Label>
-                                <asp:TextBox ID="txtNome" CssClass="text-field login-txt w-input" placeholder="Como iremos chamá-lo" runat="server"></asp:TextBox>
+                                <asp:Label ID="lblProfissao" runat="server" Text="Profissão *" CssClass="field-label-4"></asp:Label>
+                                <asp:TextBox ID="txtProfissao" CssClass="text-field login-txt w-input" placeholder="Nos diga a sua profissão" runat="server"></asp:TextBox>
                             </div>
-
-                                <br />
                                 <div class="coluninha">
                                     <div class="botaoEnviarImg">
-                                    <asp:Image ID="Image1" runat="server" />
+                                        <asp:FileUpload ID="FileUploadVerificado" runat="server" CssClass="file-upload-esconder" accept=".png,.jpg,.jpeg" maxlength="524880"/>
+                                    <asp:Image ID="imgEnviar" runat="server" ImageUrl="~/images/upload.svg"  CssClass="imgBotao"/>
 
                                 </div>
                                     <div class="texto-coluna">
                                         <div class="txtblock-1">Envie aqui o(s) seu(s) arquivo(s)</div>
-                                        <asp:Label ID="lblNum" runat="server" Text="0/2" CssClass="txtblock-1"></asp:Label>
+                                        <asp:Label ID="lblNum" runat="server" Text="0/1" CssClass="txtblock-1"></asp:Label>
                                     </div>
                                 </div>
                                 
-
-                                <asp:Button ID="btnEnviar" runat="server" Text="Enviar" CssClass="btnCriar"/>
+                                <asp:Label ID="lblErro" runat="server" Text=""></asp:Label>
+                                <asp:Button ID="btnEnviar" runat="server" Text="Enviar" CssClass="btnCriar" OnClick="btnEnviar_Click"/>
                                 <p>Enviando seus dados, você confirma ter lido os nossos <a href="" class="link-info">Termos de Serviço</a> e <a href="" class="link-info">Política de Privacidade</a>. Caso não tenha lido, você pode encontrá-lo na nossa aba de <a href="" class="link-info">informações adicionais</a>.</p>
                             </div>
                         </div>
