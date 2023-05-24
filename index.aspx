@@ -48,6 +48,10 @@
           <div runat="server" id="divCienceBadge" class="div-block-31 div-2">
             <div class="text-block-14">Ciência</div>
           </div>
+            
+          <div class="div-block-31 div-3" style="background-color:darkorange">
+            <div class="text-block-15">Postagem Verificada</div>
+          </div>
 
         </div>
         
@@ -71,7 +75,7 @@
           <div class="div-curtidas">
             <div class="div-curt">
               <div class="icon">
-                  <asp:ImageButton OnClick="btnLike_OnClick" ID="btnLike" ImageUrl="images/heart.svg" width="24" alt="" runat="server" /></div>
+                  <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div>
               <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%# Eval("curtidas_post") %>' /></div>
             </div>
               <!--Botão para ir para os comentários de uma determinada postagem-->
@@ -88,7 +92,6 @@
       <!-- para testes, remover antes da entra final-->
       <asp:Label ID="verificadoLabel" runat="server" Text='<%# Eval("verificado") %>' />
       <asp:Label ID="cod_usuarioLabel" runat="server" Text='<%# Eval("cod_usuario") %>' />
-      <asp:HiddenField ID="hfPostId" Value='<%# Eval("cod_post") %>' runat="server" />
       <!-- para testes, remover antes da entra final-->
                 
       </ItemTemplate>

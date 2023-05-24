@@ -4,7 +4,6 @@ using System.Web.SessionState;
 using System.Web.UI;
 using Label = System.Web.UI.WebControls.Label;
 using System.Web.UI.WebControls;
-using System.Security.Cryptography.X509Certificates;
 
 /// <summary>
 /// Descrição resumida de SessionManager
@@ -47,17 +46,16 @@ namespace VerifyUpdateSession
         {
             if (session["logado"] != null && (bool)session["logado"])
             {
-
-
                 // O usuário está logado, atualiza as informações na Master Page
                 var nomeUsuario = session["nomeUsuario"].ToString();
                 var login_usuario = session["loginUsuario"].ToString();
-                var desc_perfil_usuario = session["desc_perfil_usuario"].ToString();
+                var desc_perfil_usuario = session["bio_usuario"].ToString();
                 var seguidores_usuario = session["seguidoresUsuario"].ToString();
                 var usuario_segue = session["UsuarioSegue"].ToString();
 
 
                 // Encontra os controles na Página em que a função foi chamada
+                // Encontra os controles na página
                 ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
                 Label lblNomeUsuarioPerfil = (Label)contentPlaceHolder.FindControl("lblNomeUsuarioPerfil");
                 Label lblLoginUsuarioPerfil = (Label)contentPlaceHolder.FindControl("lblLoginUsuarioPerfil");
@@ -72,6 +70,7 @@ namespace VerifyUpdateSession
                 lblSeguidores.Text = seguidores_usuario;
                 lblSeguindo.Text = usuario_segue;
 
+
                 return true;
             }
             else
@@ -79,9 +78,8 @@ namespace VerifyUpdateSession
                 return false;
             }
         }
-        //Usando, você chama a função SessionManager.ReturnUserID e como parâmetro passa sua Session,
-        //se o usuário estiver logado, irá ser retornado uma String do código do usuário logado.
-        public string ReturnUserID(HttpSessionState session)
+
+        public static string ReturnUserID(HttpSessionState session)
         {
             if (session["logado"] != null && (bool)session["logado"])
             {
@@ -89,5 +87,6 @@ namespace VerifyUpdateSession
             }
             else { return "error"; }
         }
+
     }
 }

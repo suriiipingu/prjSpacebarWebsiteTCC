@@ -20,25 +20,28 @@ public partial class se_inscrever : System.Web.UI.Page
 
     public bool VerificarLoginEmail()
     {
+        Conexao c = new Conexao();
         SqlDataAdapter dAdapter = new SqlDataAdapter();
         DataSet dt = new DataSet();
-        Conexao c = new Conexao();
         String login = txtLogin.Text.Trim();
         String email = txtEmail.Text.Trim();
-        c.command.CommandText = "SELECT * FROM [tblUsuario] WHERE [login_usuario]=@login OR [email_usuario]=@email";
+        c.command.CommandType = CommandType.StoredProcedure;
+        c.command.CommandText = "SelectVerificarLoginEmail";
+
         c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
         c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+
         try
         {
             c.conectar();
             dAdapter.SelectCommand = c.command;
             dAdapter.Fill(dt);
-            lblAviso.Text = "teste";
+            //lblAviso.Text = "teste";
             return (dt.Tables[0].Rows.Count > 0);
         }
         catch (SqlException ex)
         {
-            lblAviso.Text = $"Falha ao encontrar usuário: {ex}";
+            //lblAviso.Text = $"Falha ao encontrar usuário: {ex}";
             return false;
         } 
         finally
@@ -95,26 +98,30 @@ public partial class se_inscrever : System.Web.UI.Page
             lblAviso.Text = "Usuário já existe";
             return;
         }
-        c.command.CommandText = "insert into tblUsuario (cod_tipo, nome_usuario,login_usuario,email_usuario, pais_usuario, cel_usuario, senha_usuario, data_criacao) values(@tipo_usu,@nome,@login,@email,@pais,@cel,@senha,@data)";
         c.command.Parameters.Add("@tipo_usu", SqlDbType.Int).Value = 1;
         // 1 = usuário comum
         // 2 = criador de conteúdo
         // 3 = verificado
         // 4 = adm
+
+        c.command.CommandType = CommandType.StoredProcedure;
+        c.command.CommandText = "InsertInscrever";
+
         c.command.Parameters.Add("@nome", SqlDbType.VarChar).Value = nome;
-        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = "@" + login;
+        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
         c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
-        c.command.Parameters.Add("@pais", SqlDbType.Char).Value = pais;
         c.command.Parameters.Add("@cel", SqlDbType.VarChar).Value = telefone;
-        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = hashSenha;
+        c.command.Parameters.Add("@pais", SqlDbType.Char).Value = pais;
+        c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = senha;
         c.command.Parameters.Add("@data", SqlDbType.Date).Value = data;
+
         try
         {
             c.command.ExecuteNonQuery();
         }
-        catch (SqlException)
+        catch (SqlException ex)
         {
-            lblAviso.Text = "Falha ao criar usuário";
+            lblAviso.Text = "Falha ao criar usuário Erro:" + ex.Message;
             return;
         }
         finally

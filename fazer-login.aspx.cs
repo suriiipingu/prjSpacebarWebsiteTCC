@@ -6,16 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Security.Cryptography.X509Certificates;
 
 public partial class fazer_login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        
     }
 
-    public String cod_usuario = "a";
 
     protected void btnLogar_Click(object sender, EventArgs e)
     {
@@ -50,7 +48,7 @@ public partial class fazer_login : System.Web.UI.Page
             Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
             Session["loginUsuario"] = dt.Tables[0].DefaultView[0].Row["login_usuario"].ToString();
             Session["nomeUsuario"] = dt.Tables[0].DefaultView[0].Row["nome_usuario"].ToString();
-            Session["desc_perfil_usuario"] = dt.Tables[0].DefaultView[0].Row["desc_perfil_usuario"].ToString();
+            Session["bio_usuario"] = dt.Tables[0].DefaultView[0].Row["bio_usuario"].ToString();
 
 
             // criar um novo DataSet para armazenar a nova query sql
@@ -62,7 +60,7 @@ public partial class fazer_login : System.Web.UI.Page
             String cod_usuario = (dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());
 
             // nova query sql mandado só que com o cod_usuario do usuário logado atualmente
-            c.command.CommandText = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_seguido = " + cod_usuario + ";";
+            c.command.CommandText = "SELECT COUNT(*) FROM tblSeguidores WHERE id_usuario_alvo = " + cod_usuario + ";";
 
             dAdapter.SelectCommand = c.command;
             dAdapter.Fill(dt2);
@@ -83,5 +81,5 @@ public partial class fazer_login : System.Web.UI.Page
         {
             lblErro.Text = "Credenciais incorretas, verifique-as e tente novamente!";
         }
-    } 
+    }
 }
