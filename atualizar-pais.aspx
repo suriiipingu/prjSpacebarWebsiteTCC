@@ -1,134 +1,102 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="se-inscrever.aspx.cs" Inherits="se_inscrever" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="atualizar-pais.aspx.cs" Inherits="atualizar_pais" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <link href="../css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="../css/webflow.css" rel="stylesheet" type="text/css">
 
+  <link href="../css/site-spacebar.webflow.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript">
-
-        function validarEmail() {
-            var email = document.getElementById('<%= txtEmail.ClientID %>').value;
-            var pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            var txtEmail = document.getElementById('<%= txtEmail.ClientID %>');
-            var spnEmail = document.getElementById('spnEmail');
-            var divErro = document.getElementById('divErro');
-            if (!pattern.test(email)) {
-                txtEmail.style.borderColor = "red";
-                txtEmail.style.marginBottom = "0";
-                spnEmail.style.color = "red";
-                spnEmail.style.marginLeft = "10px";
-                divErro.style.marginBottom = "0";
-                document.getElementById('spnEmail').innerHTML = "Insira um e-mail válido.";
-                return false;
-            }
-            txtEmail.style.borderColor = "";
-            spnEmail.innerHTML = "";
-
-            return true;
+    <style>
+        .body-2{
+            background-color:white;
         }
 
-        function validarCelular() {
-            var celular = document.getElementById('<%= txtCelular.ClientID %>').value;
-            var regex = /^(\+55|55)?(\d{2})?(\d{5})(\d{4})$/;
-            var txtCelular = document.getElementById('<%= txtCelular.ClientID %>');
-            var spnCelular = document.getElementById('spnCelular');
-            var divErro2 = document.getElementById('divErro2');
-            if (!regex.test(celular)) {
-                txtCelular.style.borderColor = "red";
-                txtCelular.style.marginBottom = "0";
-                spnCelular.style.color = "red";
-                spnCelular.style.marginLeft = "10px";
-                divErro2.style.marginBottom = "0";
-                document.getElementById('spnCelular').innerHTML = "Insira um número de celular válido.";
-                return;
-            }
-            txtCelular.style.borderColor = "";
-            spnCelular.innerHTML = "";
-
+        .btn-atualizar{
+            width:100%;
+            margin-top:20px;
+            background-color: #c108ff;
+            padding:10px;
+            border-radius:10px;
         }
 
-        function confirmaSenha() {
-            var senha = document.getElementById('<%= txtSenha.ClientID %>').value;
-            var confirmasenha = document.getElementById('<%= txtConfSenha.ClientID %>').value;
-            var txtConfSenha = document.getElementById('<%= txtConfSenha.ClientID %>');
-            var AvisoSenha = document.getElementById('AvisoSenha');
-            var divErro3 = document.getElementById('divErro3');
-
-            if (senha != confirmasenha) {
-                txtConfSenha.style.borderColor = "red";
-                txtConfSenha.style.marginBottom = "0";
-                AvisoSenha.style.color = "red";
-                AvisoSenha.style.marginLeft = "10px";
-                divErro3.style.marginBottom = "0";
-                document.getElementById('AvisoSenha').innerHTML = "As senhas não coincidem. Tente novamente.";
-                return;
-            }
-
-            txtConfSenha.style.borderColor = "";
-            AvisoSenha.innerHTML = "";
-            return;
-
+        .btn-atualizar:hover{
+            background-color: #d863ff;
         }
 
-<%--       function validarCampos() {
-            var campoNome = document.getElementById('<%= txtNome.ClientID %>');
-            var campoLogin = document.getElementById('<%= txtLogin.ClientID %>');
-            var campoEmail = document.getElementById('<%= txtEmail.ClientID %>');
-            var campoCelular = document.getElementById('<%= txtCelular.ClientID %>');
-            var campoSenha = document.getElementById('<%= txtSenha.ClientID %>').value;
-            var campoConfSenha = document.getElementById('<%= txtConfSenha.ClientID %>');
-            
+        .espaco{
+            margin-bottom:10px;
+        }
 
-            if (campoNome === "" || campoLogin === "" || campoEmail === "" || campoCelular === "" || campoSenha === "" || campoConfSenha === "") {
-                document.getElementById('<%= btnInscrever.ClientID %>').disabled = true;
-                return false;
-            }
-            else {
-                document.getElementById('<%= btnInscrever.ClientID %>').disabled = false;
-                return true;
-            }
-        }--%>
+        .text-field.login-txt{
+            border-radius:10px;
+        }
 
-    </script>
+        .lblErro{
+            color:red;
+        }
 
+    </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="A" runat="Server">
-    <div class="login wf-section">
-        <div class="ctn-alinharlogin w-container">
-            <div class="div-block-42"></div>
-            <div class="div-login">
-                <div class="div-log">
-                    <div class="div-icon-spacebar">
-                        <img src="images/logo_Icon.png" loading="lazy" width="76" sizes="76px" srcset="images/logo_Icon-p-500.png 500w, images/logo_Icon-p-800.png 800w, images/logo_Icon-p-1080.png 1080w" alt="" class="image-27">
-                    </div>
-                    <div class="div-block-41">
-                        <h4 class="heading-5">Seja bem vindo ao SpaceBar!</h4>
-                        <div class="text-block-27">Inscreva-se para continuar</div>
-                    </div>
-                    <div class="div-from-login">
-                        <div class="w-form">
-                            <div class="field-wrap">
-                                <asp:Label ID="lblNome" runat="server" Text="Nome *" CssClass="field-label-4"></asp:Label>
-                                <asp:TextBox ID="txtNome" CssClass="text-field login-txt w-input" placeholder="Como iremos chamá-lo" runat="server"></asp:TextBox>
-                            </div>
-                            <div class="field-wrap">
-                                <label for="Nome-2" class="field-label-4">Nome de usuário *</label>
-                                <asp:TextBox ID="txtLogin" CssClass="text-field login-txt w-input" placeholder="@usuário" runat="server"></asp:TextBox>
-                            </div>
-                            <div id="divErro" class="field-wrap">
-                                <label for="email" class="field-label-4">Email *</label>
-                                <asp:TextBox ID="txtEmail" CssClass="text-field login-txt w-input" placeholder="usuario@email.com" runat="server" onblur="validarEmail()"></asp:TextBox>
-                            </div>
-                            <span id="spnEmail"></span>
+<asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
+    <div class="section-2 wf-section">
+    <div class="div-block-3">
+      <h4 class="heading">Configurações</h4>
+    </div>
+  </div>
+  <div class="conteudo wf-section">
+    <div>
+      <div class="w-row">
+        <div class="column-2 w-col w-col-3">
+          <div class="container-5 w-container">
+            <div data-hover="false" data-delay="0" class="dropdown w-dropdown">
+              <div class="dropdown-toggle-4 w-dropdown-toggle">
+                <div class="icon-2 w-icon-dropdown-toggle"></div>
+                <div class="text-block-4">Minha conta</div>
+              </div>
+              <nav class="dropdown-list w-dropdown-list">
+                <a href="perfil-config.aspx" class="w-dropdown-link">Meu perfil</a>
+                <a href="minha-conta.aspx" aria-current="page" class="dropdown-link-4 w-dropdown-link w--current">Minha conta</a>
+                <a href="criador de conteudo.aspx"" class="w-dropdown-link">Criador de conteúdo</a>
+                <a href="verificado.aspx" class="w-dropdown-link">Verificado</a>
+              </nav>
+            </div>
+          </div>
+          <ol role="list" class="sidebar-config">
+            <li class="margin-bottom-24px fund1">
+              <a href="perfil-config.aspx" class="nav-link-2">Meu perfil</a>
+            </li>
+            <li class="margin-bottom-24px">
+              <a href="minha-conta.aspx" aria-current="page" class="nav-link-2 w--current">Minha conta</a>
+            </li>
+            <li class="margin-bottom-24px">
+              <a href="criador de conteudo.aspx" class="nav-link-2">Criador de conteúdo</a>
+            </li>
+            <li class="margin-bottom-24px">
+              <a href="verificado.aspx" class="nav-link-2">Verificado</a>
+            </li>
+          </ol>
+        </div>
 
-                            <div id="divErro2" class="field-wrap">
-                                <label for="tel" class="field-label-4">Celular</label>
-                                <asp:TextBox ID="txtCelular" CssClass="text-field login-txt w-input" placeholder="(xx)x-xxxx-xxxx" runat="server" onblur="validarCelular()"></asp:TextBox>
-                            </div>
-                            <span id="spnCelular"></span>
 
-                            <div class="field-wrap">
-                                <label for="Nome-3" class="field-label-4">País *</label>
-                                                     <asp:DropDownList ID="dropdPais" CssClass="text-field login-txt w-select" runat="server">
+          <div class="ctn-perfil w-col w-col-9">
+          <div class="cnt-perfil ctn-conta w-container">
+            <div class="div-block-7 divblockconta">
+              <h4 class="heading-2">País</h4>
+              <p class="paragraph">Atualize seu país.</p>
+            </div>
+            <div class="div-block-8">
+              <div class="div-input-texto">
+                <div class="div-texto">
+                  <div class="text-block txtatualizar">Atual</div>
+                  <div class="text-block txtatualizar">Novo</div>
+                </div>
+                <div class="div-input">
+                  <div class="w-form">
+                      <div class="espaco">
+                          <asp:Label ID="lblPais" runat="server" Text="Label" CssClass="field-label-5"></asp:Label>
+                      </div>
+
+                      <asp:DropDownList ID="dropdPais" CssClass="text-field login-txt w-select" runat="server">
                           <asp:ListItem Text="Afeganistão" Value="Afeganistão"></asp:ListItem>
                           <asp:ListItem Text="África do Sul" Value="África do Sul"></asp:ListItem>
                           <asp:ListItem Text="Albânia" Value="Albânia"></asp:ListItem>
@@ -327,58 +295,19 @@
                           <asp:ListItem Text="Zimbábue" Value="Zimbábue"></asp:ListItem>
 
                       </asp:DropDownList>
-                            </div>
-                            <div class="field-wrap">
-                                <label for="senha" class="field-label-4">Senha *</label>
-                                <asp:TextBox ID="txtSenha" CssClass="text-field login-txt w-input" placeholder="" TextMode="Password" runat="server"></asp:TextBox>
-                            </div>
-                            <div id="divErro3" class="field-wrap">
-                                <label for="confirm-senha" class="field-label-4">Confirme sua senha *</label>
-                                <asp:TextBox ID="txtConfSenha" CssClass="text-field login-txt w-input" placeholder="" TextMode="Password" runat="server" onblur="confirmaSenha()"></asp:TextBox>
-                            </div>
-                            <span id="AvisoSenha"></span>
+                      <asp:Label ID="lblErro" runat="server" Text=""></asp:Label>
 
-                            <div class="text-block-28">Leia a nossa <a href="sobre-spacebar/politica-de-privacidade.aspx" class="link-4">Política de privacidade</a> antes de se inscrever.</div>
-                            <asp:Button ID="btnInscrever" runat="server" Text="Inscrever-se" CssClass="btn-login w-button insc " OnClick="btnInscrever_Click" />
-                            <!--onmouseover="return validarCampos()"-->
-
-                            <asp:Label ID="lblAviso" runat="server" Text=""></asp:Label>
-                            <div class="separador">
-                                <div class="text-block-25">————— Ou —————</div>
-                            </div>
-
-                            <div class="text-block-26">
-                                Já tem uma conta? <a href="fazer-login.aspx" class="link-3">Entre</a>
-                            </div>
-
-                        </div>
-                    </div>
+                       <asp:Button ID="btnAtualizar" runat="server" Text="Atualizar" CssClass="btn-atualizar w-button" OnClick="btnAtualizar_Click" />
+                    
+                  </div>
                 </div>
+              </div>
             </div>
+               
+          </div>
         </div>
+      </div>
     </div>
-    <section class="footer-subscribe wf-section">
-        <div class="container-11">
-            <div class="footer-wrapper-three">
-                <div class="footer-block-three">
-                    <a href="sobre-spacebar/sobre-nos.aspx" class="footer-link-three">Sobre nós</a>
-                </div>
-                <div class="footer-social-block-three">
-                    <a href="#" class="footer-social-link-three w-inline-block">
-                        <img src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124ab37a12aaf0_twitter%20big.svg" loading="lazy" alt=""></a>
-                    <a href="#" class="footer-social-link-three w-inline-block">
-                        <img src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a61f512aaed_instagram%20big.svg" loading="lazy" alt=""></a>
-                </div>
-            </div>
-            <div class="footer-divider-two"></div>
-            <div class="footer-bottom">
-                <div class="footer-copyright">© 2022 Spacebar. Todos os direitos reservados.</div>
-                <div class="footer-legal-block">
-                    <a href="sobre-spacebar/termos-de-uso.aspx" class="footer-legal-link">Termos de Uso</a>
-                    <a href="sobre-spacebar/politica-de-privacidade.aspx" class="footer-legal-link">Política de Privacidade</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 </asp:Content>
 
