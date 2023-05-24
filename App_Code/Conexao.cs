@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Web;
 using System.Web.Security;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 /// <summary>
 /// Summary description for Conexao
@@ -37,20 +38,28 @@ public class Conexao : IDisposable
         conexao.Dispose();
     }
 
-    public DataTable sqlProcedure(string procedurename,params string[] values)
+    public DataSet sqlProcedure(string procedurename, List<SqlParameter> parameters = null)
     {
-        var dataTable = new DataTable();
+        var dataSet = new DataSet();
 
-        using (var command = new SqlCommand(procedurename + values))
+        using (var command = new SqlCommand() { Connection = conexao, CommandType = CommandType.StoredProcedure, CommandText = procedurename })
         {
             command.CommandType = CommandType.StoredProcedure;
             command.Connection = conexao;
 
+            if (parameters != null && parameters.Count > 0)
+            {
+                foreach (var parameter in parameters)
+                {
+                    command.Parameters.Add(parameter);
+                }
+            }
+
             using (var adapter = new SqlDataAdapter(command))
             {
-                adapter.Fill(dataTable);
+                adapter.Fill(dataSet);
             }
         }
-        return dataTable;
+        return dataSet;
     }
 }
