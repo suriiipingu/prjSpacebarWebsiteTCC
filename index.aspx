@@ -1,18 +1,27 @@
-﻿<%@ Page Title="SpaceBar - O lugar para explorar o universo!" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" %>
+﻿<%@ Page Title="SpaceBar - O lugar para explorar o universo!" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="index.aspx.cs" Inherits="index" MaintainScrollPositionOnPostBack="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
+    
+    <!-- Crie, ative ou desative uma div para criar um aviso (experimental)-->
+    <div class="container-10 w-container">
+    <div class="avisos wf-section">
+        <div class="postagem">
+                <div class="titulo-post">
+                    <h1 class="heading-3-text-aligned">SpaceBar Alpha Phase!!!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Crie, ative ou desative uma div para criar um aviso (experimental)-->
 
   <div class="avisos wf-section">
     
   </div>
   <div class="conteudo wf-section">
     <div class="container-10 w-container">
-
-        
-
-        <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound">
+        <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound" OnItemCommand="DataList_ItemCommand">
             <ItemTemplate>
 
         <!-- começo do corpo da postagem -->        
@@ -23,7 +32,7 @@
 
             <!--Título-->
             <div class="titulo-post">
-                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>'/></h1>
+                <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" /></h1>
 
             <!--ver mais detalhes da publicação-->
             <div class="div-block-36">
@@ -33,7 +42,7 @@
         <!--Data Criação da publicação-->
         </div>
         <div class="data-post w-clearfix">
-          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div></div>
+          <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" /></div></div>
 
         <!--Imagem capa da postagem-->
         <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
@@ -58,18 +67,16 @@
         <div class="div-nome-curtidas">
 
             <!--Área da foto, nome e login do usuário que criou a postagem-->
-          <a href="perfil-usuarioaleatorio.aspx" class="w-inline-block">
             <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
               <div class="div-block-32">
                 <div class="text-block-16">
-                    <asp:Label ID="LabelNomeUsuario" runat="server" Text='<%# Eval("nome_usuario") %>'></asp:Label>
+                    <asp:LinkButton CommandName="YourCommandName" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%#LinkNomeUsuario%>'></asp:LinkButton>
                 </div>
                 <div class="text-block-17">
-                    <asp:Label ID="LabelLoginUsuario" runat="server" Text='<%# Eval("login_usuario") %>'></asp:Label>
+                    <asp:LinkButton CommandName="YourCommandName" CssClass="HyperLinkLoginUsuario" ID="HyperLinkLoginUsuario" runat="server" Text='<%#LinkLoginUsuario%>'></asp:LinkButton>
                 </div>
               </div>
             </div>
-          </a>
 
             <!--Botão para curtir a postagem-->
           <div class="div-curtidas">
@@ -88,18 +95,11 @@
           </div>
         </div>
       </div>
-
-      <!-- para testes, remover antes da entra final-->
-      <asp:Label ID="verificadoLabel" runat="server" Text='<%# Eval("verificado") %>' />
-      <asp:Label ID="cod_usuarioLabel" runat="server" Text='<%# Eval("cod_usuario") %>' />
-      <!-- para testes, remover antes da entra final-->
-                
-      </ItemTemplate>
+            </ItemTemplate>
         </asp:DataList>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
             ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" 
-            SelectCommand=
-            "SELECT * from tblPost INNER JOIN tblUsuario tU on tU.cod_usuario = tblPost.cod_usuario">
+            SelectCommand= "EXECUTE GetPostAndAuthor">
         </asp:SqlDataSource>
 
         <!-- fim do corpo das postagens -->

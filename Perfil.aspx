@@ -26,9 +26,9 @@
           <div class="div-block-37">
             <div>
                 <!--Label com a quantidade de seguidores e seguindo do usuário conectado:-->
-                <asp:Label ID="lblSeguindo" runat="server" Text="0"></asp:Label></div>
             <div class="text-block-22">Seguindo</div>
-            <div class="text-block-21"><asp:Label ID="lblSeguidores" runat="server" Text="0"></asp:Label></div>
+            <asp:Label ID="lblSeguindo" runat="server"></asp:Label></div>
+            <div class="text-block-21"><asp:Label ID="lblSeguidores" runat="server"></asp:Label></div>
             <div class="text-block-22">Seguidores</div>
 
             <div class="div-btnconfig">
