@@ -17,7 +17,7 @@ public class Conexao : IDisposable
     string strConexao = "Server=TEO_PC;DataBase=SpaceBar;trusted_connection=true";
 
     public Conexao()
-	{
+    {
         command.Connection = conexao;
         conexao.ConnectionString = strConexao;
     }
