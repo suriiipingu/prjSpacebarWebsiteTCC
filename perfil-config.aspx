@@ -56,10 +56,13 @@
             }
 
         .image-16 {
+            object-fit:cover;
             position: absolute;
         }
 
         .image-8 {
+            width:190px;
+            height:190px;
             object-fit: cover;
         }
 

@@ -45,7 +45,7 @@
           <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" /></div></div>
 
         <!--Imagem capa da postagem-->
-        <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post1") %>'/></div>
+        <div class="img-post"><asp:Label ID="img_post1Label" runat="server" Text='<%# Eval("img_post") %>'/></div>
         
         <!--Tags da postagem-->
         <div runat="server" id="tags_post" class="tags-post">

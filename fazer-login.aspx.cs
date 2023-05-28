@@ -31,10 +31,11 @@ public partial class fazer_login : System.Web.UI.Page
         DataSet dt = new DataSet();
 
         // usando a minha conexão e enviando um comando de texto para puxar os dados do banco de dados
-        c.command.CommandText = "SELECT * from tblUsuario WHERE " + " email_usuario=@email_inserido and senha_usuario=@senha_inserido";
+        c.command.CommandText = "SELECT * from tblUsuario WHERE " + " email_usuario=@email_inserido";
 
         // colocando todos esses parâmetros passados em uma variável
         c.command.Parameters.Add("@email_inserido", SqlDbType.VarChar).Value = txtEmail.Text.Trim();
+        c.command.Parameters.Add("@senha_inserido", SqlDbType.VarChar).Value = txtSenha.Text.Trim();
 
         // o adaptador vai salvar o que ele vai executar
         dAdapter.SelectCommand = c.command;

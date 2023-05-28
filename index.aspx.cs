@@ -36,8 +36,6 @@ public partial class index : System.Web.UI.Page
             {
                 //construindo cada postagem
                 c.conectar();
-                var CodPostagens = c.sqlProcedure("GetCodPostagensCrescente");
-                var QuantidadePosts = c.sqlProcedure("GetPostQuantity");
                 var dadosPosts = c.sqlProcedure("GetPostAndAuthor");
                 c.fechaConexao();
 
