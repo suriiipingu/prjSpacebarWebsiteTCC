@@ -37,16 +37,23 @@ public partial class index : System.Web.UI.Page
                 //construindo cada postagem
                 c.conectar();
                 var dadosPosts = c.sqlProcedure("GetPostAndAuthor");
-                c.fechaConexao();
-
-                int postagens = e.Item.ItemIndex;
 
                 //obtendo valoes do post atual
+                int postagens = e.Item.ItemIndex;
                 string PostId = dadosPosts.Tables[0].Rows[postagens]["cod_post"].ToString();
 
+                var parametersGetCommentsQuantity = new List<SqlParameter>
+                    {
+                        new SqlParameter("@postId", PostId)
+                    };
+                var quantidadeComentarios = c.sqlProcedure("GetCommentsQuantity", parametersGetCommentsQuantity);
+
+                c.fechaConexao();
+                
                 //encontrando elementos no aspx e os preenchendo
 
-                Label lblTituloPost = (Label)e.Item.FindControl("data_postLabel");
+                Label lblTituloPost = (Label)e.Item.FindControl("titulo_postLabel");
+                // para a linha que eu quero no sql eu coloco como parâmetro a linha que estou no DataList
                 lblTituloPost.Text = (dadosPosts.Tables[0].Rows[postagens]["titulo_post"].ToString());
 
                 Label lblDataPost = (Label)e.Item.FindControl("data_postLabel");
@@ -56,8 +63,17 @@ public partial class index : System.Web.UI.Page
                 lblNomeUsuario.Text = (dadosPosts.Tables[0].Rows[postagens]["nome_usuario"].ToString());
 
                 LinkButton lblLoginUsuario = (LinkButton)e.Item.FindControl("HyperLinkLoginUsuario");
-                lblLoginUsuario.Text = (dadosPosts.Tables[0].Rows[postagens]["login_usuario"].ToString());
-                
+                lblLoginUsuario.Text = "@" + (dadosPosts.Tables[0].Rows[postagens]["login_usuario"].ToString());
+
+                Image ImgPost = (Image)e.Item.FindControl("ImgPost");
+                ProfileManager.exibirImagemPost(ImgPost, Convert.ToInt32(PostId));
+
+                Label lblDescricao = (Label)e.Item.FindControl("lblDescricao");
+                lblDescricao.Text = (dadosPosts.Tables[0].Rows[postagens]["texto_post"].ToString());
+
+                Label lblQuantidadeComentarios = (Label)e.Item.FindControl("lblQuantidadeComentarios");
+                lblQuantidadeComentarios.Text = (quantidadeComentarios.Tables[0].Rows[0]["quantidade_comentarios"].ToString());
+
                 // obtendo alguns dados para realizar a verificação de likes, contagem de posts
                 int userId = Convert.ToInt32(Session["codigoUsuario"]);
                 ImageButton btnLike = e.Item.FindControl("btnLike") as ImageButton;
@@ -133,15 +149,15 @@ public partial class index : System.Web.UI.Page
                 };
                 DataSet dtGetUserInformation = c.sqlProcedure("GetUserInformation", parametersGetUserInformation);
 
-                //LinkButton HyperLinkNomeUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
-                //LinkButton HyperLinkLoginUsuario = (LinkButton)e.Item.FindControl("HyperLinkNomeUsuario");
-
                 LinkNomeUsuario = dtGetUserInformation.Tables[0].Columns["nome_usuario"].ToString();
                 LinkLoginUsuario = dtGetUserInformation.Tables[0].Columns["login_usuario"].ToString();
                 //retornand o data item atual
                 LinkButton item = (LinkButton)e.Item.FindControl("HyperLinkLoginUsuario");
                 //colocando a variável para o Item do DataList atual
                 e.Item.Attributes["CodAutorPost"] = codAutorPost.ToString();
+
+                Image ImgPerfilUser = (Image)e.Item.FindControl("ImgPerfilUser");
+                ProfileManager.mostrarImagemPerfilUser(ImgPerfilUser, codAutorPost);
             }
         }
     }
@@ -224,6 +240,17 @@ public partial class index : System.Web.UI.Page
             // Salva a variável em uma sessão
             Session["postAuthorID"] = codAutorPost;
             Response.Redirect("user.aspx");
+        }
+    }
+
+    protected void btnVerMais_Click(object sender, EventArgs e)
+    {
+        LinkButton lnkToggle = (LinkButton)sender;
+        Label lblDescricao = (Label)lnkToggle.Parent.FindControl("lblDescricao");
+
+        if (lblDescricao != null)
+        {
+            lblDescricao.Visible = !lblDescricao.Visible;
         }
     }
 }

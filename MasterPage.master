@@ -66,9 +66,9 @@
               <a href="perfil-config.aspx" class="link-block w-inline-block w-clearfix"><img src="images/settings-01-svgrepo-com.svg" loading="lazy" width="24" alt="" class="image-13"></a>
             </div>
             <div data-hover="false" data-delay="0" class="w-dropdown">
-              <div class="dropdown-toggle-3 w-dropdown-toggle"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="43" alt="" class="image-5"></div>
+              <div class="dropdown-toggle-3 w-dropdown-toggle"><asp:Image ID="ImgPerfilBarra" runat="server" loading="lazy" width="43" alt="" class="image-5"/></div>
               <nav class="dropdown-list-2 w-dropdown-list">
-                <div class="div-block-17 w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="44" alt="" class="image-5 imgdp">
+                <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDown" runat="server"  loading="lazy" width="44" alt="" class="image-5 imgdp"/>
 
                     <!-- Aonde vamos exibir o nome e login do usuário atualmente conectado-->
                   <div class="div-block-18">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="div-block-17 diva div4">
                   <div class="div-block-22 w-clearfix"><img src="images/log-out-02-svgrepo-com.svg" loading="lazy" width="20" alt="" class="image-13">
-                    <div class="text-block-7">Sair</div>
+                      <asp:LinkButton OnClick="btnSair2_Click" CssClass="text-block-7" ID="LinkButton1" runat="server">Sair</asp:LinkButton>
                   </div>
                 </div>
                 <div class="div-block-17 diva">
@@ -117,7 +117,7 @@
             <div data-hover="false" data-delay="0" class="w-dropdown">
               <div class="dropdown-toggle-3 w-dropdown-toggle"><img src="images/align-right-svgrepo-com.svg" loading="lazy" width="23" alt="" class="image-5 img2"></div>
               <nav class="dropdown-list-2 w-dropdown-list">
-                <div class="div-block-17 w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="35" alt="" class="image-5 imgdp">
+                <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDownSmall" runat="server" loading="lazy" width="35" alt="" class="image-5 imgdp"/>
                   <div class="div-block-18">
                     <div class="text-block-5">Nome do Usuário</div>
                     <div class="txtblock">@usuario</div>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="div-block-17 diva div4">
                   <div class="div-block-22 w-clearfix"><img src="images/log-out-02-svgrepo-com.svg" loading="lazy" width="20" alt="" class="image-13">
-                    <div class="text-block-7">Sair</div>
+                    <asp:LinkButton OnClick="btnSair2_Click" CssClass="text-block-7" ID="btnSair2" runat="server">Sair</asp:LinkButton>
                   </div>
                 </div>
                 <div class="div-block-17 diva">

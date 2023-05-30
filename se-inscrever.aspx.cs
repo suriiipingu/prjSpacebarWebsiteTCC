@@ -17,11 +17,6 @@ public partial class se_inscrever : System.Web.UI.Page
     {
         
     }
-
-
-
-
-
     public string CriptografarSenha(string senha)
     {
         // Define um fator de custo para o bcrypt
@@ -39,7 +34,6 @@ public partial class se_inscrever : System.Web.UI.Page
 
     protected void btnInscrever_Click(object sender, EventArgs e)
     {
-
         Conexao c = new Conexao();
         c.conectar();
 
@@ -93,7 +87,7 @@ public partial class se_inscrever : System.Web.UI.Page
                 }
                 catch (SqlException ex)
                 {
-                    lblAviso.Text = "Falha ao criar usuário";
+                    lblAviso.Text = "Falha ao criar usuário" + ex.Message;
                     return;
                 }
                 finally

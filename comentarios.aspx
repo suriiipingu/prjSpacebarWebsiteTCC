@@ -61,7 +61,11 @@
             </div>
           </div>
         </div>
-        <div class="div-coment divcoment">
+        
+          <asp:DataList ID="DataList1" runat="server">
+              <ItemTemplate>
+
+         <div class="div-coment divcoment">
           <div class="div-block-46">
             <div class="div-foto-coment div-comentario-aaaa">
               <a href="perfil-usuarioaleatorio.aspx" class="w-inline-block w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="50" alt="" class="image-22"></a>
@@ -92,37 +96,10 @@
             </div>
           </div>
         </div>
-        <div class="div-coment divcoment">
-          <div class="div-block-46">
-            <div class="div-foto-coment div-comentario-aaaa w-clearfix">
-              <a href="perfil-usuarioaleatorio.aspx" class="w-inline-block w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="50" alt="" class="image-22"></a>
-            </div>
-            <div class="div-parte2">
-              <div class="div-nome-usuario">
-                <div class="text-block-16">Maria da Foncesa</div>
-                <div class="text-block-17 txtblock-coment">@Maria.Foncesa</div>
-                <div class="text-block-17 txtblock-coment">· 16 de jan de 2023  </div>
-                <div class="icon-denuncia">
-                  <div data-hover="false" data-delay="0" class="w-dropdown">
-                    <div class="dropdown-toggle-5 w-dropdown-toggle"><img src="images/dot-menu-more-2-svgrepo-com.svg" loading="lazy" width="14" alt=""></div>
-                    <nav class="dropdown-list-3 w-dropdown-list">
-                      <div class="div-block-17 diva div3">
-                        <div class="div-block-22">
-                          <a href="Perfil.aspx" class="link-block-3 w-inline-block w-clearfix"><img src="images/flag-svgrepo-com.svg" loading="lazy" width="21" alt="" class="image-13">
-                            <div class="text-block-7">Denunciar Comentário</div>
-                          </a>
-                        </div>
-                      </div>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-              <div class="div-comentario">
-                <div class="text-block-31">This is some text inside of a div block.This is some text inside of a div block.This is some text inside of a div block.This is some text inside of a div block.</div>
-              </div>
-            </div>
-          </div>
-        </div>
+              </ItemTemplate>
+
+          </asp:DataList>
+        
       </div>
     </div>
   </div>

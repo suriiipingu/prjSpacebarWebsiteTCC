@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -40,7 +39,7 @@ namespace UserProfile
                     // Armazena as informações do usuário em variáveis locais
                     var nomeUsuario = dt.Rows[0]["nome_usuario"].ToString();
                     var login_usuario = dt.Rows[0]["login_usuario"].ToString();
-                    var desc_perfil_usuario = dt.Rows[0]["desc_perfil_usuario"].ToString();
+                    var desc_perfil_usuario = dt.Rows[0]["bio_usuario"].ToString();
 
                     //quanto seguidores esse alguém tem
                     var parametersUsuarioSeguidores = new List<SqlParameter>
@@ -74,14 +73,14 @@ namespace UserProfile
                     ContentPlaceHolder contentPlaceHolder = (ContentPlaceHolder)page.Master.FindControl("A");
                     Label lblNomeUsuarioPerfil = (Label)contentPlaceHolder.FindControl("lblNomeUsuario");
                     Label lblLoginUsuarioPerfil = (Label)contentPlaceHolder.FindControl("lblLoginUsuario");
-                    Label lblDescPerfilUsuario = (Label)contentPlaceHolder.FindControl("lblPerfilDesc");
+                    Label lblBioUser = (Label)contentPlaceHolder.FindControl("lblBioUser");
                     Label lblSeguidores = (Label)contentPlaceHolder.FindControl("lblSeguidores");
                     Label lblSeguindo = (Label)contentPlaceHolder.FindControl("lblSeguindo");
 
                     // Atualiza as informações dos controles
                     lblNomeUsuarioPerfil.Text = nomeUsuario;
                     lblLoginUsuarioPerfil.Text = "@" + login_usuario;
-                    lblDescPerfilUsuario.Text = desc_perfil_usuario;
+                    lblBioUser.Text = desc_perfil_usuario;
                     lblSeguidores.Text = usuario_seguidores.ToString();
                     lblSeguindo.Text = usuario_segue.ToString();
                 }
@@ -142,14 +141,13 @@ namespace UserProfile
         }
         public string returnUserLogin(object value)
         {
-             var userLogin = value.ToString();
+            var userLogin = value.ToString();
 
             if (!string.IsNullOrEmpty(userLogin))
             {
                 System.Web.HttpContext.Current.Session["userLogin"] = userLogin;
                 return (string)System.Web.HttpContext.Current.Session["userLogin"];
             }
-
             return ""; // default in case you can't process the value
         }
 
@@ -163,9 +161,9 @@ namespace UserProfile
                 {
 
                     //mostrar imagem de perfil
-                string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
-                object id = session["codigoUsuario"]; // id da imagem a ser recuperada
-                byte[] imageBytes = null;
+                    string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                    object id = session["codigoUsuario"]; // id da imagem a ser recuperada
+                    byte[] imageBytes = null;
 
                     c.command.CommandText = query;
 
@@ -173,54 +171,54 @@ namespace UserProfile
 
                     using (SqlDataReader reader = c.command.ExecuteReader())
                     {
-                    if (reader.Read())
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("icon_usuario")))
+                            {
+                                imageBytes = (byte[])reader["icon_usuario"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "icon_usuario"
+                            }
+                        }
+                    }
+
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
                     {
-                        if (!reader.IsDBNull(reader.GetOrdinal("icon_usuario")))
+                        using (var ms = new MemoryStream(imageBytes))
                         {
-                            imageBytes = (byte[])reader["icon_usuario"];
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+                            }
                         }
-                        else
-                        {
-                            // Tratar valor nulo da coluna "icon_usuario"
-                        }
+
                     }
-                }
-                
-                // obtém o tipo de imagem
-                string imageType = "";
-                if (imageBytes != null && imageBytes.Length > 0)
-                {
-                    using (var ms = new MemoryStream(imageBytes))
+                    if (!string.IsNullOrEmpty(imageType))
                     {
-                        try
-                        {
-                            var img = System.Drawing.Image.FromStream(ms);
-                            if (img.RawFormat.Equals(ImageFormat.Jpeg))
-                                imageType = "image/jpeg";
-                            else if (img.RawFormat.Equals(ImageFormat.Png))
-                                imageType = "image/png";
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            // a exceção será lançada se o formato da imagem for inválido
-                            // fazer tratamento adequado aqui
-                        }
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgPerfil.ImageUrl = imageUrl;
                     }
-                    
-                    }
-                if (!string.IsNullOrEmpty(imageType))
-                {
-                    string base64String = Convert.ToBase64String(imageBytes);
-                    string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
-                    imgPerfil.ImageUrl = imageUrl;
-                }
 
                 }
 
-                
+
             }
 
-            }
+        }
 
         public static void exibirImagemFundo(Image imgFundo, HttpSessionState session)
         {
@@ -284,8 +282,8 @@ namespace UserProfile
 
                 }
 
-                  
-                
+
+
 
             }
         }
@@ -330,7 +328,7 @@ namespace UserProfile
                     selo1.ImageUrl = "../images/Verificado2.svg";
 
                 }
-                else if(cod_tipo == 5)
+                else if (cod_tipo == 5)
                 {
                     //ADM
                 }
@@ -359,9 +357,214 @@ namespace UserProfile
                     return false;
                 }
             }
-                // se o sql nao retornar nada (que quer dizer que nao tem um email ou login igual ao que o usuarui colocou), retornamos false, para dizer que nao tem nada
-                // caso o sql retorne algo, (significa que o login ou email que o usuario colocou ja existe), logo, retorna true
-                
+            // se o sql nao retornar nada (que quer dizer que nao tem um email ou login igual ao que o usuarui colocou), retornamos false, para dizer que nao tem nada
+            // caso o sql retorne algo, (significa que o login ou email que o usuario colocou ja existe), logo, retorna true
+
         }
+
+        public static void mostrarImagemPerfilUser(Image imgPerfil, int codUsuario)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+                if (codUsuario > 0)
+                {
+                    //mostrar imagem de perfil
+                    string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                    object id = codUsuario; // id da imagem a ser recuperada
+                    byte[] imageBytes = null;
+
+                    c.command.CommandText = query;
+
+                    c.command.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = c.command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("icon_usuario")))
+                            {
+                                imageBytes = (byte[])reader["icon_usuario"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "icon_usuario"
+                            }
+                        }
+                    }
+
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        using (var ms = new MemoryStream(imageBytes))
+                        {
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+                            }
+                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(imageType))
+                    {
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgPerfil.ImageUrl = imageUrl;
+                    }
+
+                }
+
+
+            }
+
+        }
+
+        public static void exibirImagemFundoUser(Image imgFundo, int codUsuarioAlvo)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if (codUsuarioAlvo > 0)
+                {
+                    //mostrar imagem de fundo
+                    string query = "SELECT imgfundo_usuario FROM tblUsuario WHERE cod_usuario = @id";
+                    object id = codUsuarioAlvo;
+                    byte[] imageBytes = null;
+
+                    c.command.CommandText = query;
+
+                    c.command.Parameters.AddWithValue("@id", id);
+
+                    using (SqlDataReader reader = c.command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("imgfundo_usuario")))
+                            {
+                                imageBytes = (byte[])reader["imgfundo_usuario"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "imgfundo_usuario"
+                            }
+                        }
+                    }
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        using (var ms = new MemoryStream(imageBytes))
+                        {
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+                            }
+                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(imageType))
+                    {
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgFundo.ImageUrl = imageUrl;
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
+        public static void exibirImagemPost(Image imgFundo, int codPost)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if (codPost > 0)
+                {
+                    //mostrar imagem de fundo
+                    string query = "SELECT img_post FROM tblPost WHERE cod_post = @idpost";
+                    object idpost = codPost;
+                    byte[] imageBytes = null;
+
+                    c.command.CommandText = query;
+
+                    c.command.Parameters.AddWithValue("@idpost", codPost);
+
+                    using (SqlDataReader reader = c.command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("img_post")))
+                            {
+                                imageBytes = (byte[])reader["img_post"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "imgfundo_usuario"
+                            }
+                        }
+                    }
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        using (var ms = new MemoryStream(imageBytes))
+                        {
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+
+                            }
+                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(imageType))
+                    {
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgFundo.ImageUrl = imageUrl;
+                    }
+
+                }
+
+
+
+
+            }
+        }
+
     }
 }

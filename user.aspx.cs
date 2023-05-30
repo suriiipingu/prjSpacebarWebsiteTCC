@@ -34,6 +34,10 @@ public partial class user : System.Web.UI.Page
             // este está funcionando tranquilo
             int cod_usuario_logado = Convert.ToInt32(Session["codigoUsuario"]);
 
+            //mostrar imagem fundo e imagem de perfil do user
+            ProfileManager.mostrarImagemPerfilUser(ImgPerfil, cod_usuario_alvo);
+            ProfileManager.exibirImagemFundoUser(ImgFundo, cod_usuario_alvo);
+
             // estou tentando pegar se o usuário segue o outro e mostrar os botões da forma correta usando este método:
             bool relacaoUsuario = ProfileManager.CheckFollowUser(cod_usuario_logado, cod_usuario_alvo);
             if (relacaoUsuario)
@@ -54,7 +58,7 @@ public partial class user : System.Web.UI.Page
             using (Conexao c = new Conexao())
             {
                 int cod_usuario_exibido = (int)Session["postAuthorID"];
-                int cod_usuario_conectado = Convert.ToInt32(SessionManager.ReturnUserID(Session));
+                int cod_usuario_conectado = Convert.ToInt32(Session["codigoUsuario"].ToString());
                 bool resultado = ProfileManager.CheckFollowUser(cod_usuario_conectado, cod_usuario_exibido);
                 if (resultado == false)
                 {
@@ -84,6 +88,17 @@ public partial class user : System.Web.UI.Page
                     Server.Transfer(Request.Path);
                 }
             }
+        }
+    }
+
+    protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+        if (Session["postAuthorID"] != null)
+        {
+            int cod_usuario_alvo = (int)Session["postAuthorID"];
+        
+            Image ImgPerfilUser = (Image)e.Item.FindControl("ImgPerfilUser");
+            ProfileManager.mostrarImagemPerfilUser(ImgPerfilUser, cod_usuario_alvo);
         }
     }
 }

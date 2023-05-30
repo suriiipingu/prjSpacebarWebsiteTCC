@@ -32,13 +32,11 @@ public partial class perfil_config : System.Web.UI.Page
         //Clicar no botão da imagem de fundo e chamar o evento do File Upload - Celular
         btnAtualizar2.Attributes.Add("onclick", "document.getElementById('" + FileUploadFundoCelular.ClientID + "').click();");
 
-
         UserProfile.ProfileManager.mostrarImagemPerfil(imgPerfil, Session);
         UserProfile.ProfileManager.mostrarImagemPerfil(imgPerfilCel, Session);
         UserProfile.ProfileManager.exibirImagemFundo(imgFundo, Session);
         UserProfile.ProfileManager.exibirImagemFundo(imgFundoCel, Session);
         UserProfile.ProfileManager.mostrarSelos(selo1, selo2, Session);
-
     }
 
     protected void btnSalvar_Click(object sender, EventArgs e)

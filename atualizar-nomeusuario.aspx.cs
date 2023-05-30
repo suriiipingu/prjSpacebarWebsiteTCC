@@ -31,43 +31,43 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
             if (Session["codigoUsuario"] != null)
             {
                 c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = Session["codigoUsuario"].ToString();
+
+                String login = txtNomeUsuario.Text;
+                String email = Session["emailUsuario"].ToString();
+
+                if (txtNomeUsuario.Text.Length > 3)
+                {
+                    if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
+                    {
+                        lblErro.Text = "Esse nome de usuário já existe, tente outro.";
+                        return;
+                    }
+                    else
+                    {
+                        c.command.CommandText = "Update tblUsuario set login_usuario=@login where cod_usuario = @codUsuarioConectado";
+
+                        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+
+                        try
+                        {
+                            c.command.ExecuteNonQuery();
+                        }
+                        catch (SqlException ex)
+                        {
+                            lblErro.Text = "Falha ao atualizar.";
+                            return;
+                        }
+                        finally
+                        {
+                            c.fechaConexao();
+                        }
+                    }
+
+                }
             }
             else
             {
                 Response.Redirect("fazer-login.aspx");
-            }
-
-            String login = txtNomeUsuario.Text;
-            String email = null;
-
-            if (txtNomeUsuario.Text.Length > 0)
-            {
-                if(UserProfile.ProfileManager.VerificarLoginEmail(login, email) == false)
-                {
-                    lblErro.Text = "Esse nome de usuário já existe, tente outro.";
-                    return;
-                }
-                else
-                {
-                    c.command.CommandText = "Update tblUsuario set login_usuario=@login where cod_usuario = @codUsuarioConectado";
-
-                    c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
-
-                    try
-                    {
-                        c.command.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        lblErro.Text = "Falha ao atualizar.";
-                        return;
-                    }
-                    finally
-                    {
-                        c.fechaConexao();
-                    }
-                }
-                
             }
         }
     }

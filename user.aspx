@@ -6,20 +6,20 @@
      <div class="conteudo wf-section">
     <div class="cnt-perfil w-container">
       <div class="parte1">
-        <div class="div-ft-fundo"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="164" alt="" class="image-15"></div>
-        <div class="div-foto-perfil"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" alt="" class="image-8 imgperfil-fixo"></div>
-        <div class="div-block-7 div-bio">
+        <div class="div-ft-fundo"> <asp:Image ID="ImgFundo" runat="server" loading="lazy" width="1640" alt="" class="image-15"/></div>
+        <div class="div-foto-perfil"> <asp:Image ID="ImgPerfil" runat="server" loading="lazy" alt="" class="image-8 imgperfil-fixo"/> </div>
+        <div class="div-block-7 div-bio"> 
           <h3 class="heading-4">
               <asp:Label ID="lblNomeUsuario" runat="server" Text="userName"></asp:Label>
           </h3>
           <div class="text-block-23">
               <asp:Label ID="lblLoginUsuario" runat="server" Text="UserLogin"></asp:Label></div>
           <div class="text-block-20">
-              <asp:Label ID="lblPerfilDesc" runat="server" Text="Desc"></asp:Label></div>
+              <asp:Label ID="lblBioUser" runat="server" Text="Label"></asp:Label></asp:Label></div>
           <div class="div-block-37">
-            <div>15</div>
+            <div><asp:Label ID="lblSeguindo" runat="server" Text="Seguindo"></asp:Label></div>
             <div class="text-block-22">Seguindo</div>
-            <div class="text-block-21">28 </div>
+            <div class="text-block-21"><asp:Label ID="lblSeguidores" runat="server" Text="Seguidores"></asp:Label></div>
             <div class="text-block-22">Seguidores</div>
             <div class="div-btnseguir">
 
@@ -30,8 +30,6 @@
         </div>
       </div>
       <div class="div-selos w-clearfix">
-        <div class="selo-bloco"><img src="images/BackSpace.svg" loading="lazy" width="107" alt="" class="image-24"></div>
-        <div class="selo-bloco"><img src="images/Verificado2.svg" loading="lazy" width="103" alt="" class="image-24"></div>
       </div>
       <div class="parte-2">
         <div class="bloco-navbar-perifl">
@@ -39,7 +37,7 @@
         </div>
       
           <div class="postagens">
-              <asp:DataList ID="DataList1" runat="server" DataKeyField="cod_post" DataSourceID="SqlDataSource1">
+              <asp:DataList ID="DataList1" runat="server" DataKeyField="cod_post" DataSourceID="SqlDataSource1" OnItemDataBound="DataList1_ItemDataBound">
               <ItemTemplate>
 
                   <div class="postagem postagem-perfil">
@@ -49,33 +47,19 @@
                   <a href="#" class="div-btnvermais w-button">Ver mais +</a>
                 </div>
               </div>
-              <div class="div-block-31 div-2">
-                <div class="text-block-13">Ciência</div>
               <div class="data-post w-clearfix">
                 <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div>
               </div>
-            </div>
-            <div class="div-nome-curtidas">
-              <a href="perfil-usuarioaleatorio.html" aria-current="page" class="w-inline-block w--current">
-                <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
-                  <div class="div-block-32">
-                    <div class="text-block-16">Eliza Santos</div>
-                    <div class="text-block-17">@Eliza.Santos</div>
-                  </div>
-              <div class="img-post"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="126" alt="" class="image-21"></div>
-              <div class="tags-post">
+              <div class="img-post">
+                  <asp:Image ID="imgPost" runat="server" loading="lazy" width="126" alt="" class="image-21"/>
+              </div>
+              <div class="tags-post>
+                  <!-- div de tags -->
                 <div class="div-block-31">
-                  <div class="text-block-13">Descoberta</div>
-                </div>
-                <div class="div-block-31 div-2">
-                  <div class="text-block-13">Jogo</div>
-                </div>
-                <div class="div-block-31 div-2 div-3">
-                  <div class="text-block-13">Diversão</div>
                 </div>
               </div>
               <div class="div-nome-curtidas">
-                <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
+                <div class="div-nome w-clearfix"><asp:Image loading="lazy" width="46" CssClass="image-22" ID="ImgPerfilUser" runat="server" />
                   <div class="div-block-32">
                     <div class="text-block-16"><asp:Label ID="nome_usuarioLabel" runat="server" Text='<%# Eval("nome_usuario") %>' /></div>
                     <div class="text-block-17"><asp:Label ID="login_usuarioLabel" runat="server" Text='<%# Eval("login_usuario") %>' /></div>
@@ -106,9 +90,8 @@
               </SelectParameters>
           </asp:SqlDataSource>
           </div>
-        </div>
+          
       </div>
     </div>
   </div>
 </asp:Content>
-

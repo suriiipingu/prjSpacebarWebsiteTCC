@@ -7,6 +7,41 @@ img {
     max-width: 100%;
 }
 
+.lblDescricao{
+    display: hidden;
+}
+
+.icon-like {
+    position: static;
+    opacity: 1;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.div-lbl-likes {
+    margin-left: 10%;
+}
+
+.lbl-likes {
+    margin-bottom: -0.25rem;
+}
+
+.btn-icon-like {
+    max-width: 100%;
+    display: inline-block;
+    margin-bottom: -0.25rem;
+}
+
+.HyperLinkLoginUsuario {
+    margin-left: 0;
+    color: #3f3f3f !important;
+}
+
+.HyperLinkNomeUsuario {
+    margin-left: 0;
+    color: #3f3f3f !important;
+}
+
 .navbar-no-shadow-container {
     z-index: 5;
     width: 100%;
@@ -782,7 +817,8 @@ img {
 }
 
 .image-8 {
-    position: absolute;
+    left: 0;
+    /*position: absolute;*/
     border-radius: 100%;
 }
 
