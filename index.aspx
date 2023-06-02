@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
     
     <!-- Crie, ative ou desative uma div para criar um aviso (experimental)-->
-    <div class="container-10 w-container">
+    <%--<div class="container-10 w-container">
     <div class="avisos wf-section">
         <div class="postagem">
                 <div class="titulo-post">
@@ -15,12 +15,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
     <!-- Crie, ative ou desative uma div para criar um aviso (experimental)-->
 
   <div class="conteudo wf-section">
     <div class="container-10 w-container">
-        <asp:DataList ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound" OnItemCommand="DataList_ItemCommand">
+        <asp:DataList style="margin-left: auto; margin-right: auto;" ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound" OnItemCommand="DataList_ItemCommand">
             <ItemTemplate>
 
         <!-- começo do corpo da postagem -->        
@@ -77,8 +77,8 @@
             </div>
               <!--Botão para ir para os comentários de uma determinada postagem-->
             <div class="div-coment">
-              <a href="comentarios.aspx" class="link-block-4 w-inline-block">
-                <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
+                <div class="icon">
+                    <asp:ImageButton OnClick="btnComentarios_Click" ID="btnComentarios" CssClass="link-block-4 w-inline-block" runat="server" loading="lazy" width="24" alt="" ImageUrl="~/images/comment-svgrepo-com-.svg"/></div>
                 <div class="text-block-30">
                     <asp:Label ID="lblQuantidadeComentarios" runat="server" Text=""></asp:Label>
                 </div>

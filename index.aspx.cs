@@ -155,6 +155,7 @@ public partial class index : System.Web.UI.Page
                 LinkButton item = (LinkButton)e.Item.FindControl("HyperLinkLoginUsuario");
                 //colocando a variável para o Item do DataList atual
                 e.Item.Attributes["CodAutorPost"] = codAutorPost.ToString();
+                e.Item.Attributes["codPost"] = PostId;
 
                 Image ImgPerfilUser = (Image)e.Item.FindControl("ImgPerfilUser");
                 ProfileManager.mostrarImagemPerfilUser(ImgPerfilUser, codAutorPost);
@@ -253,4 +254,15 @@ public partial class index : System.Web.UI.Page
             lblDescricao.Visible = !lblDescricao.Visible;
         }
     }
+
+    protected void btnComentarios_Click(object sender, ImageClickEventArgs e)
+    {
+        ImageButton btnComentarios = (ImageButton)sender;
+        DataListItem item = (DataListItem)btnComentarios.NamingContainer;
+        int postId = Convert.ToInt32(item.Attributes["codPost"]);
+
+        Session["codPostagemComentario"] = postId;
+        Response.Redirect("comentarios.aspx");
+    }
+
 }
