@@ -65,9 +65,5 @@
             </div>
         </div>
     </section>
-Recolher
-message.txt
-4 KB
-
 </asp:Content>
 

@@ -57,7 +57,7 @@
 
             <!--Área da foto, nome e login do usuário que criou a postagem-->
             <div class="div-nome w-clearfix">
-                <asp:Image loading="lazy" width="46" CssClass="image-22" ID="ImgPerfilUser" runat="server" />
+                <asp:Image loading="lazy" width="46" Height="46" CssClass="image-22" ID="ImgPerfilUser" runat="server" />
               <div class="div-block-32">
                 <div class="text-block-16">
                     <asp:LinkButton CommandName="YourCommandName" CssClass="HyperLinkNomeUsuario" ID="HyperLinkNomeUsuario" runat="server"  Text='<%#LinkNomeUsuario%>'></asp:LinkButton>

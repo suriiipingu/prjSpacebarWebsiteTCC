@@ -43,9 +43,9 @@ public partial class index : System.Web.UI.Page
                 string PostId = dadosPosts.Tables[0].Rows[postagens]["cod_post"].ToString();
 
                 var parametersGetCommentsQuantity = new List<SqlParameter>
-                    {
-                        new SqlParameter("@postId", PostId)
-                    };
+                {
+                    new SqlParameter("@postId", PostId)
+                };
                 var quantidadeComentarios = c.sqlProcedure("GetCommentsQuantity", parametersGetCommentsQuantity);
 
                 c.fechaConexao();
@@ -165,6 +165,11 @@ public partial class index : System.Web.UI.Page
 
     protected void btnLike_OnClick(object sender, ImageClickEventArgs e)
     {
+        btnLike(sender, e);
+    }
+
+    public void btnLike(object sender, ImageClickEventArgs e)
+    {
         //obter o ID do post que o usuário quer curtir
         ImageButton btnLike = (ImageButton)sender;
         string postId = btnLike.CommandArgument;
@@ -226,7 +231,7 @@ public partial class index : System.Web.UI.Page
                         myDataList.DataBind();
                     }
                 }
-                
+
             }
         }
     }

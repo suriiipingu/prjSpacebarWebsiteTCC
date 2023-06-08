@@ -10,7 +10,25 @@ public partial class comentarios : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        using (Conexao c = new Conexao())
+        {
+            int postId = Convert.ToInt32(Session["codPostagemComentario"]);
+
+            //obtendo os dados do post em específico
+            var parametrosGetPostById = new List<SqlParameter>
+                    {
+                        new SqlParameter("@postId", postId)
+                    };
+            var conteudoPostagemComentario = c.sqlProcedure("GetPostAndAuthorById", parametrosGetPostById);
+
+            lblLoginUsu.Text = conteudoPostagemComentario.Tables[0].Rows[0]["login_usuario"].ToString();
+
+            lblTitulo.Text = conteudoPostagemComentario.Tables[0].Rows[0]["titulo_post"].ToString();
+
+            lblData.Text = conteudoPostagemComentario.Tables[0].Rows[0]["data_post"].ToString();
+
+            lblNomeUsu.Text = conteudoPostagemComentario.Tables[0].Rows[0]["nome_usuario"].ToString();
+        }
     }
 
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
@@ -21,14 +39,8 @@ public partial class comentarios : System.Web.UI.Page
             {
                 //recebendo da index o codPost que foi clicado para ver os comentarios
                 int postId = Convert.ToInt32(Session["codPostagemComentario"]);
+                int IndiceDataList = e.Item.ItemIndex;
                 c.conectar();
-
-                //obtendo os dados do post em específico
-                var parametrosGetPostById = new List<SqlParameter>
-                    {
-                        new SqlParameter("@postId", postId)
-                    };
-                var conteudoPostagemComentario = c.sqlProcedure("GetPostAndAuthorById", parametrosGetPostById);
 
                 // obtendo os dados de todos os comentarios para aquela postagem
                 var parametrosComentarios = new List<SqlParameter>
@@ -38,7 +50,7 @@ public partial class comentarios : System.Web.UI.Page
                 var dadosComentario = c.sqlProcedure("GetComments", parametrosComentarios);
 
                 //salvando em uma variável o cod do autor do comentário atual
-                int codAutorComentarioAtual = Convert.ToInt32(dadosComentario.Tables[0].Rows[0]["cod_usuario"]);
+                int codAutorComentarioAtual = Convert.ToInt32(dadosComentario.Tables[0].Rows[IndiceDataList]["cod_usuario"]);
 
                 //requisitando as informações do usuário que criou o comentário para em seguida,
                 //exibir no corpo do comentário (seu nome, login e foto de perfil)
@@ -57,25 +69,11 @@ public partial class comentarios : System.Web.UI.Page
 
                 //data de criação do comentário
                 Label lblDataComentario = (Label)e.Item.FindControl("lblDataComentario");
-                lblDataComentario.Text = dadosComentario.Tables[0].Rows[0]["data_comentario"].ToString();
+                lblDataComentario.Text = dadosComentario.Tables[0].Rows[IndiceDataList]["data_comentario"].ToString();
 
                 //conteudo do comentario
                 Label lblConteudoComentario = (Label)e.Item.FindControl("lblConteudoComentario");
-                lblConteudoComentario.Text = dadosComentario.Tables[0].Rows[0]["conteudo_comentario"].ToString();
-
-                Label lblTitulo = (Label)e.Item.FindControl("lblTitulo");
-                lblTitulo.Text = conteudoPostagemComentario.Tables[0].Rows[0]["titulo_post"].ToString();
-
-                Label lblData = (Label)e.Item.FindControl("lblData");
-                lblData.Text = conteudoPostagemComentario.Tables[0].Rows[0]["data_post"].ToString();
-
-                Label lblNomeUsu = (Label)e.Item.FindControl("lblNomeUsu");
-                lblNomeUsu.Text = conteudoPostagemComentario.Tables[0].Rows[0]["nome_usuario"].ToString();
-
-                Label lblLoginUsu = (Label)e.Item.FindControl("lblLoginUsu");
-                lblLoginUsu.Text = conteudoPostagemComentario.Tables[0].Rows[0]["login_usuario"].ToString();
-
-               
+                lblConteudoComentario.Text = dadosComentario.Tables[0].Rows[IndiceDataList]["conteudo_comentario"].ToString();
             }
         }
     }

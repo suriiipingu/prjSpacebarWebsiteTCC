@@ -41,6 +41,26 @@
     <link rel="stylesheet" href="assets/css/fullcalendar.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
 
+    <script type="text/javascript">
+        /* ocultar div que contém informações do usuário logado */
+        function EsconderDivUsuario() {
+            var divUsuario = document.getElementById("divUsuario");
+            divUsuario.style.display = "none";
+        }
+
+        /* mostrar a div que contém informações do usuário logado */
+        function MostrarDivUsuario() {
+            var divUsuario = document.getElementById("divUsuario");
+            divUsuario.style.display = "flex";
+        }
+
+        /* mostrar a div que contém o botão de painel do admin */
+        function MostrarDivEstatisticas() {
+            var divEstatisticas = document.getElementById("divEstatisticas");
+            divEstatisticas.style.display = "flex";
+        }
+    </script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
 
     </asp:ContentPlaceHolder>
@@ -69,16 +89,10 @@
                 <asp:Button ID="Button1" runat="server" Text="Enter" CssClass="search-button w-button" />
             </div>
           </div>
-          <div class="div-block">
-              <a
-                style="margin-right: 2rem"
-                href="admin_painel.aspx"
-                target="_blank"
-                rel="nofollow"
-                class="main-btn primary-btn btn-hover"
-                >
-                Estatísticas
-                </a>
+          <div id="divUsuario" class="div-block">
+              <div id="divEstatisticas" style="display:none">
+                  <asp:Button OnClick="btnEstatisticas_Click" style="margin-right: 2rem" CssClass="main-btn primary-btn btn-hover" ID="btnEstatisticas" runat="server" Text="Estatísticas"/>
+              </div>
             <div class="div-block-2">
               <a href="perfil-config.aspx" class="link-block w-inline-block w-clearfix"><img src="images/settings-01-svgrepo-com.svg" loading="lazy" width="24" alt="" class="image-13"></a>
             </div>
@@ -136,8 +150,8 @@
               <nav class="dropdown-list-2 w-dropdown-list">
                 <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDownSmall" runat="server" loading="lazy" width="35" alt="" class="image-5 imgdp"/>
                   <div class="div-block-18">
-                    <div class="text-block-5">Nome do Usuário</div>
-                    <div class="txtblock">@usuario</div>
+                    <div class="text-block-5"><asp:Label ID="Label1" runat="server" Text="user_name"></asp:Label></div>
+                    <div class="txtblock"><asp:Label ID="Label2" runat="server" Text="user_login"></asp:Label></div>
                   </div>
                 </div>
                 <div class="div-block-17 diva div-mobile">

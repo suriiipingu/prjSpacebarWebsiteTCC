@@ -559,12 +559,7 @@ namespace UserProfile
                     }
 
                 }
-
-
-
-
             }
         }
-
     }
 }

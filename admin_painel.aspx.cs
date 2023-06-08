@@ -11,8 +11,15 @@ public partial class admin_painel : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        
+
         if (!IsPostBack)
         {
+            if ((bool)Session["ADM"] == false)
+            {
+                Response.Redirect("fazer-login.aspx");
+            }
+
             using (Conexao c = new Conexao())
             {
                 var CountCreatedPosts = c.sqlProcedure("CountCreatedPosts");

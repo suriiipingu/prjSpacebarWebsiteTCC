@@ -109,9 +109,9 @@ p {
 }
 
 @media (max-width: 767px) {
-  .container {
-    padding: 0 30px;
-  }
+    .container {
+
+    }
 }
 
 /* ========== cart style ========== */
@@ -310,10 +310,6 @@ h6,
 .text-sm {
   font-size: 14px;
   line-height: 22px;
-}
-
-#section-fluid {
-    padding-left: calc(var(--bs-gutter-x) * 4)!important;
 }
 
 /* ========== breadcrumb ============ */
@@ -668,21 +664,7 @@ h6,
   position: relative;
   margin-bottom: 20px;
 }
-@media (max-width: 767px) {
-  .alert-box {
-    padding-left: 0px !important;
-  }
-}
 
-#coluna-estatisticas {
-    padding-left: calc(var(--bs-gutter-x) * 5.2);
-}
-
-@media (max-width: 1200px) {
-    #coluna-estatisticas {
-        padding-left: calc(var(--bs-gutter-x) * 0.5);
-    }
-}
 
 .alert-box .left {
   max-width: 75px;
@@ -1125,6 +1107,7 @@ h6,
 .table {
   border-collapse: inherit;
   border-spacing: 0px;
+    height: 238px;
 }
 .table > :not(caption) > * > * {
   padding: 15px 0;
@@ -2690,6 +2673,7 @@ h6,
     -ms-transform: translateX(-260px);
     -o-transform: translateX(-260px);
     transform: translateX(-260px);
+    padding-left:40px;
   }
 }
 .sidebar-nav-wrapper.active {

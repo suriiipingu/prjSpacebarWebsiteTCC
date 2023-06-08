@@ -27,9 +27,9 @@
                   <asp:Image ID="imgPost" runat="server" />
                 <div class="div-block-32">
                   <div class="text-block-16">
-                      <asp:Label ID="Label2" runat="server" Text="lblNomeUsu"></asp:Label></div>
+                      <asp:Label ID="lblNomeUsu" runat="server" Text="lblNomeUsu"></asp:Label></div>
                   <div class="text-block-17">
-                      <asp:Label ID="Label3" runat="server" Text="lblLoginUsu"></asp:Label></div>
+                      <asp:Label ID="lblLoginUsu" runat="server" Text="lblLoginUsu"></asp:Label></div>
                 </div>
               </div>
             </a>

@@ -427,7 +427,6 @@ img {
     margin-right: 5px;
     margin-left: 5px;
     padding: 5px 10px;
-    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
     color: #1a1b1f;
     font-size: 14px;
     line-height: 20px;
@@ -435,6 +434,9 @@ img {
     letter-spacing: 0.25px;
     text-decoration: none;
     cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+    font-family: "Inter", sans-serif !important;
 }
 
     .nav-link-2:hover {
@@ -777,8 +779,15 @@ img {
 .sidebar-config {
     margin-top: 40px;
     margin-bottom: 0px;
-    padding-left: 40px;
     list-style-type: none;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(200, 208, 216, 0.3);
+    border: 1px solid #e2e8f0;
+    padding: 30px 20px;
+    margin-top: 31%;
+    padding-top: 30px;
+
 }
 
 .container-4 {
@@ -4447,6 +4456,10 @@ img {
         background-color: transparent;
     }
 
+@media creen and (max-width: 767){
+
+}
+
     .nav-menu {
         display: -webkit-box;
         display: -webkit-flex;
@@ -4566,6 +4579,7 @@ img {
         padding-left: 10px;
         float: none;
         text-align: left;
+        white-space: nowrap;
     }
 
     .nav-dropdown-list-2.shadow-three.w--open {
@@ -4619,7 +4633,6 @@ img {
     .sidebar-config {
         display: block;
         padding-right: 0px;
-        padding-left: 40px;
     }
 
     .ft-fundo {
@@ -5446,7 +5459,7 @@ img {
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        width: auto;
+        width: 198px;
         height: 20px;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
@@ -5469,6 +5482,7 @@ img {
         color: #646464;
         -o-object-fit: fill;
         object-fit: fill;
+        background-color: white;
     }
 
         .dropdown-toggle-4.w--open {

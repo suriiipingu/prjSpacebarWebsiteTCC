@@ -671,7 +671,7 @@ textarea.w-select {
   }
   .w-col {
     width: 100%;
-    left: auto;
+    left: -34%;
     right: auto;
   }
   .w-col-small-1 {
