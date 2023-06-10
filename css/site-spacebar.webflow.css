@@ -782,8 +782,6 @@ img {
     list-style-type: none;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0px 10px 20px rgba(200, 208, 216, 0.3);
-    border: 1px solid #e2e8f0;
     padding: 30px 20px;
     margin-top: 31%;
     padding-top: 30px;
@@ -2266,7 +2264,7 @@ img {
 
 .body-2 {
     border-radius: 20px;
-    background-color: #dae1e7;
+    background-color: white;
 }
 
 .div-block-27 {
@@ -5261,6 +5259,7 @@ img {
 
     .div-block-2 {
         float: none;
+        display:none;
     }
 
     .hero-without-image {
@@ -5459,7 +5458,6 @@ img {
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        width: 198px;
         height: 20px;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
