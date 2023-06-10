@@ -65,9 +65,6 @@ public partial class index : System.Web.UI.Page
                 LinkButton lblLoginUsuario = (LinkButton)e.Item.FindControl("HyperLinkLoginUsuario");
                 lblLoginUsuario.Text = "@" + (dadosPosts.Tables[0].Rows[postagens]["login_usuario"].ToString());
 
-                Image ImgPost = (Image)e.Item.FindControl("ImgPost");
-                ProfileManager.exibirImagemPost(ImgPost, Convert.ToInt32(PostId));
-
                 Label lblDescricao = (Label)e.Item.FindControl("lblDescricao");
                 lblDescricao.Text = (dadosPosts.Tables[0].Rows[postagens]["texto_post"].ToString());
 
@@ -159,6 +156,9 @@ public partial class index : System.Web.UI.Page
 
                 Image ImgPerfilUser = (Image)e.Item.FindControl("ImgPerfilUser");
                 ProfileManager.mostrarImagemPerfilUser(ImgPerfilUser, codAutorPost);
+
+                Image ImgPost = (Image)e.Item.FindControl("ImgPost");
+                ProfileManager.exibirImagemPost(ImgPost, Convert.ToInt32(PostId));
             }
         }
     }

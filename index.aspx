@@ -44,7 +44,7 @@
           <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" /></div></div>
 
         <!--Imagem capa da postagem-->
-        <div class="img-post"> <asp:Image ID="ImgPost" runat="server" /> </div>
+        <div class="img-post"> <asp:Image ID="ImgPost" Height="100%" runat="server" /> </div>
         
         <!--Tags da postagem-->
         <div runat="server" id="tags_post" class="tags-post">
