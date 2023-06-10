@@ -14,8 +14,8 @@ public class Conexao : IDisposable
 {
     public SqlConnection conexao = new SqlConnection();
     public SqlCommand command = new SqlCommand();
-    string strConexao = "Server=TEO_PC;DataBase=SpaceBar;trusted_connection=true";
-    //string strConexao = "Server=DESKTOP-EUAA3BD;DataBase=SpaceBar;trusted_connection=true";
+    //string strConexao = "Server=TEO_PC;DataBase=SpaceBar;trusted_connection=true";
+    string strConexao = "Server=DESKTOP-EUAA3BD;DataBase=SpaceBar;trusted_connection=true";
 
     public Conexao()
 	{
