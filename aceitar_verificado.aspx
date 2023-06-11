@@ -33,8 +33,17 @@
         .div-block-53{
             border-bottom: 1px solid #e4e4e4;
             border-radius:0;
+            align-items: center;
             padding:10px;
             display:flex;
+        }
+
+        .btnvisualizar {
+            color: #d500aa;
+            -webkit-text-stroke-color: #3b6239;
+            background-color: rgba(0, 0, 0, 0);
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         .div-block-53:active{
@@ -213,6 +222,8 @@
             display:flex;
         }
 
+
+
         @media screen and (max-width: 991px){
             .div-block-53{
                 flex-direction:row;
@@ -253,6 +264,30 @@
 
 
     </style>
+
+    <script>
+        function obterDadosUsuario(index) {
+            // Fazer uma chamada AJAX para obter os dados do usuário
+            $.ajax({
+                type: "POST",
+                url: "Pagina.aspx/ObterDadosUsuario",
+                data: JSON.stringify({ index: index }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // Lógica a ser executada após obter os dados do usuário
+                    // Por exemplo, atualizar as Labels com os dados recebidos
+                    var dadosUsuario = response.d;
+                    document.getElementById("lblOutroNome").innerText = dadosUsuario.Nome;
+                    document.getElementById("lblOutroLogin").innerText = dadosUsuario.Login;
+                },
+                error: function (response) {
+                    // Lógica de tratamento de erro, se necessário
+                }
+            });
+        }
+
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
@@ -306,62 +341,71 @@
         <div class="solicitacao w-col w-col-5">
             <div class="div-block-65">
                 <div class="text-block-38">Solicitações</div>
-                <div class="text-block-38">(02)</div><!---label asp.net -->
+                <asp:Label CssClass="text-block-38" ID="lblQuantidadeSolicitacoes" runat="server" Text="erro"></asp:Label>
             </div>
-            <div class="div-block-53">
-                <img class="image-35" /> <!---Img asp.net -->
+
+            <asp:DataList OnItemCommand="DataList1_ItemCommand1" ID="DataList1" OnItemDataBound="DataList1_ItemDataBound1" runat="server" DataKeyField="cod_usuario" DataSourceID="SqlDataSource1">
+                <ItemTemplate>
+
+            <div CssClass="div-block-53" ID="PanelMostrarUsuario" runat="server">
+                <asp:Image Height="45px" CssClass="image-35" ID="imgPerfilUsuarioLista" runat="server" />
                 <div class="div-block-55">
-                    <div class="text-block-35">Elisa </div> <!---label asp.net -->
-                    <div class="text-block-37">@Elisa </div> <!---label asp.net -->
+                    <asp:Label ID="lblNomeUsuarioLista" CssClass="text-block-35" runat="server" Text='<%# Eval("nome_usuario") %>' ></asp:Label>
+                    <asp:Label ID="lblLoginUsuarioLista" CssClass="text-block-37" runat="server" Text='<%# Eval("login_usuario") %>'></asp:Label>
+                    <asp:Button OnClick="btnExibirDados_Click" ID="btnExibirDados" CssClass="btnvisualizar w-button" runat="server" Text="Visualizar solicitação" />
                 </div>
             </div>
+
+                </ItemTemplate>
+            </asp:DataList>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendentes" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+
         </div>
         <div class="mostrar w-col w-col-7">
             <div class="div-block-58">
                 <div class="div-block-56">
                     <div class="bloco blocoaceita">
                         <div class="text-block-39 aceitatxt">Aceita</div>
-                        <div class="text-block-39 aceitatxt">06</div> <!---label asp.net -->
+                        <!-- solicitações aceitas -->
+                        <asp:Label ID="lblSolicitacoesAceitas" CssClass="text-block-39 aceitatxt" runat="server" Text="erro"></asp:Label>
                     </div>
                     <div class="bloco bloconegada">
                         <div class="text-block-39 negadatxt">Negada</div>
-                        <div class="text-block-39 negadatxt">06</div> <!---label asp.net -->
+                        <!-- solicitações negadas -->
+                        <asp:Label ID="lblSolicitacoesNegadas" CssClass="text-block-39 negadatxt" runat="server" Text="erro"></asp:Label>
                     </div>
                     <div class="bloco">
                         <div class="text-block-39 pendentetxt">Pendente</div>
-                        <div class="text-block-39 pendentetxt">06</div> <!---label asp.net -->
-                    </div>
-                    <div class="bloco semlinha">
-                        <div class="text-block-39">Verificados</div>
-                        <div class="text-block-40">06</div> <!---label asp.net -->
+                        <!-- solicitações pendentes a serem aceitas -->
+                        <asp:Label ID="lblSolicitacoesPendentes" Csslass="text-block-39 pendentetxt" runat="server" Text="erro"></asp:Label>
                     </div>
                 </div>
                 <div class="div-block-57">
                     <div>
                         <div class="div-block-62">
-                            <img class="image-35" /> <!---imagem asp.net -->
+                            <asp:Image ID="imgUsuarioSelecionado"  CssClass="image-35" runat="server" />
                             <div class="div-block-63">
                                 <div>
-                                    <div class="text-block-35">Elisa Santos</div> <!---label asp.net -->
-                                    <div class="text-block-42">@Elisa</div> <!---label asp.net -->
+                                    <asp:Label ID="lblNomeUsuario" CssClass="text-block-35" runat="server" Text="erro"></asp:Label>
+                                    <asp:Label ID="lblLoginUsuario" CssClass="text-block-42" runat="server" Text="Label"></asp:Label>
                                 </div>
                             </div>
                         </div>
                         <div class="div-block-61">
                             <div class="div-block-60">
-                                <a href="" class="button-11 w-button">Ver arquivo recebido</a> <!---botão asp.net -->
-                                <div class="text-block-41">(1/1)</div> <!---label asp.net -->
+                                <asp:Button ID="btnVerArquivo" CssClass="button-11 w-button" runat="server" Text="Ver arquivo recebido" />
+                                <asp:Label ID="lblQuantidadeArquivosRecebidos" CssClass="text-block-41" runat="server" Text="(1/1)"></asp:Label>
                             </div>
                             <div>
                                 <div class="w-form">
                                     <div class="field-wrap">
                                         <label for="Mensagem" class="field-label-4">Mensagem*</label>
-                                        <input type="text" class="text-field login-txt w-input" maxlength="400" placeholder="Deixe uma mensagem" id="Mensagem" required="required" /> <!---text box igual ao do login asp.net -->
+                                        <asp:TextBox runat="server" type="text" CssClass="text-field login-txt w-input" MaxLength="400" ID="txtMensagem" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="div-block-59">
-                                    <a href="" class="button-12 w-button">Aceitar</a> <!---botão asp.net -->
-                                    <a href="" class="button-13 w-button">Recusar</a> <!---botão asp.net -->
+                                    <asp:Button ID="btnAceitar" CssClass="button-12 w-button" runat="server" Text="Aceitar" />
+                                    <asp:Button ID="btnRecusar" CssClass="button-13 w-button" runat="server" Text="Recusar" />
                                 </div>
                             </div>
                         </div>

@@ -269,5 +269,4 @@ public partial class index : System.Web.UI.Page
         Session["codPostagemComentario"] = postId;
         Response.Redirect("comentarios.aspx");
     }
-
 }

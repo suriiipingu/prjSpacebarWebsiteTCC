@@ -3534,7 +3534,7 @@ img {
 /*input label aaaaaAAAAA*/
 
 .field-label-4 {
-    position: absolute;
+    position: sticky;
     left: auto;
     top: auto;
     right: auto;
