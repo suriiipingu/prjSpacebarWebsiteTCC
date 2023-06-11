@@ -39,7 +39,7 @@ button:focus,
 }
 
 a:hover {
-  color: #4a6cf7;
+    color: #af46ff;
 }
 
 button,
@@ -51,11 +51,12 @@ a {
   transition: all 0.3s ease-out 0s;
 }
 
-a,
-a:focus,
-a:hover {
-  text-decoration: none;
-}
+    a,
+    a:focus,
+    a:hover {
+        text-decoration: none;
+        color: #af46ff;
+    }
 
 i,
 span,

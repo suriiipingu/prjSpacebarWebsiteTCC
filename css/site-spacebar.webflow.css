@@ -3385,7 +3385,7 @@ img {
 .btn-login {
     margin-top: 20px;
     padding: 10px 40px;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: #8f38ec;
 }
 
@@ -4877,7 +4877,6 @@ img {
 
     .image-17 {
         left: 15px;
-        top: 10px;
         display: block;
         margin-left: 0px;
         padding-top: 0px;
