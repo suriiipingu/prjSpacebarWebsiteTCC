@@ -561,5 +561,70 @@ namespace UserProfile
                 }
             }
         }
+
+        public static void exibirImagemSolicitacao(Image imgFundo, int codUsuario)
+        {
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+
+                if (codUsuario > 0)
+                {
+                    //mostrar imagem de fundo
+                    string query = "SELECT img_comprovante FROM tblUsuario WHERE cod_usuario = @codUsuario";
+                    object idpost = codUsuario;
+                    byte[] imageBytes = null;
+
+                    c.command.CommandText = query;
+
+                    c.command.Parameters.AddWithValue("@codUsuario", codUsuario);
+
+                    using (SqlDataReader reader = c.command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(reader.GetOrdinal("img_comprovante")))
+                            {
+                                imageBytes = (byte[])reader["img_comprovante"];
+                            }
+                            else
+                            {
+                                // Tratar valor nulo da coluna "imgfundo_usuario"
+                            }
+                        }
+                    }
+                    // obtém o tipo de imagem
+                    string imageType = "";
+                    if (imageBytes != null && imageBytes.Length > 0)
+                    {
+                        using (var ms = new MemoryStream(imageBytes))
+                        {
+                            try
+                            {
+                                var img = System.Drawing.Image.FromStream(ms);
+                                if (img.RawFormat.Equals(ImageFormat.Jpeg))
+                                    imageType = "image/jpeg";
+                                else if (img.RawFormat.Equals(ImageFormat.Png))
+                                    imageType = "image/png";
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                // a exceção será lançada se o formato da imagem for inválido
+                                // fazer tratamento adequado aqui
+
+                            }
+                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(imageType))
+                    {
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
+                        imgFundo.ImageUrl = imageUrl;
+                    }
+
+                }
+            }
+        }
     }
 }

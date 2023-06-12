@@ -344,21 +344,21 @@
                 <asp:Label CssClass="text-block-38" ID="lblQuantidadeSolicitacoes" runat="server" Text="erro"></asp:Label>
             </div>
 
-            <asp:DataList OnItemCommand="DataList1_ItemCommand1" ID="DataList1" OnItemDataBound="DataList1_ItemDataBound1" runat="server" DataKeyField="cod_usuario" DataSourceID="SqlDataSource1">
+            <asp:DataList OnItemDataBound="DataListSolicitacoes_ItemDataBound" OnItemCommand="DataListSolicitacoes_ItemCommand" ID="DataListSolicitacoes" runat="server" DataKeyField="cod_usuario" DataSourceID="SqlDataSourceSolicitacoes">
                 <ItemTemplate>
 
             <div CssClass="div-block-53" ID="PanelMostrarUsuario" runat="server">
-                <asp:Image Height="45px" CssClass="image-35" ID="imgPerfilUsuarioLista" runat="server" />
+                <asp:Image Height="45px" Width="45px" CssClass="image-35" ID="imgPerfilUsuarioLista" runat="server" />
                 <div class="div-block-55">
                     <asp:Label ID="lblNomeUsuarioLista" CssClass="text-block-35" runat="server" Text='<%# Eval("nome_usuario") %>' ></asp:Label>
                     <asp:Label ID="lblLoginUsuarioLista" CssClass="text-block-37" runat="server" Text='<%# Eval("login_usuario") %>'></asp:Label>
-                    <asp:Button OnClick="btnExibirDados_Click" ID="btnExibirDados" CssClass="btnvisualizar w-button" runat="server" Text="Visualizar solicitação" />
+                    <asp:Button CommandName="ExibirDados" ID="btnExibirDados" CssClass="btnvisualizar w-button" runat="server" Text="Visualizar solicitação" />
                 </div>
             </div>
 
                 </ItemTemplate>
             </asp:DataList>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendentes" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSourceSolicitacoes" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendentes" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
 
         </div>
         <div class="mostrar w-col w-col-7">
@@ -383,18 +383,19 @@
                 <div class="div-block-57">
                     <div>
                         <div class="div-block-62">
-                            <asp:Image ID="imgUsuarioSelecionado"  CssClass="image-35" runat="server" />
+                            <asp:Image ID="imgUsuarioSelecionado" Width="82px"  CssClass="image-35" runat="server" />
                             <div class="div-block-63">
                                 <div>
-                                    <asp:Label ID="lblNomeUsuario" CssClass="text-block-35" runat="server" Text="erro"></asp:Label>
-                                    <asp:Label ID="lblLoginUsuario" CssClass="text-block-42" runat="server" Text="Label"></asp:Label>
+                                    <asp:Label ID="lblNomeUsuario" CssClass="text-block-35" runat="server"></asp:Label>
+                                    <asp:Label ID="lblLoginUsuario" CssClass="text-block-42" runat="server"></asp:Label>
                                 </div>
                             </div>
                         </div>
                         <div class="div-block-61">
                             <div class="div-block-60">
-                                <asp:Button ID="btnVerArquivo" CssClass="button-11 w-button" runat="server" Text="Ver arquivo recebido" />
-                                <asp:Label ID="lblQuantidadeArquivosRecebidos" CssClass="text-block-41" runat="server" Text="(1/1)"></asp:Label>
+                                <asp:Button OnClick="btnVerArquivo_Click" ID="btnVerArquivo" CssClass="button-11 w-button" runat="server" Text="Ver arquivo recebido" /><br />
+                                <asp:Image Width="200px" ID="ImgImagemRecebida" runat="server" /><br />
+                                <asp:Label ID="lblQuantidadeArquivosRecebidos" CssClass="text-block-41" runat="server" Text=""></asp:Label>
                             </div>
                             <div>
                                 <div class="w-form">
@@ -404,8 +405,8 @@
                                     </div>
                                 </div>
                                 <div class="div-block-59">
-                                    <asp:Button ID="btnAceitar" CssClass="button-12 w-button" runat="server" Text="Aceitar" />
-                                    <asp:Button ID="btnRecusar" CssClass="button-13 w-button" runat="server" Text="Recusar" />
+                                    <asp:Button OnClick="btnAceitar_Click" ID="btnAceitar" CssClass="button-12 w-button" runat="server" Text="Aceitar" />
+                                    <asp:Button OnClick="btnRecusar_Click" ID="btnRecusar" CssClass="button-13 w-button" runat="server" Text="Recusar" />
                                 </div>
                             </div>
                         </div>

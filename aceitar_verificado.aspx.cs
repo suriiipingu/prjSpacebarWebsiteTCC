@@ -8,17 +8,34 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using UserProfile;
 using Newtonsoft.Json;
-
+using System.Reflection.Emit;
+using Label = System.Web.UI.WebControls.Label;
+using System.Xml.Linq;
+using System.Security.Cryptography;
 
 public partial class aceitar_verificado : System.Web.UI.Page
 {
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        if (lblNomeUsuario.Text == "")
+        {
+            btnVerArquivo.Enabled = false;
+            btnAceitar.Enabled = false;
+            btnRecusar.Enabled = false;
+            txtMensagem.Enabled = false;
+        }
+        else
+        {
+            btnVerArquivo.Enabled = true;
+            btnAceitar.Enabled = true;
+            btnRecusar.Enabled = true;
+            txtMensagem.Enabled = true;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        lblNomeUsuario.Text = nomeUsuarioSelecionado;
-        lblLoginUsuario.Text = loginUsuarioSelecionado;
-
-        using (Conexao c =  new Conexao())
+        using (Conexao c = new Conexao())
         {
             c.conectar();
             DataSet SelectStatusVerificado = c.sqlProcedure("SelectVerificadoAceitosPendenteNegadoQntd");
@@ -36,127 +53,144 @@ public partial class aceitar_verificado : System.Web.UI.Page
                     DataRow row = dataTable.Rows[0];
 
                     // Obtenha a quantidade para cada status_verificado
-                    int qntdAceitos = Convert.ToInt32(row["total_usuarios"]);
-                    int qntdRecusados = Convert.ToInt32(row["total_usuarios"]);
-                    int qntdPendentes = Convert.ToInt32(row["total_usuarios"]);
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        if ()
+                        {
+                            int qntdAceitos = Convert.ToInt32(row["aceito"]);
+                            lblSolicitacoesAceitas.Text = qntdAceitos.ToString();
+                        }
 
-                    // Atribua os valores às Labels
-                    lblSolicitacoesAceitas.Text = qntdAceitos.ToString();
-                    lblSolicitacoesNegadas.Text = qntdRecusados.ToString();
-                    lblSolicitacoesPendentes.Text = qntdPendentes.ToString();
+                        if (row.Table.Rows.Contains("negado"))
+                        {
+                            int qntdRecusados = Convert.ToInt32(row["negado"]);
+                            lblSolicitacoesNegadas.Text = qntdRecusados.ToString();
+                        }
+
+                        if (row.Table.Rows.Contains("pendente"))
+                        {
+                            int qntdPendentes = Convert.ToInt32(row["pendente"]);
+                            lblSolicitacoesPendentes.Text = qntdPendentes.ToString();
+                        }
+                    }
                 }
             }
         }
     }
 
-    protected void DataList1_ItemDataBound1(object sender, DataListItemEventArgs e)
+    protected void DataListSolicitacoes_ItemCommand(object source, DataListCommandEventArgs e)
     {
-        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        if (e.CommandName == "ExibirDados")
         {
-            // Acesse os controles dentro do item do DataList
-            Label lblNomeUsuario = (Label)e.Item.FindControl("lblNomeUsuarioLista");
-            Label lblLoginUsuario = (Label)e.Item.FindControl("lblLoginUsuarioLista");
+            // Obtém o índice do item clicado
+            int itemIndex = e.Item.ItemIndex;
 
-            // Acesse os dados associados ao item
-            DataRowView row = (DataRowView)e.Item.DataItem;
-            int codUsuario = Convert.ToInt32(row["cod_usuario"]);
+            // Obtém o valor da chave de dados (cod_usuario) do item clicado
+            int codUsuario = (int)DataListSolicitacoes.DataKeys[itemIndex];
 
-            Image imgPerfilUsuarioLista = (Image)e.Item.FindControl("imgPerfilUsuarioLista");
-            ProfileManager.mostrarImagemPerfilUser(imgPerfilUsuarioLista, codUsuario);
-        }
-    }
+            // Armazena o valor do cod_usuario na variável de sessão
+            Session["LastClickedUserId"] = codUsuario;
 
-    protected void pnlMostrarInformacoes_Click(object sender, EventArgs e)
-    {
-        Panel pnlMostrarInformacoes = (Panel)sender;
-        DataListItem item = (DataListItem)pnlMostrarInformacoes.NamingContainer;
+            // Recupera os dados do usuário correspondente ao cod_usuario
+            DataView dataView = (DataView)SqlDataSourceSolicitacoes.Select(DataSourceSelectArguments.Empty);
 
-        Label lblNomeUsuario = (Label)item.FindControl("lblNomeUsuarioLista");
-        Label lblLoginUsuario = (Label)item.FindControl("lblLoginUsuarioLista");
+            // Acessa diretamente a primeira linha do DataView
+            DataRowView selectedUserRow = dataView[0];
 
-        // Atribua os valores das Labels a outras Labels desejadas
-        lblNomeUsuario.Text = lblNomeUsuario.Text;
-        lblLoginUsuario.Text = lblLoginUsuario.Text;
-    }
+            // Recupera os dados desejados do registro do usuário
+            string nomeUsuario = selectedUserRow["nome_usuario"].ToString();
+            string loginUsuario = selectedUserRow["login_usuario"].ToString();
 
-    protected string nomeUsuarioSelecionado;
-    protected string loginUsuarioSelecionado;
-
-    protected void DataList1_ItemCommand(object source, DataListCommandEventArgs e)
-    {
-        if (e.CommandName == "MostrarInformacoes")
-        {
-            // Obtenha o índice do item clicado
-            int index = e.Item.ItemIndex;
-
-            // Obtenha os controles dentro do item clicado
-            Label lblNomeUsuario = (Label)e.Item.FindControl("lblNomeUsuarioLista");
-            Label lblLoginUsuario = (Label)e.Item.FindControl("lblLoginUsuarioLista");
-
-            // Armazene os valores em variáveis temporárias
-            nomeUsuarioSelecionado = lblNomeUsuario.Text;
-            loginUsuarioSelecionado = lblLoginUsuario.Text;
-
-            // Execute qualquer outra lógica desejada
-
-            // Redirecione para outra página ou atualize as Labels desejadas
-            Response.Redirect("outra-pagina.aspx");
-        }
-    }
-
-    [System.Web.Services.WebMethod]
-    public static string ObterDadosUsuario(int index)
-    {
-        // Obtain a reference to the Page instance
-        Page page = HttpContext.Current.Handler as Page;
-
-        // Obtain a reference to the DataList
-        DataList dataListUsuarios = page.FindControl("dataListUsuarios") as DataList;
-
-        // Verify if the DataList exists and if the index is within the valid range
-        if (dataListUsuarios != null && index >= 0 && index < dataListUsuarios.Items.Count)
-        {
-            // Obtain the item corresponding to the provided index
-            DataListItem item = dataListUsuarios.Items[index];
-
-            // Access the controls within the item and retrieve the user data
-            Label lblNomeUsuario = item.FindControl("lblNomeUsuarioLista") as Label;
-            Label lblLoginUsuario = item.FindControl("lblLoginUsuarioLista") as Label;
-
-            // Create an object to store the user data
-            var dadosUsuario = new
-            {
-                Nome = lblNomeUsuario.Text,
-                Login = lblLoginUsuario.Text
-            };
-
-            // Serialize the object into a JSON string and return it
-            string dadosUsuarioJson = Newtonsoft.Json.JsonConvert.SerializeObject(dadosUsuario);
-            return dadosUsuarioJson;
-        }
-
-        // If the index is invalid or the item is not found, return an error response
-        return "{\"error\": \"Invalid index or item not found\"}";
-    }
-
-    protected void btnExibirDados_Click(object sender, EventArgs e)
-    {
-        string nomeUsuario = DataList1.Attributes["nome_usuario"];
-        string LoginUsuario = DataList1.Attributes["nome_usuario"];
-        lblNomeUsuario.Text = nomeUsuario;
-        lblLoginUsuario.Text = LoginUsuario;
-    }
-
-    protected void DataList1_ItemCommand1(object source, DataListCommandEventArgs e)
-    {
-        if (e.CommandName == "YourCommandName")
-        {
-            // Recupera a variável do item do DataList
-            string nomeUsuario = ((DataListItem)e.Item).Attributes["nome_usuario"];
-            string LoginUsuario = ((DataListItem)e.Item).Attributes["login_usuario"];
-
+            // Define os dados nos rótulos externos
+            ProfileManager.mostrarImagemPerfilUser(imgUsuarioSelecionado, codUsuario);
             lblNomeUsuario.Text = nomeUsuario;
-            lblLoginUsuario.Text = LoginUsuario;
+            lblLoginUsuario.Text = loginUsuario;
+        }
+    }
+
+    protected void DataListSolicitacoes_ItemDataBound(object sender, DataListItemEventArgs e)
+    {
+
+        // Obtém o índice do item clicado
+        int itemIndex = e.Item.ItemIndex;
+
+        // Obtém o valor da chave de dados (cod_usuario) do item clicado
+        int codUsuario = (int)DataListSolicitacoes.DataKeys[itemIndex];
+
+        Image ImgPerfilUsuarioLista = (Image)e.Item.FindControl("ImgPerfilUsuarioLista");
+        ProfileManager.mostrarImagemPerfilUser(ImgPerfilUsuarioLista, codUsuario);
+    }
+
+    protected void btnVerArquivo_Click(object sender, EventArgs e)
+    {
+        // Obtém o valor do cod_usuario do último item clicado do DataList
+        int lastClickedUserId = (int)Session["LastClickedUserId"];
+        ProfileManager.exibirImagemSolicitacao(ImgImagemRecebida, lastClickedUserId);
+    }
+
+    protected void btnAceitar_Click(object sender, EventArgs e)
+    {
+        using (Conexao c = new Conexao())
+        {
+            c.conectar();
+            int lastClickedUserId = (int)Session["LastClickedUserId"];
+            var parametros = new List<SqlParameter>
+                    {
+                        new SqlParameter("@codUsuario", lastClickedUserId)
+                    };
+
+            int rowsAffected = c.ExecuteDeleteProcedure("InsertAceito", parametros);
+            if (rowsAffected > 0)
+            {
+                string script = "<script type='text/javascript'>alert('Usuário Aceito com sucesso!');</script>";
+
+                if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                }
+            }
+            else
+            {
+                string script = "<script type='text/javascript'>alert('Ocorreu um erro ao aceitar o usuário, se o erro persistir, contate o suporte.');</script>";
+
+                if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                }
+            }
+        }
+    }
+
+    protected void btnRecusar_Click(object sender, EventArgs e)
+    {
+        using (Conexao c = new Conexao())
+        {
+            c.conectar();
+            int lastClickedUserId = (int)Session["LastClickedUserId"];
+            var parametros = new List<SqlParameter>
+                    {
+                        new SqlParameter("@codUsuario", lastClickedUserId)
+                    };
+
+            int rowsAffected = c.ExecuteDeleteProcedure("InsertNegado", parametros);
+            if (rowsAffected > 0)
+            {
+                string script = "<script type='text/javascript'>alert('Usuário recusado com sucesso!');</script>";
+
+                if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                }
+            }
+            else
+            {
+                string script = "<script type='text/javascript'>alert('Ocorreu um erro ao recusar o usuário, se o erro persistir, contate o suporte.');</script>";
+
+                if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                }
+            }
         }
     }
 }
