@@ -42,6 +42,7 @@ public partial class fazer_login : System.Web.UI.Page
 
                 if (senhaCorreta)
                 {
+                    // se ele for ADM apareça os controles de ADM
                     if(Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_tipo"]) == 5)
                     {
                         Session["ADM"] = true;

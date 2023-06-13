@@ -38,42 +38,30 @@ public partial class aceitar_verificado : System.Web.UI.Page
         using (Conexao c = new Conexao())
         {
             c.conectar();
-            DataSet SelectStatusVerificado = c.sqlProcedure("SelectVerificadoAceitosPendenteNegadoQntd");
 
-            // Verifique se o DataSet contém uma tabela
-            if (SelectStatusVerificado.Tables.Count > 0)
+            var SelectVerificadoNegado = c.sqlProcedure("SelectVerificadoNegado");
+
+            if (SelectVerificadoNegado.Tables.Count > 0 && SelectVerificadoNegado.Tables[0].Rows.Count > 0)
             {
-                // Acesse a primeira tabela do DataSet
-                DataTable dataTable = SelectStatusVerificado.Tables[0];
+                int qntdNegado = Convert.ToInt32(SelectVerificadoNegado.Tables[0].Rows[0][0]);
+                lblSolicitacoesNegadas.Text = qntdNegado.ToString();
+            }
 
-                // Verifique se a tabela contém linhas
-                if (dataTable.Rows.Count > 0)
-                {
-                    // Acesse a primeira linha da tabela
-                    DataRow row = dataTable.Rows[0];
+            var SelectVerificadoPendente = c.sqlProcedure("SelectVerificadoPendente");
 
-                    // Obtenha a quantidade para cada status_verificado
-                    if (dataTable.Rows.Count > 0)
-                    {
-                        if ()
-                        {
-                            int qntdAceitos = Convert.ToInt32(row["aceito"]);
-                            lblSolicitacoesAceitas.Text = qntdAceitos.ToString();
-                        }
+            if (SelectVerificadoPendente.Tables.Count > 0 && SelectVerificadoPendente.Tables[0].Rows.Count > 0)
+            {
+                int qntdPendente = Convert.ToInt32(SelectVerificadoPendente.Tables[0].Rows[0][0]);
+                lblSolicitacoesPendentes.Text = qntdPendente.ToString();
+                lblQuantidadeSolicitacoes.Text = qntdPendente.ToString();
+            }
 
-                        if (row.Table.Rows.Contains("negado"))
-                        {
-                            int qntdRecusados = Convert.ToInt32(row["negado"]);
-                            lblSolicitacoesNegadas.Text = qntdRecusados.ToString();
-                        }
+            var SelectVerificadoAceito = c.sqlProcedure("SelectVerificadoAceito");
 
-                        if (row.Table.Rows.Contains("pendente"))
-                        {
-                            int qntdPendentes = Convert.ToInt32(row["pendente"]);
-                            lblSolicitacoesPendentes.Text = qntdPendentes.ToString();
-                        }
-                    }
-                }
+            if (SelectVerificadoAceito.Tables.Count > 0 && SelectVerificadoAceito.Tables[0].Rows.Count > 0)
+            {
+                int qntdAceito = Convert.ToInt32(SelectVerificadoAceito.Tables[0].Rows[0][0]);
+                lblSolicitacoesAceitas.Text = qntdAceito.ToString();
             }
         }
     }
@@ -148,6 +136,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                DataListSolicitacoes.DataBind();
             }
             else
             {
@@ -157,6 +146,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                DataListSolicitacoes.DataBind();
             }
         }
     }
@@ -181,6 +171,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                DataListSolicitacoes.DataBind();
             }
             else
             {
@@ -190,6 +181,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                DataListSolicitacoes.DataBind();
             }
         }
     }

@@ -341,7 +341,7 @@
         <div class="solicitacao w-col w-col-5">
             <div class="div-block-65">
                 <div class="text-block-38">Solicitações</div>
-                <asp:Label CssClass="text-block-38" ID="lblQuantidadeSolicitacoes" runat="server" Text="erro"></asp:Label>
+                <asp:Label CssClass="text-block-38" ID="lblQuantidadeSolicitacoes" runat="server" Text="0"></asp:Label>
             </div>
 
             <asp:DataList OnItemDataBound="DataListSolicitacoes_ItemDataBound" OnItemCommand="DataListSolicitacoes_ItemCommand" ID="DataListSolicitacoes" runat="server" DataKeyField="cod_usuario" DataSourceID="SqlDataSourceSolicitacoes">
@@ -358,7 +358,7 @@
 
                 </ItemTemplate>
             </asp:DataList>
-            <asp:SqlDataSource ID="SqlDataSourceSolicitacoes" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendentes" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSourceSolicitacoes" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendente" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
 
         </div>
         <div class="mostrar w-col w-col-7">
@@ -367,17 +367,17 @@
                     <div class="bloco blocoaceita">
                         <div class="text-block-39 aceitatxt">Aceita</div>
                         <!-- solicitações aceitas -->
-                        <asp:Label ID="lblSolicitacoesAceitas" CssClass="text-block-39 aceitatxt" runat="server" Text="erro"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesAceitas" CssClass="text-block-39 aceitatxt" runat="server" Text="0"></asp:Label>
                     </div>
                     <div class="bloco bloconegada">
                         <div class="text-block-39 negadatxt">Negada</div>
                         <!-- solicitações negadas -->
-                        <asp:Label ID="lblSolicitacoesNegadas" CssClass="text-block-39 negadatxt" runat="server" Text="erro"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesNegadas" CssClass="text-block-39 negadatxt" runat="server" Text="0"></asp:Label>
                     </div>
                     <div class="bloco">
                         <div class="text-block-39 pendentetxt">Pendente</div>
                         <!-- solicitações pendentes a serem aceitas -->
-                        <asp:Label ID="lblSolicitacoesPendentes" Csslass="text-block-39 pendentetxt" runat="server" Text="erro"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesPendentes" Csslass="text-block-39 pendentetxt" runat="server" Text="0"></asp:Label>
                     </div>
                 </div>
                 <div class="div-block-57">
