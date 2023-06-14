@@ -424,7 +424,7 @@
 
                 </ItemTemplate>
             </asp:DataList>
-            <asp:SqlDataSource ID="SqlDataSourceSolicitacoes" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectVerificadoPendente" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSourceSolicitacoes" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="SelectAllVerificadoPendente" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
 
         </div>
         <div class="mostrar w-col w-col-7">
