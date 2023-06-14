@@ -189,35 +189,25 @@
 
                       <!-- ====== Área para gráfico asp.net (chart control) ====== -->
 
-                    <h6 class="text-medium mb-10">Yearly subscription</h6>
-                    <h3 class="text-bold">$245,479</h3>
+                    <h6 class="text-medium mb-10">Quantidade usuários por data</h6>
+                    <h3 class="text-bold"></h3>
                   </div>
                   <div class="right">
-                    <div class="select-style-1">
-                      <div class="select-position select-sm">
-                        <select class="light-bg">
-                          <option value="">Yearly</option>
-                          <option value="">Monthly</option>
-                          <option value="">Weekly</option>
-                        </select>
-                      </div>
-                    </div>
+
                     <!-- end select -->
                   </div>
                 </div>
                 <!-- End Title -->
                 <div class="chart">
-                  
-                    <asp:Chart ID="Chart1" runat="server" DataSourceID="SqlDataSource1">
+
+                    <asp:Chart ID="ChartUsuariosCriados" runat="server" BorderlineColor="Transparent" BorderlineDashStyle="Solid" BorderlineWidth="0" EnableTheming="True" Palette="Berry">
                         <Series>
-                            <asp:Series Name="Series1" ChartType="Spline" YValuesPerPoint="6"></asp:Series>
+                            <asp:Series Name="UsuariosCriados" ChartType="Spline" XValueType="DateTime" YValueType="Int32" YValuesPerPoint="2"></asp:Series>
                         </Series>
                         <ChartAreas>
-                            <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                            <asp:ChartArea Name="ChartAreaUsuariosCriados"></asp:ChartArea>
                         </ChartAreas>
                     </asp:Chart>
-
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
 
                 </div>
                 <!-- End Chart -->
@@ -227,36 +217,28 @@
             <div class="col-lg-5">
               <div class="card-style mb-30">
                 <div
-                  class="
-                    title
-                    d-flex
-                    flex-wrap
-                    align-items-center
-                    justify-content-between
-                  "
-                >
+                  class="title d-flex flex-wrap align-items-center justify-content-between">
                   <div class="left">
-                    <h6 class="text-medium mb-30">Sales/Revenue</h6>
+                    <h6 class="text-medium mb-30">Quantidade de usuário por tipo</h6>
                   </div>
                   <div class="right">
-                    <div class="select-style-1">
-                      <div class="select-position select-sm">
-                        <select class="light-bg">
-                          <option value="">Yearly</option>
-                          <option value="">Monthly</option>
-                          <option value="">Weekly</option>
-                        </select>
-                      </div>
-                    </div>
                     <!-- end select -->
                   </div>
                 </div>
                 <!-- End Title -->
                 <div class="chart">
-                  <canvas
-                    id="Chart2"
-                    style="width: 100%; height: 400px"
-                  ></canvas>
+
+                    <asp:Chart ID="Chart2" runat="server" DataSourceID="SqlDataSource1" BackColor="Transparent" Palette="Berry">
+                        <Series>
+                            <asp:Series Name="Series1" ChartType="Pie" XValueMember="Hierarquia" YValueMembers="QuantidadeUsuarios"></asp:Series>
+                        </Series>
+                        <ChartAreas>
+                            <asp:ChartArea Name="ChartArea1"></asp:ChartArea>
+                        </ChartAreas>
+                    </asp:Chart>
+
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="ObterQuantidadeUsuariosPorHierarquia" SelectCommandType="StoredProcedure"></asp:SqlDataSource>
+
                 </div>
                 <!-- End Chart -->
               </div>
