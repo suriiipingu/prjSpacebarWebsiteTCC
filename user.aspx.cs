@@ -42,11 +42,13 @@ public partial class user : System.Web.UI.Page
             bool relacaoUsuario = ProfileManager.CheckFollowUser(cod_usuario_logado, cod_usuario_alvo);
             if (relacaoUsuario)
             {
+                btnSeguir.CssClass = "btn btn-outline-primary";
                 btnSeguir.Text = "Seguindo";
             }
             else
             {
                 btnSeguir.Text = "Seguir";
+                btnSeguir.CssClass = "btn btn-primary";
             }
         }
     }
@@ -71,6 +73,7 @@ public partial class user : System.Web.UI.Page
                     c.sqlProcedure("FollowUser", parametrosFollowUser);
                     //seguiu com sucesso!
 
+                    btnSeguir.CssClass = "btn btn-outline-primary";
                     btnSeguir.Text = "Seguindo";
                     Server.Transfer(Request.Path);
                 }
@@ -84,6 +87,7 @@ public partial class user : System.Web.UI.Page
                     };
                     c.sqlProcedure("Unfollowuser", parametrosUnfollowUser);
                     //parou de seguir com sucesso!
+                    btnSeguir.CssClass = "btn btn-primary";
                     btnSeguir.Text = "Seguir";
                     Server.Transfer(Request.Path);
                 }

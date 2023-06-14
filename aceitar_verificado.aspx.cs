@@ -130,7 +130,13 @@ public partial class aceitar_verificado : System.Web.UI.Page
             int rowsAffected = c.ExecuteDeleteProcedure("InsertAceito", parametros);
             if (rowsAffected > 0)
             {
-                string script = "<script type='text/javascript'>alert('Usuário Aceito com sucesso!');</script>";
+                string script = @" <script type='text/javascript'>
+                                        document.getElementById('successAlert').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('successAlert').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
 
                 if (!ClientScript.IsStartupScriptRegistered("popupScript"))
                 {
@@ -140,7 +146,12 @@ public partial class aceitar_verificado : System.Web.UI.Page
             }
             else
             {
-                string script = "<script type='text/javascript'>alert('Ocorreu um erro ao aceitar o usuário, se o erro persistir, contate o suporte.');</script>";
+                string script = @" <script type='text/javascript'>
+                                        document.getElementById('dangerAlert').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('dangerAlert').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
 
                 if (!ClientScript.IsStartupScriptRegistered("popupScript"))
                 {
@@ -165,7 +176,13 @@ public partial class aceitar_verificado : System.Web.UI.Page
             int rowsAffected = c.ExecuteDeleteProcedure("InsertNegado", parametros);
             if (rowsAffected > 0)
             {
-                string script = "<script type='text/javascript'>alert('Usuário recusado com sucesso!');</script>";
+                string script = @" <script type='text/javascript'>
+                                        document.getElementById('successAlertNegado').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('successAlertNegado').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
 
                 if (!ClientScript.IsStartupScriptRegistered("popupScript"))
                 {
@@ -175,7 +192,12 @@ public partial class aceitar_verificado : System.Web.UI.Page
             }
             else
             {
-                string script = "<script type='text/javascript'>alert('Ocorreu um erro ao recusar o usuário, se o erro persistir, contate o suporte.');</script>";
+                string script = @" <script type='text/javascript'>
+                                        document.getElementById('dangerAlertNegado').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('dangerAlertNegado').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
 
                 if (!ClientScript.IsStartupScriptRegistered("popupScript"))
                 {
