@@ -27,6 +27,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 ScriptManager.RegisterStartupScript(this, GetType(), "MostrarDivEstatisticas", "MostrarDivEstatisticas();", true);
             }
+
+            txtPesquisar.Attributes.Add("onkeypress", "return PressEnterKey(event);");
         }
         else
         {
@@ -43,5 +45,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
     protected void btnEstatisticas_Click(object sender, EventArgs e)
     {
         Response.Redirect("admin_painel.aspx");
+    }
+
+    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    {
+        string termoPesquisa = txtPesquisar.Text;
+        Session["TermoPesquisa"] = termoPesquisa;
+        Response.Redirect("search.aspx");
     }
 }

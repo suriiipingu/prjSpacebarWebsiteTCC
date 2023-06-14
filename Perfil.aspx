@@ -17,11 +17,13 @@
           </div>
             <!--Descrição (ou bio) do perfil do usuário logado:-->
           <div class="text-block-20">
-              <asp:Label ID="lblDescPerfilUsuario" runat="server" Text="Label"></asp:Label></div>
+              <asp:Label ID="lblDescPerfilUsuario" runat="server" Text="Label"></asp:Label>
+          </div>
+
           <div class="div-block-37">
-            <div>
-                <!--Label com a quantidade de seguidores e seguindo do usuário conectado:-->
-            <div class="text-block-22">Seguindo</div>
+
+            <!--Label com a quantidade de seguidores e seguindo do usuário conectado:-->
+            <div class="text-block-22">Seguindo
             <asp:Label ID="lblSeguindo" runat="server" Text="0"></asp:Label></div>
             <div class="text-block-21"><asp:Label ID="lblSeguidores" runat="server" Text="0"></asp:Label></div>
             <div class="text-block-22">Seguidores</div>
@@ -44,9 +46,6 @@
                   <div class="postagem postagem-perfil">
               <div class="titulo-post">
                 <h1 class="heading-3"><asp:Label ID="titulo_postLabel" runat="server" Text='<%# Eval("titulo_post") %>' /></h1>
-                <div class="div-block-36">
-                  <a href="#" class="div-btnvermais w-button">Ver mais +</a>
-                </div>
               </div>
               <div class="data-post w-clearfix">
                 <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div>
@@ -62,12 +61,6 @@
                   </div>
                 </div>
                 <div class="div-curtidas">
-                  <div class="div-curt">
-                    <!-- <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div> -->
-                    <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' /></div>
-                  </div>
-                  <div class="div-coment"></div>
-                    </a>
                   </div>
                 </div>
               </div>

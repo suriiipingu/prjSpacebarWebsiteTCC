@@ -84,22 +84,21 @@
               </ul>
             </nav>
             <div class="div-block-26">
-              <input type="search" class="search-input w-input" maxlength="256" name="query" placeholder="Pesquisar" id="search">
-                <img src="images/search-svgrepo-com.svg" loading="lazy" width="15" alt="" class="image-17" style="opacity: 30%;">
-                <asp:Button ID="Button1" runat="server" Text="Enter" CssClass="search-button w-button" />
+                <asp:TextBox ID="txtPesquisar" runat="server" CssClass="search-input w-input" Placeholder="Pesquise usuários..." MaxLength="255" TextMode="Search"></asp:TextBox>
+                <asp:ImageButton OnClick="ImageButton1_Click" ImageUrl="~/images/search-svgrepo-com.svg" ID="ImageButton1" width="15" alt="" class="image-17" style="opacity: 30%;" runat="server" />
             </div>
           </div>
           <div id="divUsuario" class="div-block">
               <div id="divEstatisticas" style="display:none">
-                  <asp:Button OnClick="btnEstatisticas_Click" style="margin-right: 2rem" CssClass="main-btn primary-btn btn-hover" ID="btnEstatisticas" runat="server" Text="Estatísticas"/>
+                  <asp:Button OnClick="btnEstatisticas_Click" style="margin-right: 2rem" CssClass="btn btn-outline-warning" ID="btnEstatisticas" runat="server" Text="Estatísticas"/>
               </div>
             <div class="div-block-2">
               <a href="perfil-config.aspx" class="link-block w-inline-block w-clearfix"><img src="images/settings-01-svgrepo-com.svg" loading="lazy" width="24" alt="" class="image-13"></a>
             </div>
             <div data-hover="false" data-delay="0" class="w-dropdown">
-              <div class="dropdown-toggle-3 w-dropdown-toggle"><asp:Image ID="ImgPerfilBarra" runat="server" loading="lazy" width="50" alt="" class="image-5"/></div>
+              <div class="dropdown-toggle-3 w-dropdown-toggle"><asp:Image ID="ImgPerfilBarra" runat="server" loading="lazy" width="50px" Height="50px" alt="" class="image-5"/></div>
               <nav class="dropdown-list-2 w-dropdown-list">
-                <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDown" runat="server"  loading="lazy" width="44" alt="" class="image-5 imgdp"/>
+                <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDown" runat="server"  loading="lazy"  width="50px" Height="50px" alt="" class="image-5 imgdp"/>
 
                     <!-- Aonde vamos exibir o nome e login do usuário atualmente conectado-->
                   <div class="div-block-18">
@@ -150,8 +149,8 @@
               <nav class="dropdown-list-2 w-dropdown-list">
                 <div class="div-block-17 w-clearfix"> <asp:Image ID="ImgPerfilDropDownSmall" runat="server" loading="lazy" width="35" alt="" class="image-5 imgdp"/>
                   <div class="div-block-18">
-                    <div class="text-block-5"><asp:Label ID="Label1" runat="server" Text="user_name"></asp:Label></div>
-                    <div class="txtblock"><asp:Label ID="Label2" runat="server" Text="user_login"></asp:Label></div>
+                    <div class="text-block-5"><asp:Label ID="lblUserNameNavbarDropdown" runat="server" Text="user_name"></asp:Label></div>
+                    <div class="txtblock"><asp:Label ID="lblUserLoginNavbarDropdown" runat="server" Text="user_login"></asp:Label></div>
                   </div>
                 </div>
                 <div class="div-block-17 diva div-mobile">

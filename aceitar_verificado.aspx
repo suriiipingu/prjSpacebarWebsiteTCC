@@ -289,9 +289,75 @@
 
     </script>
 
+    <script type="text/javascript">
+        function hideSuccessAlert() {
+            document.getElementById('successAlert').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        function hideDangerAlert() {
+            document.getElementById('dangerAlert').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideDangerAlert, 4000);
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideSuccessAlert, 4000);
+    </script>
+
+
+        <script type="text/javascript">
+            function hideSuccessAlertNegado() {
+                document.getElementById('successAlertNegado').style.display = 'none';
+            }
+        </script>
+
+    <script type="text/javascript">
+        function hideDangerAlertNegado() {
+            document.getElementById('dangerAlertNegado').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideDangerAlertNegado, 4000);
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideSuccessAlertNegado, 4000);
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
 <body>
+
+
+    <div class="position-absolute bottom-0 start-50 translate-middle-x">
+        <div id="successAlert" class="alert alert-success" role="alert" style="display: none;">
+            Usuário Aceito com sucesso!
+        </div>
+    </div>
+
+        <div class="position-absolute bottom-0 start-50 translate-middle-x">
+        <div id="dangerAlert" class="alert alert-danger" role="alert" style="display: none;">
+            Ocorreu um erro ao aceitar o usuário, se o erro persistir, contate o suporte.
+        </div>
+    </div>
+
+        <div class="position-absolute bottom-0 start-50 translate-middle-x">
+        <div id="successAlertNegado" class="alert alert-success" role="alert" style="display: none;">
+            Usuário Negado com sucesso!
+        </div>
+    </div>
+
+        <div class="position-absolute bottom-0 start-50 translate-middle-x">
+        <div id="dangerAlertNegado" class="alert alert-danger" role="alert" style="display: none;">
+            Ocorreu um erro ao negar o usuário, se o erro persistir, contate o suporte.
+        </div>
+    </div>
 
     <div class="container">
 
@@ -367,17 +433,17 @@
                     <div class="bloco blocoaceita">
                         <div class="text-block-39 aceitatxt">Aceita</div>
                         <!-- solicitações aceitas -->
-                        <asp:Label ID="lblSolicitacoesAceitas" CssClass="text-block-39 aceitatxt" runat="server" Text="0"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesAceitas" CssClass="text-block-39 aceitatxt" runat="server" Text=""></asp:Label>
                     </div>
                     <div class="bloco bloconegada">
                         <div class="text-block-39 negadatxt">Negada</div>
                         <!-- solicitações negadas -->
-                        <asp:Label ID="lblSolicitacoesNegadas" CssClass="text-block-39 negadatxt" runat="server" Text="0"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesNegadas" CssClass="text-block-39 negadatxt" runat="server" Text=""></asp:Label>
                     </div>
                     <div class="bloco">
                         <div class="text-block-39 pendentetxt">Pendente</div>
                         <!-- solicitações pendentes a serem aceitas -->
-                        <asp:Label ID="lblSolicitacoesPendentes" Csslass="text-block-39 pendentetxt" runat="server" Text="0"></asp:Label>
+                        <asp:Label ID="lblSolicitacoesPendentes" Csslass="text-block-39 pendentetxt" runat="server" Text=""></asp:Label>
                     </div>
                 </div>
                 <div class="div-block-57">
@@ -434,7 +500,6 @@
     <script src="assets/js/world-merc.js"></script>
     <script src="assets/js/polyfill.js"></script>
     <script src="assets/js/main.js"></script>
-
     <script>
         // ======== jvectormap activation
         var markers = [

@@ -88,29 +88,6 @@ public partial class Perfil : System.Web.UI.Page
                 string cod_post = row["cod_post"].ToString();
                 btnLike.CommandArgument = cod_post;
             }
-
-            //Verificar se o usuário ja curtiu uma postagem e mudar a imagem do botão
-            if (Session["codigoUsuario"] != null)
-            {
-                using (Conexao c = new Conexao())
-                {
-                    c.conectar();
-
-                    // Check if user already liked this post
-                    string queryCheckLiked = "SELECT COUNT(*) FROM tblPostagemCurtidas WHERE tblPostagemCurtidas_cod_post = @postId AND tblPostagemCurtidas_cod_usuario = @userId";
-                    SqlCommand cmdCheckLiked = new SqlCommand(queryCheckLiked, c.conexao);
-                    cmdCheckLiked.Parameters.AddWithValue("@postId", postId);
-                    cmdCheckLiked.Parameters.AddWithValue("@userId", userId);
-                    int likedCount = (int)cmdCheckLiked.ExecuteScalar();
-
-                    if (likedCount > 0)
-                    {
-                        btnLike.ImageUrl = "images/heart-fill.svg";
-                    }
-
-                    c.fechaConexao();
-                }
-            }
         }
     }
 }
