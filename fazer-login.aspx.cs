@@ -42,6 +42,16 @@ public partial class fazer_login : System.Web.UI.Page
 
                 if (senhaCorreta)
                 {
+                    // se ele for ADM apareça os controles de ADM
+                    if(Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_tipo"]) == 5)
+                    {
+                        Session["ADM"] = true;
+                    }
+                    else
+                    {
+                        Session["ADM"] = false;
+                    }
+
                     // Login bem sucedido, salva as informações do usuário na sessão
                     Session["logado"] = true;
                     Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());

@@ -1,12 +1,50 @@
 ﻿<%@ Page Title="Faça Login na SpaceBar" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="fazer-login.aspx.cs" Inherits="fazer_login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+
+    <style>
+        .w-container{
+            max-width:1000px;
+        }
+
+        .div-login{
+            width:40%
+        }
+
+        .div-imagem{
+            width:60%;
+        }
+
+                @media screen and (max-width: 991px){
+            .w-container {
+            max-width: 750px;
+           }
+
+            .div-imagem{
+                width: 70%;
+            }
+
+            .div-login{
+                width:60%;
+            }
+        }
+
+                 @media screen and (max-width: 767px){
+                     .div-login{
+                width:80%;
+            }
+                 }
+
+        
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" Runat="Server">
 
 <div class="login wf-section">
         <div class="ctn-alinharlogin w-container">
-            <div class="div-imagem"></div>
+            <div class="div-imagem">
+                    <img alt="Planetas em uma galáxia" src="images/img.svg" />
+            </div>
             <div class="div-login">
                 <div class="div-log">
                     <div class="div-icon-spacebar">
@@ -65,9 +103,5 @@
             </div>
         </div>
     </section>
-Recolher
-message.txt
-4 KB
-
 </asp:Content>
 

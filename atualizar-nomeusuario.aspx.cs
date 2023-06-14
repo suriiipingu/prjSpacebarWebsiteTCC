@@ -37,7 +37,7 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
 
                 if (txtNomeUsuario.Text.Length > 3)
                 {
-                    if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == true)
+                    if (UserProfile.ProfileManager.VerificarLoginEmail(login, email) == false)
                     {
                         lblErro.Text = "Esse nome de usuário já existe, tente outro.";
                         return;

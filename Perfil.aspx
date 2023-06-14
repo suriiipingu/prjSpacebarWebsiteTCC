@@ -6,7 +6,7 @@
     <div class="cnt-perfil w-container">
       <div class="parte1">
         <div class="div-ft-fundo"> <asp:Image ID="ImgFundoPerfil" runat="server" loading="lazy" alt="" class="image-15"/></div>
-        <div class="div-foto-perfil"> <asp:Image ID="ImgPerfil" runat="server" loading="lazy" alt="" class="image-8 imgperfil-fixo"/></div>
+        <div class="div-foto-perfil"> <asp:Image ID="ImgPerfil" runat="server" loading="lazy" alt="" class="image-8 imgperfil-fixo" Height="190" Width="190"/></div>
         <div class="div-block-7 div-bio">
             <!-- nome e login do próprio usuário logado: -->
           <h3 class="heading-4">
@@ -53,15 +53,6 @@
               </div>
               <div class="img-post"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="126" alt="" class="image-21"></div>
               <div class="tags-post">
-                <div class="div-block-31">
-                  <div class="text-block-13">Descoberta</div>
-                </div>
-                <div class="div-block-31 div-2">
-                  <div class="text-block-13">Jogo</div>
-                </div>
-                <div class="div-block-31 div-2 div-3">
-                  <div class="text-block-13">Diversão</div>
-                </div>
               </div>
               <div class="div-nome-curtidas">
                 <div class="div-nome w-clearfix"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="46" alt="" class="image-22">
@@ -75,10 +66,7 @@
                     <!-- <asp:ImageButton ID="ImageButton1" ImageUrl="images/love-mobile-ui-svgrepo-com.svg" loading="lazy" width="24" alt="" runat="server" /></div> -->
                     <div><asp:Label ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' /></div>
                   </div>
-                  <div class="div-coment">
-                    <a href="comentarios.html" class="link-block-4 w-inline-block">
-                      <div class="icon"><img src="images/comment-svgrepo-com-.svg" loading="lazy" width="24" alt=""></div>
-                      <div class="text-block-30"><asp:Label ID="comentarios_postLabel" runat="server" Text='<%# Eval("comentarios_post") %>' /></div>
+                  <div class="div-coment"></div>
                     </a>
                   </div>
                 </div>

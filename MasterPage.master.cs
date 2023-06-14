@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using VerifyUpdateSession;
 using UserProfile;
+using System.Web.SessionState;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
@@ -20,6 +21,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
             UserProfile.ProfileManager.mostrarImagemPerfil(ImgPerfilBarra, Session);
             UserProfile.ProfileManager.mostrarImagemPerfil(ImgPerfilDropDown, Session);
             UserProfile.ProfileManager.mostrarImagemPerfil(ImgPerfilDropDownSmall, Session);
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "MostrarDivUsuario", "MostrarDivUsuario();", true);
+            if ((bool)Session["ADM"] == true)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "MostrarDivEstatisticas", "MostrarDivEstatisticas();", true);
+            }
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "EsconderDivUsuario", "EsconderDivUsuario();", true);
         }
     }
 
@@ -27,5 +38,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
         Session.Abandon();
         Response.Redirect("fazer-login.aspx");
+    }
+
+    protected void btnEstatisticas_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("admin_painel.aspx");
     }
 }

@@ -62,39 +62,51 @@
                 document.getElementById('AvisoSenha').innerHTML = "As senhas não coincidem. Tente novamente.";
                 return;
             }
-
+            s
             txtConfSenha.style.borderColor = "";
             AvisoSenha.innerHTML = "";
             return;
 
         }
 
-<%--       function validarCampos() {
-            var campoNome = document.getElementById('<%= txtNome.ClientID %>');
-            var campoLogin = document.getElementById('<%= txtLogin.ClientID %>');
-            var campoEmail = document.getElementById('<%= txtEmail.ClientID %>');
-            var campoCelular = document.getElementById('<%= txtCelular.ClientID %>');
-            var campoSenha = document.getElementById('<%= txtSenha.ClientID %>').value;
-            var campoConfSenha = document.getElementById('<%= txtConfSenha.ClientID %>');
-            
-
-            if (campoNome === "" || campoLogin === "" || campoEmail === "" || campoCelular === "" || campoSenha === "" || campoConfSenha === "") {
-                document.getElementById('<%= btnInscrever.ClientID %>').disabled = true;
-                return false;
-            }
-            else {
-                document.getElementById('<%= btnInscrever.ClientID %>').disabled = false;
-                return true;
-            }
-        }--%>
-
     </script>
+    <style>
+        .div-block-42 {
+        width:30%;
+}
+        span{
+            display: block;
+        }
+
+        #ctn-img{
+            background:no-repeat,center;
+            background-image:url('images/img-fundo.svg');
+            background-position:center;
+
+        }
+
+        
+      @media screen and (max-width: 767px){
+          #ctn-img{
+              background:none;
+          }
+      }
+
+      a:hover{
+          color:#af46ff;
+      }
+    </style>
+
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" runat="Server">
-    <div class="login wf-section">
+    <div id="ctn-img" class="login wf-section">
         <div class="ctn-alinharlogin w-container">
-            <div class="div-block-42"></div>
+
+            <div class="div-block-42">
+<%--                <img alt="Planetinhas na galáxia" src="images/img.svg" />--%>
+            </div>
+
             <div class="div-login">
                 <div class="div-log">
                     <div class="div-icon-spacebar">
@@ -107,7 +119,7 @@
                     <div class="div-from-login">
                         <div class="w-form">
                             <div class="field-wrap">
-                                <asp:Label ID="lblNome" runat="server" Text="Nome *" CssClass="field-label-4"></asp:Label>
+                                <label  for="Nome-2" class="field-label-4">Nome *</label>
                                 <asp:TextBox ID="txtNome" CssClass="text-field login-txt w-input" placeholder="Como iremos chamá-lo" runat="server"></asp:TextBox>
                             </div>
                             <div class="field-wrap">

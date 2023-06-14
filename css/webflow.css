@@ -329,7 +329,7 @@ label {
 .w-select {
   display: block;
   width: 100%;
-  height: 38px;
+  height: 42px;
   padding: 8px 12px;
   margin-bottom: 10px;
   font-size: 14px;
@@ -671,7 +671,7 @@ textarea.w-select {
   }
   .w-col {
     width: 100%;
-    left: auto;
+    left: -34%;
     right: auto;
   }
   .w-col-small-1 {
