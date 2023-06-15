@@ -34,6 +34,12 @@ public partial class index : System.Web.UI.Page
         {
             using (Conexao c = new Conexao())
             {
+                if ((bool)Session["verificado"] == true)
+                {
+                    Button btnVerificarPostagem = (Button)e.Item.FindControl("btnVerificarPostagem");
+                    btnVerificarPostagem.Visible = true;
+                }
+
                 //construindo cada postagem
                 c.conectar();
                 var dadosPosts = c.sqlProcedure("GetPostAndAuthor");
@@ -159,6 +165,16 @@ public partial class index : System.Web.UI.Page
 
                 Image ImgPost = (Image)e.Item.FindControl("ImgPost");
                 ProfileManager.exibirImagemPost(ImgPost, Convert.ToInt32(PostId));
+
+                if (string.IsNullOrEmpty(ImgPost.ImageUrl))
+                {
+                    
+                }
+                else
+                {
+                    // O controle asp:Image contém uma imagem
+                }
+
             }
         }
     }
@@ -247,6 +263,51 @@ public partial class index : System.Web.UI.Page
             Session["postAuthorID"] = codAutorPost;
             Response.Redirect("user.aspx");
         }
+        if(e.CommandName == "VerificarPostagem")
+        {
+            int codPostagem = int.Parse(((DataListItem)e.Item).Attributes["codPost"]);
+
+            using(Conexao c = new Conexao())
+            {
+                c.conectar();
+                var parametrosValidarPostagem = new List<SqlParameter>
+                    {
+                        new SqlParameter("@codPost", codPostagem)
+                    };
+                int rowsAffected = c.ExecuteDeleteProcedure("VerificarPostagem", parametrosValidarPostagem);
+                if(rowsAffected > 0)
+                {
+                    string script = @" <script type='text/javascript'>
+                                        document.getElementById('successAlert').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('successAlert').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
+
+                    if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                    }
+                    myDataList.DataBind();
+                }
+                else
+                {
+                    string script = @" <script type='text/javascript'>
+                                        document.getElementById('dangerAlert').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('dangerAlert').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
+                    if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                    }
+                    myDataList.DataBind();
+                }
+            }
+        }
     }
 
     protected void btnVerMais_Click(object sender, EventArgs e)
@@ -268,5 +329,10 @@ public partial class index : System.Web.UI.Page
 
         Session["codPostagemComentario"] = postId;
         Response.Redirect("comentarios.aspx");
+    }
+
+    protected void btnVerificarPostagem_Click(object sender, EventArgs e)
+    {
+
     }
 }

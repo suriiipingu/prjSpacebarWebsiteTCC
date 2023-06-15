@@ -488,12 +488,7 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgFundo.ImageUrl = imageUrl;
                     }
-
                 }
-
-
-
-
             }
         }
 
@@ -524,7 +519,8 @@ namespace UserProfile
                             }
                             else
                             {
-                                // Tratar valor nulo da coluna "imgfundo_usuario"
+                                // Tratar valor nulo da coluna "img_post"
+                                imgFundo.Visible = false;
                             }
                         }
                     }
@@ -549,7 +545,6 @@ namespace UserProfile
 
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {

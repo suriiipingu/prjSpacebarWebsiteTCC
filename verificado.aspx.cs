@@ -58,13 +58,30 @@ public partial class verificado : System.Web.UI.Page
                 ScriptManager.RegisterStartupScript(this, GetType(), "EsconderSolicitacao", "EsconderSolicitacao();", true);
                 ScriptManager.RegisterStartupScript(this, GetType(), "MostrarVerificadoPendente", "MostrarVerificadoPendente();", true);
             }
-            else
+            else if (status_verificado == "negado")
             {
-                // Caso o valor de cod_tipo não corresponda a nenhum dos casos acima, você pode tomar alguma ação apropriada
-                return;
+                ScriptManager.RegisterStartupScript(this, GetType(), "EsconderSolicitacao", "EsconderSolicitacao();", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "MostrarVerificadoNegado", "MostrarVerificadoNegado();", true);
+
+                var parametros = new List<SqlParameter>
+                    {
+                        new SqlParameter("@userId", Session["codigoUsuario"])
+                    };
+                var resultado = c.sqlProcedure("GetuserInformation", parametros);
+                lblMensagemNegada.Text = resultado.Tables[0].Rows[0]["mensagem_verificado"].ToString();
             }
+            else if (status_verificado == "aceito")
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "EsconderSolicitacao", "EsconderSolicitacao();", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "MostrarVerificadoAceito", "MostrarVerificadoAceito();", true);
 
-
+                var parametros = new List<SqlParameter>
+                    {
+                        new SqlParameter("@userId", Session["codigoUsuario"])
+                    };
+                var resultado = c.sqlProcedure("GetuserInformation", parametros);
+                lblMensagemAceita.Text = resultado.Tables[0].Rows[0]["mensagem_verificado"].ToString();
+            }
         }
     }
 

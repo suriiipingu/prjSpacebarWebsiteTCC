@@ -6,7 +6,11 @@
 
     <div class="w-container">
 
-        <h1>Resultados da pesquisa</h1>
+        <div class="m-4">
+            <p class="fs-1">Resultados da pesquisa</p>
+        </div>
+
+        <div></div>
 
         <asp:DataList OnItemCommand="DataList1_ItemCommand" OnItemDataBound="DataList1_ItemDataBound" ID="DataList1" runat="server" DataKeyField="cod_usuario" DataSourceID="SqlDataSource1">
             <ItemTemplate>

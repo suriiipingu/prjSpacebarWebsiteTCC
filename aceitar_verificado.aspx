@@ -385,7 +385,7 @@
                 <a href="perfil-config.aspx" class="w-dropdown-link">Meu perfil</a>
                 <a href="minha-conta.aspx" aria-current="page" class="dropdown-link-4 w-dropdown-link w--current">Minha conta</a>
                 <a href="criador de conteudo.aspx"" class="w-dropdown-link">Criador de conteúdo</a>
-                <a href="verificado.aspx" class="w-dropdown-link">Verificado</a>
+                <a href="#" class="w-dropdown-link">Verificado</a>
               </nav>
             </div>
           </div>
@@ -471,8 +471,8 @@
                                     </div>
                                 </div>
                                 <div class="div-block-59">
-                                    <asp:Button OnClick="btnAceitar_Click" ID="btnAceitar" CssClass="button-12 w-button" runat="server" Text="Aceitar" />
-                                    <asp:Button OnClick="btnRecusar_Click" ID="btnRecusar" CssClass="button-13 w-button" runat="server" Text="Recusar" />
+                                    <asp:Button OnClick="btnAceitar_Click" ID="btnAceitar" CssClass="btn btn-outline-success" runat="server" Text="Aceitar" />
+                                    <asp:Button OnClick="btnRecusar_Click" ID="btnRecusar" CssClass="btn btn-outline-danger" runat="server" Text="Recusar" />
                                 </div>
                             </div>
                         </div>

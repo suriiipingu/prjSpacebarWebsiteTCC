@@ -52,6 +52,15 @@ public partial class fazer_login : System.Web.UI.Page
                         Session["ADM"] = false;
                     }
 
+                    if(Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_tipo"]) == 3 || Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_tipo"]) == 4)
+                    {
+                        Session["verificado"] = true;
+                    }
+                    else
+                    {
+                        Session["verificado"] = false;
+                    }
+
                     // Login bem sucedido, salva as informações do usuário na sessão
                     Session["logado"] = true;
                     Session["codigoUsuario"] = Convert.ToInt32(dt.Tables[0].DefaultView[0].Row["cod_usuario"].ToString());

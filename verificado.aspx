@@ -199,6 +199,14 @@
             divVerificadoPendente.style.display = "block";
         }
 
+        function MostrarVerificadoNegado() {
+            divVerificadoNegado.style.display = "block";
+        }
+
+        function MostrarVerificadoAceito() {
+            divVerificadoAceito.style.display = "block";
+        }
+
         /*div para mostrar se usuário já é verificado */
         function MostrarDivOcultar() {
             var divOcultarBaixar = document.getElementById("divOcultar");
@@ -303,6 +311,16 @@
                             <div id="divVerificadoPendente" class="divOcultarBaixar">
                                 <h4 class="heading-2">Verificado</h4>
                                     <p class="paragraph">Estamos analisando a sua solicitação, volte daqui à 4 dias!!</p>
+                            </div>
+
+                            <div style="display:none" id="divVerificadoNegado" class="divOcultarBaixar">
+                                <p class="fs-1 text-danger">Sua requisição foi negada</p>
+                                    <p class="lh-base">motivo: <asp:Label class="lh-base" ID="lblMensagemNegada" runat="server" Text=""></asp:Label></p>
+                            </div>
+
+                            <div style="display:none" id="divVerificadoAceito" class="divOcultarBaixar">
+                                <p class="fs-1 text-success">Sua requisição foi aceita</p>
+                                    <p class="lh-base">motivo: <asp:Label class="lh-base" ID="lblMensagemAceita" runat="server" Text=""></asp:Label></p>
                             </div>
 
                         </div>

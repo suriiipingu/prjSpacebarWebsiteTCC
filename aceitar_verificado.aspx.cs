@@ -124,7 +124,8 @@ public partial class aceitar_verificado : System.Web.UI.Page
             int lastClickedUserId = (int)Session["LastClickedUserId"];
             var parametros = new List<SqlParameter>
                     {
-                        new SqlParameter("@codUsuario", lastClickedUserId)
+                        new SqlParameter("@codUsuario", lastClickedUserId),
+                        new SqlParameter("@mensagem", txtMensagem.Text)
                     };
 
             int rowsAffected = c.ExecuteDeleteProcedure("InsertAceito", parametros);
@@ -142,6 +143,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                txtMensagem.Text = "";
                 DataListSolicitacoes.DataBind();
             }
             else
@@ -170,7 +172,8 @@ public partial class aceitar_verificado : System.Web.UI.Page
             int lastClickedUserId = (int)Session["LastClickedUserId"];
             var parametros = new List<SqlParameter>
                     {
-                        new SqlParameter("@codUsuario", lastClickedUserId)
+                        new SqlParameter("@codUsuario", lastClickedUserId),
+                        new SqlParameter("@mensagem", txtMensagem.Text)
                     };
 
             int rowsAffected = c.ExecuteDeleteProcedure("InsertNegado", parametros);
@@ -188,6 +191,7 @@ public partial class aceitar_verificado : System.Web.UI.Page
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
                 }
+                txtMensagem.Text = "";
                 DataListSolicitacoes.DataBind();
             }
             else
