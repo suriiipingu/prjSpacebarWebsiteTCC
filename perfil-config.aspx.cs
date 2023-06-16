@@ -45,16 +45,6 @@ public partial class perfil_config : System.Web.UI.Page
         using(Conexao c = new Conexao())
         {
             c.conectar();
-
-            if (Session["codigoUsuario"] != null)
-            {
-                c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = Session["codigoUsuario"].ToString();
-            }
-            else
-            {
-                Response.Redirect("fazer-login.aspx");
-            }
-
             //salvar imagem de perfil no banco em varbinary - Computador
             if (FUimg.HasFile) //salvar imagem no banco de dados em VARBINARY
             {
@@ -71,11 +61,12 @@ public partial class perfil_config : System.Web.UI.Page
                             imgUsu = br.ReadBytes((int)FUimg.FileContent.Length);
                         }
 
-                        c.command.CommandText = "UPDATE tblUsuario SET icon_usuario = @icon WHERE cod_usuario = @codUsuarioConectado";
-                        c.command.Parameters.Add("@icon", SqlDbType.VarBinary).Value = imgUsu;
+                        var parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                        parameters.Add(new SqlParameter("@icon", imgUsu));
 
-
-                        c.command.ExecuteNonQuery();
+                        var result = c.sqlProcedure("InserirImagemPerfil", parameters);
+                        Response.Redirect("perfil-config.aspx");
                     }
                     else
                     {
@@ -106,11 +97,12 @@ public partial class perfil_config : System.Web.UI.Page
                             imgUsu = br.ReadBytes((int)FileUploadFundo.FileContent.Length);
                         }
 
-                        c.command.CommandText = "UPDATE tblUsuario SET imgfundo_usuario = @imgfundo WHERE cod_usuario = @codUsuarioConectado";
-                        c.command.Parameters.Add("@imgfundo", SqlDbType.VarBinary).Value = imgUsu;
+                        var parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                        parameters.Add(new SqlParameter("@imgFundo", imgUsu));
 
-
-                        c.command.ExecuteNonQuery();
+                        var result = c.sqlProcedure("InserirImagemFundo", parameters);
+                        Response.Redirect("perfil-config.aspx");
                     }
                     else
                     {
@@ -134,15 +126,15 @@ public partial class perfil_config : System.Web.UI.Page
             {
 
                 String NomeAtualizado = txtNomeUsu.Text.Trim();
-             
-
-                c.command.CommandText = "Update tblUsuario set nome_usuario=@nome where cod_usuario = @codUsuarioConectado";
-
-                c.command.Parameters.Add("@nome", SqlDbType.VarChar).Value = NomeAtualizado;
-
-                c.command.ExecuteNonQuery();
 
 
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                parameters.Add(new SqlParameter("@nome", NomeAtualizado));
+
+                var result = c.sqlProcedure("AtualizarNome", parameters);
+
+                Response.Redirect("perfil-config.aspx");
             }
 
 
@@ -151,20 +143,15 @@ public partial class perfil_config : System.Web.UI.Page
                 //criar bio
                 String bio = txtBio.Text.Trim();
 
-                c.command.CommandText = "Update tblUsuario set bio_usuario=@bio where cod_usuario = @codUsuarioConectado";
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                parameters.Add(new SqlParameter("@bio", bio));
 
-                c.command.Parameters.Add("@bio", SqlDbType.VarChar).Value = bio;
+                var result = c.sqlProcedure("AtualizarBioUsuario", parameters);
 
-
-                c.command.ExecuteNonQuery();
-
+                Response.Redirect("perfil-config.aspx");
             }
-
-
-
         }
-        
-
     }
 
     protected void btnSalvar2_Click(object sender, EventArgs e)
@@ -197,11 +184,12 @@ public partial class perfil_config : System.Web.UI.Page
                             imgUsu = br.ReadBytes((int)FUimgmini.FileContent.Length);
                         }
 
-                        c.command.CommandText = "UPDATE tblUsuario SET icon_usuario = @icon WHERE cod_usuario = @codUsuarioConectado";
-                        c.command.Parameters.Add("@icon", SqlDbType.VarBinary).Value = imgUsu;
+                        var parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                        parameters.Add(new SqlParameter("@icon", imgUsu));
 
-
-                        c.command.ExecuteNonQuery();
+                        var result = c.sqlProcedure("InserirImagemPerfil", parameters);
+                        Response.Redirect("perfil-config.aspx");
                     }
                     else
                     {
@@ -232,11 +220,12 @@ public partial class perfil_config : System.Web.UI.Page
                             imgUsu = br.ReadBytes((int)FileUploadFundoCelular.FileContent.Length);
                         }
 
-                        c.command.CommandText = "UPDATE tblUsuario SET imgfundo_usuario = @imgfundo WHERE cod_usuario = @codUsuarioConectado";
-                        c.command.Parameters.Add("@imgfundo", SqlDbType.VarBinary).Value = imgUsu;
+                        var parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                        parameters.Add(new SqlParameter("@imgFundo", imgUsu));
 
-
-                        c.command.ExecuteNonQuery();
+                        var result = c.sqlProcedure("InserirImagemFundo", parameters);
+                        Response.Redirect("perfil-config.aspx");
                     }
                     else
                     {
@@ -256,17 +245,15 @@ public partial class perfil_config : System.Web.UI.Page
 
             if (txtNomeUsu.Text.Length > 0)
             {
-
                 String NomeAtualizado = txtNomeUsu.Text.Trim();
 
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                parameters.Add(new SqlParameter("@nome", NomeAtualizado));
 
-                c.command.CommandText = "Update tblUsuario set nome_usuario=@nome where cod_usuario = @codUsuarioConectado";
+                var result = c.sqlProcedure("AtualizarNome", parameters);
 
-                c.command.Parameters.Add("@nome", SqlDbType.VarChar).Value = NomeAtualizado;
-
-                c.command.ExecuteNonQuery();
-
-
+                Response.Redirect("perfil-config.aspx");
             }
 
 
@@ -275,17 +262,15 @@ public partial class perfil_config : System.Web.UI.Page
                 //criar bio
                 String bio = txtBio.Text.Trim();
 
-                c.command.CommandText = "Update tblUsuario set bio_usuario=@bio where cod_usuario = @codUsuarioConectado";
+                var parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
+                parameters.Add(new SqlParameter("@bio", bio));
 
-                c.command.Parameters.Add("@bio", SqlDbType.VarChar).Value = bio;
+                var result = c.sqlProcedure("AtualizarBioUsuario", parameters);
 
-
-                c.command.ExecuteNonQuery();
-
+                Response.Redirect("perfil-config.aspx");
             }
 
         }
-
-
     }
 }

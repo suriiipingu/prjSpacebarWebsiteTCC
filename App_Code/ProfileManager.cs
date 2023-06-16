@@ -1,16 +1,14 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Web;
 using System.Web.SessionState;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+
 /// <summary>
 /// Descrição resumida de ProfileManager
 /// </summary>
@@ -139,6 +137,7 @@ namespace UserProfile
                 }
             }
         }
+
         public string returnUserLogin(object value)
         {
             var userLogin = value.ToString();
@@ -159,7 +158,6 @@ namespace UserProfile
 
                 if (session["logado"] != null && (bool)session["logado"])
                 {
-
                     //mostrar imagem de perfil
                     string query = "SELECT icon_usuario FROM tblUsuario WHERE cod_usuario = @id";
                     object id = session["codigoUsuario"]; // id da imagem a ser recuperada
@@ -204,7 +202,6 @@ namespace UserProfile
                                 // fazer tratamento adequado aqui
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {
@@ -212,12 +209,8 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgPerfil.ImageUrl = imageUrl;
                     }
-
                 }
-
-
             }
-
         }
 
         public static void exibirImagemFundo(Image imgFundo, HttpSessionState session)
@@ -271,7 +264,6 @@ namespace UserProfile
                                 // fazer tratamento adequado aqui
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {
@@ -279,12 +271,7 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgFundo.ImageUrl = imageUrl;
                     }
-
                 }
-
-
-
-
             }
         }
 
@@ -296,41 +283,39 @@ namespace UserProfile
 
                 if (session["codigoUsuario"] != null)
                 {
+                    var parameters = new List<SqlParameter>();
+                    parameters.Add(new SqlParameter("@codUsuarioConectado", session["codigoUsuario"]));
 
-                    c.command.CommandText = "SELECT cod_tipo from tblUsuario where cod_usuario = @codUsuarioConectado";
-                    c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = session["codigoUsuario"].ToString();
+                    //mostrar selos
+
+                    var result = c.sqlProcedure("SelecionarSelos", parameters);
+                    int cod_tipo = Convert.ToInt32(result.Tables[0].Rows[0][0]);
+
+                    //definir selos
+                    if (cod_tipo == 2)
+                    {
+                        //criador de conteúdo
+                        selo2.ImageUrl = "../images/BackSpace.svg";
+                    }
+                    else if (cod_tipo == 3)
+                    {
+                        //verificado
+                        selo2.ImageUrl = "../images/Verificado2.svg";
+                    }
+                    else if (cod_tipo == 4)
+                    {
+                        //criador de conteúdo e verificado
+                        selo2.ImageUrl = "../images/BackSpace.svg";
+                        selo1.ImageUrl = "../images/Verificado2.svg";
+                    }
+                    else if (cod_tipo == 5)
+                    {
+                        //ADM
+                    }
                 }
                 else
                 {
-                    //slayyy
-                }
-
-                //mostrar selos
-
-                int cod_tipo = (int)c.command.ExecuteScalar();
-
-
-                //definir selos
-                if (cod_tipo == 2)
-                {
-                    //criador de conteúdo
-                    selo2.ImageUrl = "../images/BackSpace.svg";
-                }
-                else if (cod_tipo == 3)
-                {
-                    //verificado
-                    selo2.ImageUrl = "../images/Verificado2.svg";
-                }
-                else if (cod_tipo == 4)
-                {
-                    //criador de conteúdo e verificado
-                    selo2.ImageUrl = "../images/BackSpace.svg";
-                    selo1.ImageUrl = "../images/Verificado2.svg";
-
-                }
-                else if (cod_tipo == 5)
-                {
-                    //ADM
+                    
                 }
             }
         }
@@ -339,7 +324,6 @@ namespace UserProfile
         {
             using (Conexao c = new Conexao())
             {
-
                 c.conectar();
 
                 List<SqlParameter> parameters = new List<SqlParameter>();
@@ -359,7 +343,6 @@ namespace UserProfile
             }
             // se o sql nao retornar nada (que quer dizer que nao tem um email ou login igual ao que o usuarui colocou), retornamos false, para dizer que nao tem nada
             // caso o sql retorne algo, (significa que o login ou email que o usuario colocou ja existe), logo, retorna true
-
         }
 
         public static void mostrarImagemPerfilUser(Image imgPerfil, int codUsuario)
@@ -413,7 +396,6 @@ namespace UserProfile
                                 // fazer tratamento adequado aqui
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {
@@ -421,12 +403,8 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgPerfil.ImageUrl = imageUrl;
                     }
-
                 }
-
-
             }
-
         }
 
         public static void exibirImagemFundoUser(Image imgFundo, int codUsuarioAlvo)
@@ -480,7 +458,6 @@ namespace UserProfile
                                 // fazer tratamento adequado aqui
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {
@@ -542,7 +519,6 @@ namespace UserProfile
                             {
                                 // a exceção será lançada se o formato da imagem for inválido
                                 // fazer tratamento adequado aqui
-
                             }
                         }
                     }
@@ -552,7 +528,6 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgFundo.ImageUrl = imageUrl;
                     }
-
                 }
             }
         }
@@ -606,10 +581,8 @@ namespace UserProfile
                             {
                                 // a exceção será lançada se o formato da imagem for inválido
                                 // fazer tratamento adequado aqui
-
                             }
                         }
-
                     }
                     if (!string.IsNullOrEmpty(imageType))
                     {
@@ -617,7 +590,6 @@ namespace UserProfile
                         string imageUrl = string.Format("data:{0};base64,{1}", imageType, base64String);
                         imgFundo.ImageUrl = imageUrl;
                     }
-
                 }
             }
         }

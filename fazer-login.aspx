@@ -59,7 +59,6 @@
                             <asp:TextBox ID="txtEmail" CssClass="text-field login-txt w-input" placeholder="Insira seu E-mail" runat="server"></asp:TextBox>
                             <asp:TextBox ID="txtSenha" CssClass="text-field login-txt w-input" placeholder="Insira sua senha" runat="server"></asp:TextBox>
                             <div class="div-block-40 w-clearfix">
-                                <label class="field-label-3">Esqueceu sua senha?</label>
                                 <!-- label para exibir se o as credencias inseridas estão incorretas-->
                                 <asp:Label ID="lblErro" runat="server"></asp:Label>
                             </div>

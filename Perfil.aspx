@@ -41,7 +41,7 @@
           <!-- <input type="search" class="search-input-2 w-input" maxlength="256" name="query" placeholder="Pesquisar" id="search" required=""><img src="images/search-svgrepo-com.svg" loading="lazy" width="14" alt="" class="image-25"><input type="submit" value="&gt;" class="search-button-2 w-button"> -->
         </div>
           
-          <asp:DataList ID="DataList1" runat="server" DataKeyField="cod_post" DataSourceID="SqlDataSource1">
+          <asp:DataList OnItemDataBound="myDataList_ItemDataBound" ID="DataList1" runat="server" DataKeyField="cod_post" DataSourceID="SqlDataSource1">
               <ItemTemplate>
                   <div class="postagem postagem-perfil">
               <div class="titulo-post">
@@ -50,7 +50,8 @@
               <div class="data-post w-clearfix">
                 <div class="text-block-12"><asp:Label ID="data_postLabel" runat="server" Text='<%# Eval("data_post") %>' /></div>
               </div>
-              <div class="img-post"><img src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg" loading="lazy" width="126" alt="" class="image-21"></div>
+              <div class="img-post">
+                  <asp:Image class="image-21" ID="ImgPost" runat="server" /></div>
               <div class="tags-post">
               </div>
               <div class="div-nome-curtidas">
@@ -61,13 +62,14 @@
                   </div>
                 </div>
                 <div class="div-curtidas">
+                    <asp:Label CssClass="lbl-likes" ID="curtidas_postLabel" runat="server" Text='<%#quantidadeCurtidas%>' />
                   </div>
                 </div>
               </div>
             </div>
               </ItemTemplate>
           </asp:DataList>
-          <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="EXECUTE GetAllInfoAndPostsByAuthor @postAuthorID">
+          <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:SpaceBarConnectionString %>" SelectCommand="GetAllInfoAndPostsByAuthor" SelectCommandType="StoredProcedure">
               <SelectParameters>
                   <asp:Parameter Name="postAuthorID"/>
               </SelectParameters>

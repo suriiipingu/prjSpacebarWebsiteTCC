@@ -111,13 +111,16 @@ public partial class index : System.Web.UI.Page
                 if (result.Tables.Count > 0 && result.Tables[0].Rows.Count > 0)
                 {
                     bool isVerified = Convert.ToBoolean(result.Tables[0].Rows[0]["verificado"]);
-
+                    
                     if (isVerified)
                     {
                         divVerifiedBadge.Visible = true;
                         btnVerificarPostagem.Visible = false;
                         Button btnRetirarVerificadoPostagem = (Button)e.Item.FindControl("btnRetirarVerificadoPostagem");
-                        btnRetirarVerificadoPostagem.Visible = true;
+                        if((bool)Session["verificado"] == true)
+                        {
+                            btnRetirarVerificadoPostagem.Visible = true;
+                        }
                     }
                     else
                     {

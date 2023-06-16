@@ -57,6 +57,33 @@
     </script>
     <!-- alerta de sucesso quando invalidado -->
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnLike').click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: 'index.aspx/btnLike',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (result) {
+                        // Parseia o objeto JSON retornado
+                        var responseData = JSON.parse(result.d);
+
+                        // Atualiza a contagem da Label
+                        $('.lbl-likes').text(responseData.QuantidadeCurtidas);
+
+                        // Altera o atributo 'src' do botão para a nova imagem
+                        $('#btnLike').attr('src', responseData.NovaImagem);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error); // Trate o erro adequadamente
+                    }
+                });
+            });
+        });
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" runat="Server">
 

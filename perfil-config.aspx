@@ -242,7 +242,7 @@
                         <!--Imagem perfil - Computador-->
                         <div class="div-block-4">
                             <asp:Image ID="imgPerfil" runat="server" CssClass="image-8" />
-                            <img id="imgpreview" src="" alt="" class="image-8">
+                            <img id="imgpreview" src="" alt="" class="image-8" style="position: absolute; left: 5px;">
 
                             <div class="div-block-5">
                                 <asp:FileUpload ID="FUimg" runat="server" onchange="showpreview(this);" accept=".png,.jpg,.jpeg" maxlength="524880" CssClass="file-upload-esconder" />
