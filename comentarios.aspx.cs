@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using UserProfile;
 public partial class comentarios : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -28,6 +28,8 @@ public partial class comentarios : System.Web.UI.Page
             lblData.Text = conteudoPostagemComentario.Tables[0].Rows[0]["data_post"].ToString();
 
             lblNomeUsu.Text = conteudoPostagemComentario.Tables[0].Rows[0]["nome_usuario"].ToString();
+
+            ProfileManager.exibirImagemPost(imgPost, postId);
         }
     }
 
@@ -92,6 +94,7 @@ public partial class comentarios : System.Web.UI.Page
                         new SqlParameter("@comentario", txtComentario.Text)
                     };
                 var Comentar = c.sqlProcedure("Comentar", parametrosComentar);
+                Response.Redirect("comentarios.aspx");
             }
         }
     }
