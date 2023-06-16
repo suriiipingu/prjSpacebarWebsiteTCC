@@ -29,15 +29,6 @@ public partial class atualizar_email : System.Web.UI.Page
         {
             c.conectar();
 
-            if (Session["codigoUsuario"] != null)
-            {
-                c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = Session["codigoUsuario"].ToString();
-            }
-            else
-            {
-                Response.Redirect("fazer-login.aspx");
-            }
-
             if (txtEmail.Text.Length > 0)
             {
                 if (!Page.ClientScript.IsStartupScriptRegistered(this.GetType(), "validarEmail"))
@@ -62,21 +53,19 @@ public partial class atualizar_email : System.Web.UI.Page
                     }
                     else
                     {
-                        c.command.CommandText = "Update tblUsuario set email_usuario=@email where cod_usuario = @codUsuarioConectado";
-                        c.command.Parameters.Add("@email", SqlDbType.VarChar).Value = txtEmail.Text.Trim();
+                        List<SqlParameter> parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@email", txtEmail.Text.Trim()));
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
 
-                        try
+                        int rowsAffected = c.ExecuteDeleteProcedure("AtualizarEmail", parameters);
+
+                        if (rowsAffected > 0)
                         {
-                            c.command.ExecuteNonQuery();
+                            // Atualização bem-sucedida
                         }
-                        catch (SqlException ex)
+                        else
                         {
                             lblAviso.Text = "Falha ao atualizar.";
-                            return;
-                        }
-                        finally
-                        {
-                            c.fechaConexao();
                         }
                     }
                 }

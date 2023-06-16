@@ -37,23 +37,19 @@ public partial class atualizar_pais : System.Web.UI.Page
                 Response.Redirect("fazer-login.aspx");
             }
 
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@pais", dropdPais.Text));
+            parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
 
-            c.command.CommandText = "Update tblUsuario set pais_usuario=@pais where cod_usuario = @codUsuarioConectado";
+            int rowsAffected = c.ExecuteDeleteProcedure("AtualizarPais", parameters);
 
-            c.command.Parameters.Add("@pais", SqlDbType.VarChar).Value = dropdPais.Text.Trim();
-
-            try
+            if (rowsAffected > 0)
             {
-                c.command.ExecuteNonQuery();
+                // Atualização bem-sucedida
             }
-            catch (SqlException ex)
+            else
             {
                 lblErro.Text = "Falha ao atualizar.";
-                return;
-            }
-            finally
-            {
-                c.fechaConexao();
             }
         }
     }

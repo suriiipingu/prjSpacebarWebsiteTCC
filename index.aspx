@@ -33,9 +33,35 @@
         }
     </script>
 
+    <!-- alerta de erro quando invalidado -->
+    <script type="text/javascript">
+        function hideDangerAlertInvalidar() {
+            document.getElementById('dangerAlertInvalidar').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideDangerAlertInvalidar, 4000);
+    </script>
+    <!-- alerta de erroquando invalidado -->
+
+    <!-- alerta de sucesso quando invalidado -->
+    <script type="text/javascript">
+        function hideSuccessAlertInvalidar() {
+            document.getElementById('successAlertInvalidar').style.display = 'none';
+        }
+    </script>
+
+    <script type="text/javascript">
+        setTimeout(hideSuccessAlertInvalidar, 4000);
+    </script>
+    <!-- alerta de sucesso quando invalidado -->
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="A" runat="Server">
+
     <!-- Crie, ative ou desative uma div para criar um aviso (experimental)-->
+
     <%--<div class="container-10 w-container">
     <div class="avisos wf-section">
         <div class="postagem">
@@ -52,6 +78,7 @@
             <asp:DataList Style="margin-left: auto; margin-right: auto;" ID="myDataList" runat="server" DataSourceID="SqlDataSource1" OnItemDataBound="myDataList_ItemDataBound" OnItemCommand="DataList_ItemCommand">
                 <ItemTemplate>
 
+                    <!-- div de confirmação para validar a postagem -->
                     <div class="position-absolute bottom-0 start-50 translate-middle-x">
                         <div id="successAlert" class="alert alert-success" role="alert" style="display: none;">
                             Postagem validada com sucesso!
@@ -64,12 +91,26 @@
                         </div>
                     </div>
 
+                    <!-- div de confirmação para invalidar a postagem -->
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x">
+                        <div id="successAlertInvalidar" class="alert alert-success" role="alert" style="display: none;">
+                            Postagem invalidada com sucesso!
+                        </div>
+                    </div>
+
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x">
+                        <div id="dangerAlertInvalidar" class="alert alert-danger" role="alert" style="display: none;">
+                            Ocorreu um erro ao invalidar a postagem, se o erro persistir, contate o suporte.
+                        </div>
+                    </div>
+
+
                     <!-- começo do corpo da postagem -->
                     <div class="postagem">
 
                         <!--Badge Verificado-->
                         <div runat="server" id="divVerifiedBadge" class="div-icon-verificado">
-                            <img src="images/checked-svgrepo-com.svg" loading="lazy" width="19" alt="">
+                            <img src="images/patch-check-fill.svg" loading="lazy" width="19" alt="">
                         </div>
 
                         <!--Título-->
@@ -91,9 +132,9 @@
                         </div>
 
                         <!--Imagem capa da postagem-->
-                        <div id="divImgPotsagem" runat="server" class="img-post">
+                        <asp:Panel id="divImgPost" runat="server" class="img-post">
                             <asp:Image ID="ImgPost" Height="100%" runat="server" />
-                        </div>
+                        </asp:Panel>
 
                         <!--Tags da postagem-->
                         <div runat="server" id="tags_post" class="tags-post">
@@ -118,6 +159,7 @@
                             </div>
                             <div id="DivValidar" class="d-flex justify-content-end me-3" style="display: none">
                                 <asp:Button Visible="false" class="btn btn-outline-success" ID="btnVerificarPostagem" runat="server" Text="Verificar" OnClick="btnVerificarPostagem_Click" CommandName="VerificarPostagem" />
+                                <asp:Button Visible="false" class="btn btn-outline-danger" ID="btnRetirarVerificadoPostagem" runat="server" Text="Invalidar" OnClick="btnRetirarVerificadoPostagem_Click" CommandName="InvalidarPostagem" />
                             </div>
 
                             <!--Botão para curtir a postagem-->

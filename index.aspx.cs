@@ -16,6 +16,11 @@ public partial class index : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if ((bool)Session["logado"] == false)
+        {
+            Response.Redirect("fazer-login.aspx");
+        }
+
         if (!IsPostBack)
         {
             myDataList.DataBind();
@@ -34,9 +39,9 @@ public partial class index : System.Web.UI.Page
         {
             using (Conexao c = new Conexao())
             {
+                Button btnVerificarPostagem = (Button)e.Item.FindControl("btnVerificarPostagem");
                 if ((bool)Session["verificado"] == true)
                 {
-                    Button btnVerificarPostagem = (Button)e.Item.FindControl("btnVerificarPostagem");
                     btnVerificarPostagem.Visible = true;
                 }
 
@@ -110,6 +115,9 @@ public partial class index : System.Web.UI.Page
                     if (isVerified)
                     {
                         divVerifiedBadge.Visible = true;
+                        btnVerificarPostagem.Visible = false;
+                        Button btnRetirarVerificadoPostagem = (Button)e.Item.FindControl("btnRetirarVerificadoPostagem");
+                        btnRetirarVerificadoPostagem.Visible = true;
                     }
                     else
                     {
@@ -168,13 +176,13 @@ public partial class index : System.Web.UI.Page
 
                 if (string.IsNullOrEmpty(ImgPost.ImageUrl))
                 {
-                    
-                }
-                else
-                {
-                    // O controle asp:Image contém uma imagem
-                }
+                    Panel divImgPost = (Panel)e.Item.FindControl("divImgPost");
+                    LinkButton btnVerMais = (LinkButton)e.Item.FindControl("btnVerMais");
+                    divImgPost.Visible = false;
 
+                    lblDescricao.Visible = true;
+                    btnVerMais.Visible = false;
+                }
             }
         }
     }
@@ -308,6 +316,52 @@ public partial class index : System.Web.UI.Page
                 }
             }
         }
+
+        if(e.CommandName == "InvalidarPostagem")
+        {
+            int codPostagem = int.Parse(((DataListItem)e.Item).Attributes["codPost"]);
+
+            using (Conexao c = new Conexao())
+            {
+                c.conectar();
+                var parametrosValidarPostagem = new List<SqlParameter>
+                    {
+                        new SqlParameter("@codPost", codPostagem)
+                    };
+                int rowsAffected = c.ExecuteDeleteProcedure("InvalidarPostagem", parametrosValidarPostagem);
+                if (rowsAffected > 0)
+                {
+                    string script = @" <script type='text/javascript'>
+                                        document.getElementById('successAlertInvalidar').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('successAlertInvalidar').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
+
+                    if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                    }
+                    myDataList.DataBind();
+                }
+                else
+                {
+                    string script = @" <script type='text/javascript'>
+                                        document.getElementById('dangerAlertInvalidar').style.display = 'block';
+                                        setTimeout(function() {
+                                        document.getElementById('dangerAlertInvalidar').style.display = 'none';
+                                        }, 4000);
+                                    </script>";
+
+                    if (!ClientScript.IsStartupScriptRegistered("popupScript"))
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "popupScript", script);
+                    }
+                    myDataList.DataBind();
+                }
+            }
+        }
     }
 
     protected void btnVerMais_Click(object sender, EventArgs e)
@@ -332,6 +386,11 @@ public partial class index : System.Web.UI.Page
     }
 
     protected void btnVerificarPostagem_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnRetirarVerificadoPostagem_Click(object sender, EventArgs e)
     {
 
     }

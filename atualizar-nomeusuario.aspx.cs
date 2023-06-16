@@ -44,22 +44,19 @@ public partial class atualizar_nomeusuario : System.Web.UI.Page
                     }
                     else
                     {
-                        c.command.CommandText = "Update tblUsuario set login_usuario=@login where cod_usuario = @codUsuarioConectado";
+                        List<SqlParameter> parameters = new List<SqlParameter>();
+                        parameters.Add(new SqlParameter("@nomeUsuario", txtNomeUsuario.Text));
+                        parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
 
-                        c.command.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
+                        int rowsAffected = c.ExecuteDeleteProcedure("AtualizarNomeUsuario", parameters);
 
-                        try
+                        if (rowsAffected > 0)
                         {
-                            c.command.ExecuteNonQuery();
+                            // Atualização bem-sucedida
                         }
-                        catch (SqlException ex)
+                        else
                         {
                             lblErro.Text = "Falha ao atualizar.";
-                            return;
-                        }
-                        finally
-                        {
-                            c.fechaConexao();
                         }
                     }
 

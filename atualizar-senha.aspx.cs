@@ -50,22 +50,19 @@ public partial class atualizar_senha : System.Web.UI.Page
                 String senha = txtNovaSenha.Text.Trim();
                 String hashSenha = CriptografarSenha(senha);
 
-                c.command.CommandText = "Update tblUsuario set senha_usuario=@senha where cod_usuario = @codUsuarioConectado";
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@novaSenha", hashSenha));
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
 
-                c.command.Parameters.Add("@senha", SqlDbType.VarChar).Value = hashSenha;
+                int rowsAffected = c.ExecuteDeleteProcedure("AtualizarSenha", parameters);
 
-                try
+                if (rowsAffected > 0)
                 {
-                    c.command.ExecuteNonQuery();
+                    // Atualização bem-sucedida
                 }
-                catch (SqlException ex)
+                else
                 {
                     lblErro.Text = "Falha ao atualizar.";
-                    return;
-                }
-                finally
-                {
-                    c.fechaConexao();
                 }
             }
             else

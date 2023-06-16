@@ -29,15 +29,6 @@ public partial class atualizar_celular : System.Web.UI.Page
         {
             c.conectar();
 
-            if (Session["codigoUsuario"] != null)
-            {
-                c.command.Parameters.Add("@codUsuarioConectado", SqlDbType.VarChar).Value = Session["codigoUsuario"].ToString();
-            }
-            else
-            {
-                Response.Redirect("fazer-login.aspx");
-            }
-
             if (txtCelular.Text.Length > 0)
             {
                 if (!Page.ClientScript.IsStartupScriptRegistered(this.GetType(), "validarCelular"))
@@ -51,24 +42,22 @@ public partial class atualizar_celular : System.Web.UI.Page
                     return;
                 }
 
-                c.command.CommandText = "Update tblUsuario set cel_usuario=@cel where cod_usuario = @codUsuarioConectado";
-                c.command.Parameters.Add("@cel", SqlDbType.VarChar).Value = txtCelular.Text.Trim();
+                List<SqlParameter> parameters = new List<SqlParameter>();
+                parameters.Add(new SqlParameter("@cel", txtCelular.Text));
+                parameters.Add(new SqlParameter("@codUsuarioConectado", Session["codigoUsuario"]));
 
-                try
+                int rowsAffected = c.ExecuteDeleteProcedure("AtualizarCelular", parameters);
+
+                if (rowsAffected > 0)
                 {
-                    c.command.ExecuteNonQuery();
+                    // Atualização bem-sucedida
                 }
-                catch (SqlException ex)
+                else
                 {
                     lblAviso.Text = "Falha ao atualizar.";
-                    return;
-                }
-                finally
-                {
-                    c.fechaConexao();
                 }
   
-        }
+            }
 
         }
     }
